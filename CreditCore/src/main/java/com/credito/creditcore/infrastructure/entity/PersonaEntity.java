@@ -1,15 +1,12 @@
 package com.credito.creditcore.infrastructure.entity;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,8 +20,8 @@ public class PersonaEntity {
     @Column(name = "idPersona")
     private Integer idPersona;
 
-    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
-    private UsuarioEntity usuario;
+    /* @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UsuarioEntity usuario; */
 
     @Column(name = "nombre", nullable = false)
     private String nombre;
@@ -44,9 +41,8 @@ public class PersonaEntity {
     public PersonaEntity(){
     }
 
-    public PersonaEntity(UsuarioEntity usuario, String nombre, String apellido, String documento,
+    public PersonaEntity(String nombre, String apellido, String documento,
             LocalDate nacimiento, String correo) {
-        this.usuario = usuario;
         this.nombre = nombre;
         this.apellido = apellido;
         this.documento = documento;

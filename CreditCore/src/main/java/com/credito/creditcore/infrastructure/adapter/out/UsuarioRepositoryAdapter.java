@@ -4,28 +4,33 @@ import org.springframework.stereotype.Component;
 
 import com.credito.creditcore.domain.model.Usuario;
 import com.credito.creditcore.domain.port.UsuarioRepositoryPort;
+import com.credito.creditcore.infrastructure.entity.PersonaEntity;
 import com.credito.creditcore.infrastructure.entity.UsuarioEntity;
-import com.credito.creditcore.infrastructure.persistence.JpaUsuarioRepository;
+import com.credito.creditcore.infrastructure.mapper.UsuarioMapper;
+import com.credito.creditcore.infrastructure.persistence.PersonaRepositoryJpa;
+import com.credito.creditcore.infrastructure.persistence.UsuarioRepositoryJpa;
 
 @Component
-public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort{
+public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
 
-    private JpaUsuarioRepository usuarioRepositoryJpa;
+    private final UsuarioRepositoryJpa usuarioRepositoryJpa;
+    private final PersonaRepositoryJpa personaRepositoryJpa;
 
-    public UsuarioRepositoryAdapter(JpaUsuarioRepository usuarioRepositoryJpa){
+    public UsuarioRepositoryAdapter(UsuarioRepositoryJpa usuarioRepositoryJpa,
+            PersonaRepositoryJpa personaRepositoryJpa) {
         this.usuarioRepositoryJpa = usuarioRepositoryJpa;
+        this.personaRepositoryJpa = personaRepositoryJpa;
     }
 
     @Override
-    public Usuario guardar(Usuario usuario) {
-        
-        UsuarioEntity usuarioEntity = new UsuarioEntity();
-        usuarioEntity.setUsername(usuario.getUsername());
-        usuarioEntity.setPassword(usuario.getPassword());
+    public void guardar(Usuario usuario) {
 
-        UsuarioEntity guardado = usuarioRepositoryJpa.save(usuarioEntity);
+        PersonaEntity personaEntity = personaRepositoryJpa.findById(usuario.getPersona().getIdPersona())
+            .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
 
-        return new Usuario(null, null, null, null, null, false, false, false, false);
+        UsuarioEntity userEntity = UsuarioMapper.crearEntidad(usuario, personaEntity);
+
+        usuarioRepositoryJpa.save(userEntity);
     }
-    
+
 }
