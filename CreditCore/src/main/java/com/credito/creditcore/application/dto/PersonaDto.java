@@ -1,7 +1,5 @@
 package com.credito.creditcore.application.dto;
 
-import java.time.LocalDate;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,7 +17,7 @@ public record PersonaDto(
                 String documento,
 
                 @NotNull(message = "La fecha de nacimiento es obligatoria")
-                LocalDate nacimiento,
+                String nacimiento,
 
                 @NotBlank(message = "El correo es obligatorio")
                 @Email(message = "Correo debe ser valido @")

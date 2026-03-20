@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import com.credito.creditcore.domain.model.enums.RolUsuario;
 
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
 @Getter
 public class Usuario {
 
@@ -21,6 +23,8 @@ public class Usuario {
     private boolean account_no_expired;
     private boolean account_no_locked;
     private boolean credential_no_expired;
+
+    public Usuario(){}
 
     public Usuario(Integer idUsuario, Persona persona, String username, String password, RolUsuario rolUsuario,
             boolean is_enabled, boolean account_no_expired, boolean account_no_locked, boolean credential_no_expired) {

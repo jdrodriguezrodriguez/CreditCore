@@ -2,6 +2,6 @@ package com.credito.creditcore.application.port.in;
 
 import com.credito.creditcore.domain.model.Persona;
 
-public interface RegistrarPersonaUseCase {
-    void registrarPersona(Persona persona, String password);
+public interface ObtenerPersonaUseCase {
+    Persona obtenerPersona(String documento);
 }

@@ -1,4 +1,4 @@
-package com.credito.creditcore.infrastructure.adapter.in;
+package com.credito.creditcore.infrastructure.adapter.in.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
