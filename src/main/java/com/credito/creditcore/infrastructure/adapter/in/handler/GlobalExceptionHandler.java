@@ -1,0 +1,49 @@
+package com.credito.creditcore.infrastructure.adapter.in.handler;
+
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.credito.creditcore.domain.excepcion.ClienteNoEncontradoException;
+import com.credito.creditcore.domain.excepcion.PersonaNoEncontradaException;
+import com.credito.creditcore.domain.excepcion.UsuarioNoEncontradoException;
+
+@RestController
+public class GlobalExceptionHandler {
+    
+    @ExceptionHandler(PersonaNoEncontradaException.class)
+    public ResponseEntity<Map<String,String>> handlePersonaNoEncontrada(PersonaNoEncontradaException ex){
+
+        Map<String, String> errores = new HashMap<>();
+
+        errores.put("error", "Persona no encontrada");
+        errores.put("detalle", ex.getMessage());
+
+        return ResponseEntity.badRequest().body(errores);
+    }
+
+    @ExceptionHandler(UsuarioNoEncontradoException.class)
+    public ResponseEntity<Map<String,String>> handleUsuarioNoEncontrado(UsuarioNoEncontradoException ex){
+
+        Map<String, String> errores = new HashMap<>();
+
+        errores.put("error", "Usuario no encontrado ");
+        errores.put("detalle", ex.getMessage());
+
+        return ResponseEntity.badRequest().body(errores);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Map<String, String>> handleClienteNoEncontrado(ClienteNoEncontradoException ex){
+        Map<String, String> errores = new HashMap<>();
+
+        errores.put("error", "Cliente no encontrado ");
+        errores.put("detalle", ex.getMessage());
+
+        return ResponseEntity.badRequest().body(errores);
+    }
+}

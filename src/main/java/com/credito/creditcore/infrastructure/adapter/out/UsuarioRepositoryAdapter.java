@@ -51,7 +51,7 @@ public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
     @Override
     public void actualizar(Integer idUser, String username, String password) {
         UsuarioEntity usuarioEntity = usuarioRepositoryJpa.findById(idUser)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Error accediendo a datos"));
 
         usuarioEntity.setUsername(username);
         usuarioEntity.setPassword(password);
@@ -60,11 +60,13 @@ public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
     }
 
     @Override
-    public Usuario consultar(Integer idUser) {
-        UsuarioEntity usuarioEntity = usuarioRepositoryJpa.findById(idUser)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    public Optional<Usuario> consultar(Integer idUser) {
+        return usuarioRepositoryJpa.findById(idUser).map(
+            usuario ->{
+                Persona persona = PersonaMapperOut.toDomain(usuario.getPersona());
+                return UsuarioMapperOut.toDomain(usuario, persona);
+            }
+        );
 
-        Persona persona = PersonaMapperOut.toDomain(usuarioEntity.getPersona());
-        return UsuarioMapperOut.toDomain(usuarioEntity, persona);
     }
 }

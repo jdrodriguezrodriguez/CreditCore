@@ -3,6 +3,7 @@ package com.credito.creditcore.application.usuario.service;
 import org.springframework.stereotype.Service;
 
 import com.credito.creditcore.application.usuario.port.in.ObtenerUsuarioUseCase;
+import com.credito.creditcore.domain.excepcion.UsuarioNoEncontradoException;
 import com.credito.creditcore.domain.model.Usuario;
 import com.credito.creditcore.domain.port.UsuarioRepositoryPort;
 
@@ -17,7 +18,10 @@ public class ObtenerUsuarioService implements ObtenerUsuarioUseCase{
     @Override
     public Usuario buscarUsuario(Integer idUser) {
 
-        return usuarioRepositoryPort.consultar(idUser);
+        Usuario usuario = usuarioRepositoryPort.consultar(idUser)
+            .orElseThrow(() -> new UsuarioNoEncontradoException("Usuario no encontrado con el ID: " + idUser));
+
+        return usuario;
     }
     
 }

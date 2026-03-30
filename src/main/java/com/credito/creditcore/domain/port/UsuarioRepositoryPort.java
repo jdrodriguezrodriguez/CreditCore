@@ -9,5 +9,5 @@ public interface UsuarioRepositoryPort {
     void guardar(Usuario usuario);
     void actualizar(Integer idUser, String username, String password);
     Optional<Usuario> buscarPorUsername(String username);
-    Usuario consultar(Integer idUser);
+    Optional<Usuario> consultar(Integer idUser);
 } 
