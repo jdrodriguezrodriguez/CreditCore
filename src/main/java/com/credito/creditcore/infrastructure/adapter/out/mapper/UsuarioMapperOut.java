@@ -1,6 +1,5 @@
 package com.credito.creditcore.infrastructure.adapter.out.mapper;
 
-import org.springframework.security.core.parameters.P;
 
 import com.credito.creditcore.application.dto.UsuarioDto;
 import com.credito.creditcore.domain.model.Persona;

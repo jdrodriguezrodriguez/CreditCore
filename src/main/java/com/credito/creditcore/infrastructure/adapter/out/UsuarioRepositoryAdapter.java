@@ -1,6 +1,5 @@
 package com.credito.creditcore.infrastructure.adapter.out;
 
-import java.lang.StackWalker.Option;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
