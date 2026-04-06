@@ -6,7 +6,7 @@ import com.credito.creditcore.domain.model.Cliente;
 
 public interface ClienteRepositoryPort{
 
-    void guardar(Cliente cliente, String documento);
+    void guardar(Cliente cliente, Integer idPersona);
     void actualizar(Integer idCliente, Cliente cliente);
     Optional<Cliente> consultar(Integer idCliente);
 }

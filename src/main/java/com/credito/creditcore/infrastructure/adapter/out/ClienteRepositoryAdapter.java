@@ -24,8 +24,8 @@ public class ClienteRepositoryAdapter implements ClienteRepositoryPort {
     }
 
     @Override
-    public void guardar(Cliente cliente, String documento) {
-        PersonaEntity personaEntity = personaRepositoryJpa.findByDocumento(documento)
+    public void guardar(Cliente cliente, Integer idPersona) {
+        PersonaEntity personaEntity = personaRepositoryJpa.findById(idPersona)
                 .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
 
         clienteRepositoryJpa.save(ClienteMapperOut.crearEntidad(cliente, personaEntity));

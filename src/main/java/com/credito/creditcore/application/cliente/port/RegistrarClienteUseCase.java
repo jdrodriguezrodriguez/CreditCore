@@ -1,7 +1,7 @@
 package com.credito.creditcore.application.cliente.port;
 
-import com.credito.creditcore.domain.model.Cliente;
+import java.math.BigDecimal;
 
 public interface RegistrarClienteUseCase {
-    void registrarCliente(Cliente cliente);
+    void registrarCliente(BigDecimal salario, Integer idPersona);
 }

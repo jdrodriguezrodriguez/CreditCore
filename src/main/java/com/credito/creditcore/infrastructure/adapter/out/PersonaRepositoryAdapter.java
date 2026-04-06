@@ -1,6 +1,5 @@
 package com.credito.creditcore.infrastructure.adapter.out;
 
-
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
@@ -22,7 +21,7 @@ public class PersonaRepositoryAdapter implements PersonaRepositoryPort {
 
     @Override
     public Persona guardar(Persona persona) {
-        
+
         PersonaEntity personaEntity = PersonaMapperOut.crearEntidad(persona);
 
         PersonaEntity saved = repositoryJpa.save(personaEntity);
@@ -33,13 +32,13 @@ public class PersonaRepositoryAdapter implements PersonaRepositoryPort {
     @Override
     public Optional<Persona> consultar(String documento) {
         return repositoryJpa.findByDocumento(documento)
-            .map(PersonaMapperOut::toDomain);
+                .map(PersonaMapperOut::toDomain);
     }
 
     @Override
     public void actualizar(String documento, Persona persona) {
         PersonaEntity pEntity = repositoryJpa.findByDocumento(documento)
-            .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ese documento."));
+                .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ese documento."));
 
         repositoryJpa.save(PersonaMapperOut.updateEntity(pEntity, persona));
     }
@@ -47,7 +46,7 @@ public class PersonaRepositoryAdapter implements PersonaRepositoryPort {
     @Override
     public void eliminar(String documento) {
         PersonaEntity pEntity = repositoryJpa.findByDocumento(documento)
-            .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ese documento."));
+                .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ese documento."));
 
         repositoryJpa.delete(pEntity);
     }
@@ -55,5 +54,11 @@ public class PersonaRepositoryAdapter implements PersonaRepositoryPort {
     @Override
     public boolean existePorDocumento(String documento) {
         return repositoryJpa.existsByDocumento(documento);
+    }
+
+    @Override
+    public Optional<Persona> findById(Integer idPersona) {
+        return repositoryJpa.findById(idPersona).map(
+                PersonaMapperOut::toDomain);
     }
 }

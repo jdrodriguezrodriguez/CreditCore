@@ -10,4 +10,6 @@ public interface PersonaRepositoryPort {
     void actualizar(String documento, Persona persona);
     void eliminar(String documento);
     boolean existePorDocumento(String documento);
+
+    Optional<Persona> findById(Integer idPersona);
 } 

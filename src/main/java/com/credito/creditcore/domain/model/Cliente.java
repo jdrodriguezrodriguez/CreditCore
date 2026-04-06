@@ -35,4 +35,12 @@ public class Cliente {
         this.historialCrediticio = historialCrediticio;
         this.fechaRegistro = fechaRegistro;
     }
+
+    public static Cliente crearCliente(BigDecimal salario, Integer scoreCrediticio, Persona persona){
+        return new Cliente(null, 
+            persona, 
+            salario, 
+            scoreCrediticio, 
+            LocalDate.now());
+    }
 }
