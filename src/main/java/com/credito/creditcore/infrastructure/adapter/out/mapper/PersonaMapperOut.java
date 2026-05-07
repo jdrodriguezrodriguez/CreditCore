@@ -14,6 +14,19 @@ public class PersonaMapperOut {
                 persona.getCorreo());
     }
 
+    public static PersonaEntity toEntity(Persona persona) {
+        PersonaEntity entity = new PersonaEntity(
+                persona.getNombre(),
+                persona.getApellido(),
+                persona.getDocumento(),
+                persona.getNacimiento(),
+                persona.getCorreo());
+
+        entity.setIdPersona(persona.getIdPersona());
+
+        return entity;
+    }
+
     public static Persona toDomain(PersonaEntity pEntity) {
         return new Persona(
                 pEntity.getIdPersona(),

@@ -21,4 +21,11 @@ public class ClienteMapperOut {
          entity.getHistorialCrediticio(), 
          entity.getFechaRegistro());
     }
+
+    public static ClienteEntity actualizarEntity(ClienteEntity clienteEntity, Cliente cliente){
+        clienteEntity.setSalario(cliente.getSalario());
+        clienteEntity.setHistorialCrediticio(cliente.getHistorialCrediticio());
+
+        return clienteEntity;
+    }
 }

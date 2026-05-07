@@ -10,6 +10,8 @@ import com.credito.creditcore.infrastructure.adapter.out.mapper.PersonaMapperOut
 import com.credito.creditcore.infrastructure.entity.PersonaEntity;
 import com.credito.creditcore.infrastructure.persistence.PersonaRepositoryJpa;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Component
 public class PersonaRepositoryAdapter implements PersonaRepositoryPort {
 
@@ -38,7 +40,7 @@ public class PersonaRepositoryAdapter implements PersonaRepositoryPort {
     @Override
     public void actualizar(String documento, Persona persona) {
         PersonaEntity pEntity = repositoryJpa.findByDocumento(documento)
-                .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ese documento."));
+                .orElseThrow(() -> new EntityNotFoundException());
 
         repositoryJpa.save(PersonaMapperOut.updateEntity(pEntity, persona));
     }
@@ -46,7 +48,7 @@ public class PersonaRepositoryAdapter implements PersonaRepositoryPort {
     @Override
     public void eliminar(String documento) {
         PersonaEntity pEntity = repositoryJpa.findByDocumento(documento)
-                .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ese documento."));
+                .orElseThrow(() -> new EntityNotFoundException());
 
         repositoryJpa.delete(pEntity);
     }

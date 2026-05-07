@@ -3,6 +3,8 @@ package com.credito.creditcore.application.cliente.service;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.credito.creditcore.application.cliente.port.RegistrarClienteUseCase;
 import com.credito.creditcore.domain.excepcion.PersonaNoEncontradaException;
 import com.credito.creditcore.domain.model.Cliente;
@@ -10,6 +12,7 @@ import com.credito.creditcore.domain.model.Persona;
 import com.credito.creditcore.domain.port.ClienteRepositoryPort;
 import com.credito.creditcore.domain.port.PersonaRepositoryPort;
 
+@Service
 public class RegistrarClienteService implements RegistrarClienteUseCase {
 
     private final ClienteRepositoryPort clienteRepositoryPort;
@@ -34,7 +37,7 @@ public class RegistrarClienteService implements RegistrarClienteUseCase {
 
         Cliente ClienteNuevo = Cliente.crearCliente(salario, historial, persona.get());
 
-        clienteRepositoryPort.guardar(ClienteNuevo, idPersona);
+        clienteRepositoryPort.guardar(ClienteNuevo, persona.get());
     }
 
     /*

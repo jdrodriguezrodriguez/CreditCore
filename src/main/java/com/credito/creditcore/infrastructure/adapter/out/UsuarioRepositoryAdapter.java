@@ -14,6 +14,8 @@ import com.credito.creditcore.infrastructure.entity.UsuarioEntity;
 import com.credito.creditcore.infrastructure.persistence.PersonaRepositoryJpa;
 import com.credito.creditcore.infrastructure.persistence.UsuarioRepositoryJpa;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Component
 public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
 
@@ -30,7 +32,7 @@ public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
     public void guardar(Usuario usuario) {
 
         PersonaEntity personaEntity = personaRepositoryJpa.findById(usuario.getPersona().getIdPersona())
-                .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException());
 
         UsuarioEntity userEntity = UsuarioMapperOut.crearEntidad(usuario, personaEntity);
 
@@ -50,7 +52,7 @@ public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
     @Override
     public void actualizar(Integer idUser, String username, String password) {
         UsuarioEntity usuarioEntity = usuarioRepositoryJpa.findById(idUser)
-                .orElseThrow(() -> new RuntimeException("Error accediendo a datos"));
+                .orElseThrow(() -> new EntityNotFoundException());
 
         usuarioEntity.setUsername(username);
         usuarioEntity.setPassword(password);
