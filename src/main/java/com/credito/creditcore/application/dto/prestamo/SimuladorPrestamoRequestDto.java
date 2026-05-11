@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record SimuladorPrestamoDto(
+public record SimuladorPrestamoRequestDto(
     
     @NotBlank(message = "El monto es obligatorio")
     BigDecimal monto,

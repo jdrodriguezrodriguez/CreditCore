@@ -29,7 +29,7 @@ public class PrestamoEntity {
 
     @ManyToOne
     @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")
-    private Cliente cliente;
+    private ClienteEntity cliente;
 
     private BigDecimal monto;
 
@@ -52,7 +52,7 @@ public class PrestamoEntity {
 
     public PrestamoEntity(){}
 
-    public PrestamoEntity(Integer idPrestamo, Cliente cliente, BigDecimal monto, double interes, int plazo,
+    public PrestamoEntity(Integer idPrestamo, ClienteEntity cliente, BigDecimal monto, double interes, int plazo,
             EstadoPrestamo estadoPrestamo, LocalDate fechaSolicitud, LocalDate fechaAprobacion, int tipoPrestamo) {
         this.idPrestamo = idPrestamo;
         this.cliente = cliente;
