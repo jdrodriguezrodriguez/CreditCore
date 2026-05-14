@@ -1,6 +1,7 @@
 package com.credito.creditcore.application.dto.prestamo;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.credito.creditcore.domain.model.enums.EstimacionPuntaje;
 
@@ -12,5 +13,7 @@ public record SimuladorPrestamoResponseDto(
         Integer plazo,
         double tasaInteres,
         int scoreCrediticio,
-        EstimacionPuntaje nivelRiesgo) {
+        EstimacionPuntaje nivelRiesgo,
+        List<AmortizacionResponseDto> amortizacionResponseDto
+) {
 }

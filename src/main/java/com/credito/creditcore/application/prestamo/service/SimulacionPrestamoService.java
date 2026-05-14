@@ -1,9 +1,11 @@
 package com.credito.creditcore.application.prestamo.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.credito.creditcore.application.dto.prestamo.AmortizacionResponseDto;
 import com.credito.creditcore.application.dto.prestamo.SimuladorPrestamoRequestDto;
 import com.credito.creditcore.application.dto.prestamo.SimuladorPrestamoResponseDto;
 import com.credito.creditcore.application.prestamo.domain.service.AmortizacionFrancesaService;
@@ -11,6 +13,7 @@ import com.credito.creditcore.application.prestamo.domain.service.ScoreCreditici
 import com.credito.creditcore.application.prestamo.port.SimularPrestamoUseCase;
 import com.credito.creditcore.domain.model.Cliente;
 import com.credito.creditcore.domain.model.enums.EstimacionPuntaje;
+import com.credito.creditcore.domain.model.score.CuotaAmortizacion;
 import com.credito.creditcore.domain.port.ClienteRepositoryPort;
 
 @Service
@@ -48,6 +51,22 @@ public class SimulacionPrestamoService implements SimularPrestamoUseCase {
         BigDecimal totalPagar = amortizacionFrancesaService.calcularTotalPagar(datos);
         BigDecimal interesTotal = amortizacionFrancesaService.calcularInteresTotal(datos);
 
+        System.out.println("#######################################");
+        System.out.println("PRUEBA DE TABLA AMORTIZACION FRANCESA:");
+        System.out.println("#######################################");
+
+        List<CuotaAmortizacion> tabla = amortizacionFrancesaService.tablaAmortizacionMensual(datos);
+
+        List<AmortizacionResponseDto> amortizacionResponse = tabla.stream().map(
+            fila -> new AmortizacionResponseDto(
+                fila.getCuota(), 
+                fila.getSaldoInicial(), 
+                fila.getInteres(), 
+                fila.getAmortz(), 
+                fila.getPago(), 
+                fila.getSaldoFinal())
+        ).toList();
+
         return new SimuladorPrestamoResponseDto(
                 datos.monto(),
                 cuotaMensual,
@@ -56,7 +75,9 @@ public class SimulacionPrestamoService implements SimularPrestamoUseCase {
                 datos.plazo(),
                 INTERES_BASE_MENSUAL,
                 scorePrestamo,
-                estimacion);
+                estimacion,
+                amortizacionResponse
+            );
     }
 
     private EstimacionPuntaje estimacionPuntaje(int scorePrestamo) {
