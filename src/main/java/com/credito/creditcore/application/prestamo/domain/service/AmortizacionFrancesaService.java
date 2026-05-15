@@ -57,6 +57,7 @@ public class AmortizacionFrancesaService {
 
         BigDecimal saldo = datos.monto();
         BigDecimal cuotaMensual = calcularCuotaMensual(datos);
+        BigDecimal saldoFinal = BigDecimal.ZERO;
 
         List<CuotaAmortizacion> tabla = new ArrayList<>();
 
@@ -65,10 +66,14 @@ public class AmortizacionFrancesaService {
             BigDecimal interes = saldo.multiply(BigDecimal.valueOf(INTERES_BASE_MENSUAL)).setScale(2,
                     RoundingMode.HALF_UP);
 
-            BigDecimal amortz = calcularCuotaMensual(datos).subtract(interes).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal amortz = cuotaMensual.subtract(interes).setScale(2, RoundingMode.HALF_UP);
 
-            BigDecimal saldoFinal = saldo.subtract(amortz);
-
+            if (i == meses - 1) {
+                saldoFinal = BigDecimal.ZERO;
+            }else{
+                saldoFinal = saldo.subtract(amortz);
+            }
+            
             CuotaAmortizacion fila = new CuotaAmortizacion();
 
             fila.setCuota(i + 1);

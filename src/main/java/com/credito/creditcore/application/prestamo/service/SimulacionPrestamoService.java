@@ -51,10 +51,10 @@ public class SimulacionPrestamoService implements SimularPrestamoUseCase {
         BigDecimal totalPagar = amortizacionFrancesaService.calcularTotalPagar(datos);
         BigDecimal interesTotal = amortizacionFrancesaService.calcularInteresTotal(datos);
 
-        System.out.println("#######################################");
+        /* System.out.println("#######################################");
         System.out.println("PRUEBA DE TABLA AMORTIZACION FRANCESA:");
         System.out.println("#######################################");
-
+ */
         List<CuotaAmortizacion> tabla = amortizacionFrancesaService.tablaAmortizacionMensual(datos);
 
         List<AmortizacionResponseDto> amortizacionResponse = tabla.stream().map(
@@ -76,6 +76,7 @@ public class SimulacionPrestamoService implements SimularPrestamoUseCase {
                 INTERES_BASE_MENSUAL,
                 scorePrestamo,
                 estimacion,
+                datos.tipoPrestamo(), //POSIBLES AJUSTES POR EL TIPO DE PRESTAMO
                 amortizacionResponse
             );
     }

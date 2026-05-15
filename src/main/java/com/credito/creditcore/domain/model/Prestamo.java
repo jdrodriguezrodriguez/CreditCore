@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.credito.creditcore.domain.model.enums.EstadoPrestamo;
+import com.credito.creditcore.domain.model.enums.TipoPrestamo;
 
 import lombok.Getter;
 
@@ -18,12 +19,18 @@ public class Prestamo {
     private EstadoPrestamo estadoPrestamo;
     private LocalDate fechaSolicitud;
     private LocalDate fechaAprobacion;
-    private String tipoPrestamo;
+    private TipoPrestamo tipoPrestamo;
 
-    public Prestamo(){}
+    /*
+    saldo y pagos realizados
+    */
+
+    public Prestamo() {
+
+    }
 
     public Prestamo(Integer idPrestamo, Cliente cliente, BigDecimal monto, double interes, int plazo,
-            EstadoPrestamo estadoPrestamo, LocalDate fechaSolicitud, LocalDate fechaAprobacion, String tipoPrestamo) {
+            EstadoPrestamo estadoPrestamo, LocalDate fechaSolicitud, LocalDate fechaAprobacion, TipoPrestamo tipoPrestamo) {
 
         if (cliente == null) {
             throw new IllegalArgumentException("El cliente es obligatorio.");
@@ -31,6 +38,10 @@ public class Prestamo {
 
         if (plazo >= 24) {
             throw new IllegalArgumentException("El plazo no puede ser superior a dos años.");
+        }
+
+        if (monto.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El monto debe ser mayor a cero");
         }
 
         this.idPrestamo = idPrestamo;
@@ -44,16 +55,18 @@ public class Prestamo {
         this.tipoPrestamo = tipoPrestamo;
     }
 
-    // Simular 
-    // Crear 
-    // Aprobar (Genera cuotas)
-    // Rechazar/Activar 
-    // Pagar 
-    // Finalizar
+    public static Prestamo crear(Cliente cliente, BigDecimal monto,
+            double interes, int plazo, EstadoPrestamo estadoPrestamo, LocalDate fechaSolicitud,
+            LocalDate fechaAprobacion, TipoPrestamo tipoPrestamo) {
 
-    /* public static Prestamo CrearPrestamo(Cliente cliente, ){
-        return new Prestamo(null, 
-            null, null, 0, 0, null, null, null, null);
-    } */
-
+        return new Prestamo(null,
+                cliente,
+                monto,
+                interes,
+                plazo,
+                estadoPrestamo,
+                fechaSolicitud,
+                fechaAprobacion,
+                tipoPrestamo);
+    }
 }

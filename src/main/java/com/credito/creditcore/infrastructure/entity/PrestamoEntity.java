@@ -3,7 +3,6 @@ package com.credito.creditcore.infrastructure.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.credito.creditcore.domain.model.Cliente;
 import com.credito.creditcore.domain.model.enums.EstadoPrestamo;
 
 import jakarta.persistence.Column;

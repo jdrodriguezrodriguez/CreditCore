@@ -6,7 +6,8 @@ import java.util.List;
 import com.credito.creditcore.domain.model.enums.EstimacionPuntaje;
 import com.credito.creditcore.domain.model.enums.TipoPrestamo;
 
-public record SimuladorPrestamoResponseDto(
+public record CrearPrestamoRequestDto(
+
         BigDecimal monto,
         BigDecimal cuotaMensual,
         BigDecimal totalPagar,
@@ -16,6 +17,6 @@ public record SimuladorPrestamoResponseDto(
         int scoreCrediticio,
         EstimacionPuntaje nivelRiesgo,
         TipoPrestamo tipoPrestamo,
-        List<AmortizacionResponseDto> amortizacionResponseDto
-) {
+        List<AmortizacionResponseDto> amortizacionResponseDto) {
+
 }

@@ -6,4 +6,5 @@ import com.credito.creditcore.domain.model.Prestamo;
 
 public interface PrestamorepositoryPort {
     Optional<Prestamo> obtenerPorIdPersona(Integer idPersona);
+    void guardar(Prestamo prestamo);
 } 
