@@ -13,18 +13,18 @@ public class CuotaAmortizacion {
     BigDecimal saldoInicial = BigDecimal.ZERO;
     BigDecimal interes = BigDecimal.ZERO;
     BigDecimal amortz = BigDecimal.ZERO;
-    BigDecimal pago = BigDecimal.ZERO;
+    BigDecimal montoCuota = BigDecimal.ZERO;
     BigDecimal saldoFinal = BigDecimal.ZERO;
     
     public CuotaAmortizacion(){}
 
-    public CuotaAmortizacion(int cuota, BigDecimal saldoInicial, BigDecimal interes, BigDecimal amortz, BigDecimal pago,
+    public CuotaAmortizacion(int cuota, BigDecimal saldoInicial, BigDecimal interes, BigDecimal amortz, BigDecimal montoCuota,
             BigDecimal saldoFinal) {
         this.cuota = cuota;
         this.saldoInicial = saldoInicial;
         this.interes = interes;
         this.amortz = amortz;
-        this.pago = pago;
+        this.montoCuota = montoCuota;
         this.saldoFinal = saldoFinal;
     }
 }

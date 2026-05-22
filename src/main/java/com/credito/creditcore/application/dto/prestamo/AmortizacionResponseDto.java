@@ -7,7 +7,6 @@ public record AmortizacionResponseDto(
         BigDecimal saldoInicial,
         BigDecimal interes,
         BigDecimal amortz,
-        BigDecimal pagoBigDecimal,
+        BigDecimal montoCuota,
         BigDecimal saldoFinal) {
-
 }

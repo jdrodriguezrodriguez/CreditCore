@@ -1,6 +1,9 @@
 package com.credito.creditcore.application.prestamo.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import org.springframework.stereotype.Service;
 
 import com.credito.creditcore.application.dto.prestamo.CrearPrestamoRequestDto;
 import com.credito.creditcore.application.prestamo.port.CrearPrestamoUseCase;
@@ -10,6 +13,7 @@ import com.credito.creditcore.domain.model.enums.EstadoPrestamo;
 import com.credito.creditcore.domain.port.ClienteRepositoryPort;
 import com.credito.creditcore.domain.port.PrestamorepositoryPort;
 
+@Service
 public class CrearPrestamoService implements CrearPrestamoUseCase {
 
     private ClienteRepositoryPort clienteRepositoryPort;
@@ -35,10 +39,16 @@ public class CrearPrestamoService implements CrearPrestamoUseCase {
                 EstadoPrestamo.SOLICITADO, 
                 LocalDate.now(), 
                 null,
-                datos.tipoPrestamo()
+                datos.tipoPrestamo(),
+                datos.interesTotal(),
+                datos.totalPagar(),
+                BigDecimal.ZERO,
+                datos.monto()
         );
 
-        prestamorepositoryPort.guardar(prestamo);
+        if (cliente != null) {
+            prestamorepositoryPort.guardar(prestamo, cliente);
+        }
         
         return prestamo;
     }

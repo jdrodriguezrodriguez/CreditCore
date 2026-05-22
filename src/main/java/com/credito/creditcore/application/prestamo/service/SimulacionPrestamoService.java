@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import com.credito.creditcore.application.dto.prestamo.AmortizacionResponseDto;
 import com.credito.creditcore.application.dto.prestamo.SimuladorPrestamoRequestDto;
 import com.credito.creditcore.application.dto.prestamo.SimuladorPrestamoResponseDto;
-import com.credito.creditcore.application.prestamo.domain.service.AmortizacionFrancesaService;
 import com.credito.creditcore.application.prestamo.domain.service.ScoreCrediticioService;
+import com.credito.creditcore.application.prestamo.port.AmortizacionFrancesaService;
 import com.credito.creditcore.application.prestamo.port.SimularPrestamoUseCase;
 import com.credito.creditcore.domain.model.Cliente;
 import com.credito.creditcore.domain.model.enums.EstimacionPuntaje;
@@ -47,25 +47,22 @@ public class SimulacionPrestamoService implements SimularPrestamoUseCase {
 
         EstimacionPuntaje estimacion = estimacionPuntaje(scorePrestamo);
 
-        BigDecimal cuotaMensual = amortizacionFrancesaService.calcularCuotaMensual(datos);
-        BigDecimal totalPagar = amortizacionFrancesaService.calcularTotalPagar(datos);
-        BigDecimal interesTotal = amortizacionFrancesaService.calcularInteresTotal(datos);
+        BigDecimal cuotaMensual = amortizacionFrancesaService.calcularCuotaMensual(datos.monto(), datos.plazo());
+        BigDecimal totalPagar = amortizacionFrancesaService.calcularTotalPagar(datos.monto(), datos.plazo());
+        BigDecimal interesTotal = amortizacionFrancesaService.calcularInteresTotal(datos.monto(), datos.plazo());
 
-        /* System.out.println("#######################################");
-        System.out.println("PRUEBA DE TABLA AMORTIZACION FRANCESA:");
-        System.out.println("#######################################");
- */
-        List<CuotaAmortizacion> tabla = amortizacionFrancesaService.tablaAmortizacionMensual(datos);
+        List<CuotaAmortizacion> tabla = amortizacionFrancesaService.generarTablaAmortizacion(datos.monto(),
+                datos.plazo());
 
         List<AmortizacionResponseDto> amortizacionResponse = tabla.stream().map(
-            fila -> new AmortizacionResponseDto(
-                fila.getCuota(), 
-                fila.getSaldoInicial(), 
-                fila.getInteres(), 
-                fila.getAmortz(), 
-                fila.getPago(), 
-                fila.getSaldoFinal())
-        ).toList();
+                fila -> new AmortizacionResponseDto(
+                        fila.getCuota(),
+                        fila.getSaldoInicial(),
+                        fila.getInteres(),
+                        fila.getAmortz(),
+                        fila.getMontoCuota(),
+                        fila.getSaldoFinal()))
+                .toList();
 
         return new SimuladorPrestamoResponseDto(
                 datos.monto(),
@@ -76,9 +73,8 @@ public class SimulacionPrestamoService implements SimularPrestamoUseCase {
                 INTERES_BASE_MENSUAL,
                 scorePrestamo,
                 estimacion,
-                datos.tipoPrestamo(), //POSIBLES AJUSTES POR EL TIPO DE PRESTAMO
-                amortizacionResponse
-            );
+                datos.tipoPrestamo(), // POSIBLES AJUSTES POR EL TIPO DE PRESTAMO
+                amortizacionResponse);
     }
 
     private EstimacionPuntaje estimacionPuntaje(int scorePrestamo) {

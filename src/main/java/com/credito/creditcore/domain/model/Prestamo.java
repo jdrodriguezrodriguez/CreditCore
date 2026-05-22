@@ -7,8 +7,10 @@ import com.credito.creditcore.domain.model.enums.EstadoPrestamo;
 import com.credito.creditcore.domain.model.enums.TipoPrestamo;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class Prestamo {
 
     private Integer idPrestamo;
@@ -21,16 +23,19 @@ public class Prestamo {
     private LocalDate fechaAprobacion;
     private TipoPrestamo tipoPrestamo;
 
-    /*
-    saldo y pagos realizados
-    */
+    private BigDecimal interesTotal;
+    private BigDecimal totalPagar;
+    private BigDecimal totalPagado;
+    private BigDecimal saldoPendiente;
 
     public Prestamo() {
 
     }
 
     public Prestamo(Integer idPrestamo, Cliente cliente, BigDecimal monto, double interes, int plazo,
-            EstadoPrestamo estadoPrestamo, LocalDate fechaSolicitud, LocalDate fechaAprobacion, TipoPrestamo tipoPrestamo) {
+            EstadoPrestamo estadoPrestamo, LocalDate fechaSolicitud, LocalDate fechaAprobacion,
+            TipoPrestamo tipoPrestamo, BigDecimal interesTotal, BigDecimal totalPagar, BigDecimal totalPagado,
+            BigDecimal saldoPendiente) {
 
         if (cliente == null) {
             throw new IllegalArgumentException("El cliente es obligatorio.");
@@ -40,7 +45,7 @@ public class Prestamo {
             throw new IllegalArgumentException("El plazo no puede ser superior a dos años.");
         }
 
-        if (monto.compareTo(BigDecimal.ZERO) <= 0) {
+        if (monto.compareTo(BigDecimal.ZERO) <= 0 && totalPagar.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("El monto debe ser mayor a cero");
         }
 
@@ -53,11 +58,16 @@ public class Prestamo {
         this.fechaSolicitud = fechaSolicitud;
         this.fechaAprobacion = fechaAprobacion;
         this.tipoPrestamo = tipoPrestamo;
+        this.interesTotal = interesTotal;
+        this.totalPagar = totalPagar;
+        this.totalPagado = totalPagado;
+        this.saldoPendiente = saldoPendiente;
     }
 
     public static Prestamo crear(Cliente cliente, BigDecimal monto,
             double interes, int plazo, EstadoPrestamo estadoPrestamo, LocalDate fechaSolicitud,
-            LocalDate fechaAprobacion, TipoPrestamo tipoPrestamo) {
+            LocalDate fechaAprobacion, TipoPrestamo tipoPrestamo, BigDecimal interesTotal, BigDecimal totalPagar,
+            BigDecimal totalPagado, BigDecimal saldoPendiente) {
 
         return new Prestamo(null,
                 cliente,
@@ -67,6 +77,10 @@ public class Prestamo {
                 estadoPrestamo,
                 fechaSolicitud,
                 fechaAprobacion,
-                tipoPrestamo);
+                tipoPrestamo,
+                interesTotal,
+                totalPagar,
+                totalPagado,
+                saldoPendiente);
     }
 }
