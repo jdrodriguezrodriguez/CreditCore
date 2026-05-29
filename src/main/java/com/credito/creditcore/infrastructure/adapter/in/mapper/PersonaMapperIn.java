@@ -2,7 +2,7 @@ package com.credito.creditcore.infrastructure.adapter.in.mapper;
 
 import java.time.LocalDate;
 
-import com.credito.creditcore.application.dto.PersonaDto;
+import com.credito.creditcore.application.dto.persona.PersonaDto;
 import com.credito.creditcore.domain.model.Persona;
 
 public class PersonaMapperIn {

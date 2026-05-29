@@ -1,7 +1,7 @@
 package com.credito.creditcore.infrastructure.adapter.out.mapper;
 
 
-import com.credito.creditcore.application.dto.UsuarioDto;
+import com.credito.creditcore.application.dto.usuario.UsuarioDto;
 import com.credito.creditcore.domain.model.Persona;
 import com.credito.creditcore.domain.model.Usuario;
 import com.credito.creditcore.domain.model.enums.RolUsuario;

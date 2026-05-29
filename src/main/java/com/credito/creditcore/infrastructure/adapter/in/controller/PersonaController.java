@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.credito.creditcore.application.dto.PersonaDto;
-import com.credito.creditcore.application.dto.RegistrarPersonaCommand;
+import com.credito.creditcore.application.dto.persona.PersonaDto;
+import com.credito.creditcore.application.dto.persona.RegistrarPersonaCommand;
 import com.credito.creditcore.application.persona.port.in.ActualizarPersonaUseCase;
 import com.credito.creditcore.application.persona.port.in.EliminarPersonaUseCase;
 import com.credito.creditcore.application.persona.port.in.ObtenerPersonaUseCase;

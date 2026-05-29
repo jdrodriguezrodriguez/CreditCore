@@ -1,4 +1,4 @@
-package com.credito.creditcore.application.dto;
+package com.credito.creditcore.application.dto.usuario;
 
 import jakarta.validation.constraints.NotBlank;
 

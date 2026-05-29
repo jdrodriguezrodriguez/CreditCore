@@ -13,6 +13,17 @@ public class ClienteMapperOut {
                 cliente.getHistorialCrediticio(),
                 cliente.getFechaRegistro());
     }
+    
+    public static ClienteEntity toEntity(Cliente cliente, PersonaEntity personaEntity){
+        ClienteEntity clienteEntity = new ClienteEntity(personaEntity,
+                cliente.getSalario(),
+                cliente.getHistorialCrediticio(),
+                cliente.getFechaRegistro());
+
+        clienteEntity.setIdCliente(cliente.getIdCliente());
+
+        return clienteEntity;
+    }
 
     public static Cliente toDomain(ClienteEntity entity, Persona persona){
         return new Cliente(entity.getIdCliente(),

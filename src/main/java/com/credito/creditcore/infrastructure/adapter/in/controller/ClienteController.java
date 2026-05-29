@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.credito.creditcore.application.cliente.port.ObtenerClienteUseCase;
 import com.credito.creditcore.application.cliente.port.RegistrarClienteUseCase;
-import com.credito.creditcore.application.dto.ClienteDto;
-import com.credito.creditcore.application.dto.SalarioClienteDto;
+import com.credito.creditcore.application.dto.cliente.ClienteDto;
+import com.credito.creditcore.application.dto.cliente.SalarioClienteDto;
 import com.credito.creditcore.infrastructure.adapter.in.mapper.ClienteMapperIn;
 
 @RestController

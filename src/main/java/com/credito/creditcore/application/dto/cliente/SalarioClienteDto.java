@@ -1,4 +1,4 @@
-package com.credito.creditcore.application.dto;
+package com.credito.creditcore.application.dto.cliente;
 
 import java.math.BigDecimal;
 

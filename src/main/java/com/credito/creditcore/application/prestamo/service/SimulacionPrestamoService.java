@@ -1,172 +1,89 @@
 package com.credito.creditcore.application.prestamo.service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
+import java.util.List;
 
-import com.credito.creditcore.application.dto.prestamo.SimuladorPrestamoDto;
+import org.springframework.stereotype.Service;
+
+import com.credito.creditcore.application.dto.prestamo.AmortizacionResponseDto;
+import com.credito.creditcore.application.dto.prestamo.SimuladorPrestamoRequestDto;
+import com.credito.creditcore.application.dto.prestamo.SimuladorPrestamoResponseDto;
+import com.credito.creditcore.application.prestamo.domain.service.ScoreCrediticioService;
+import com.credito.creditcore.application.prestamo.port.AmortizacionFrancesaService;
 import com.credito.creditcore.application.prestamo.port.SimularPrestamoUseCase;
 import com.credito.creditcore.domain.model.Cliente;
-import com.credito.creditcore.domain.model.Prestamo;
+import com.credito.creditcore.domain.model.enums.EstimacionPuntaje;
+import com.credito.creditcore.domain.model.score.CuotaAmortizacion;
 import com.credito.creditcore.domain.port.ClienteRepositoryPort;
-import com.credito.creditcore.domain.port.PrestamorepositoryPort;
 
+@Service
 public class SimulacionPrestamoService implements SimularPrestamoUseCase {
 
-    private final PrestamorepositoryPort prestamorepositoryPort;
+    private static final double INTERES_BASE_MENSUAL = 0.02;
+    private static final int SCORE_RECHAZADO = 160;
+    private static final int SCORE_APROBACION_PARCIAL = 600;
+
     private final ClienteRepositoryPort clienteRepositoryPort;
 
-    private final double INTERES_BASE_MENSUAL = 0.02;
+    private final ScoreCrediticioService scoreCrediticioService;
+    private final AmortizacionFrancesaService amortizacionFrancesaService;
 
-    private final BigDecimal INGRESO_ALTO = BigDecimal.valueOf(7490000);
-    private final BigDecimal INGRESO_MEDIO = BigDecimal.valueOf(3990000);
-
-    public SimulacionPrestamoService(PrestamorepositoryPort PrestamorepositoryPort,
-            ClienteRepositoryPort clienteRepositoryPort) {
-        this.prestamorepositoryPort = PrestamorepositoryPort;
+    public SimulacionPrestamoService(ClienteRepositoryPort clienteRepositoryPort,
+            ScoreCrediticioService scoreCrediticioService,
+            AmortizacionFrancesaService amortizacionFrancesaService) {
         this.clienteRepositoryPort = clienteRepositoryPort;
+        this.scoreCrediticioService = scoreCrediticioService;
+        this.amortizacionFrancesaService = amortizacionFrancesaService;
     }
 
-    /*
-     * Historial : 400 pts
-     * Capacidad : 300 pts
-     * Endeudamiento : 200 pts
-     * Antiguedad : 100 pts
-     */
-
     @Override
-    public Prestamo simulacroPrestamo(SimuladorPrestamoDto datos, Integer idPersona) {
-
-        int scorePrestamo = 0;
+    public SimuladorPrestamoResponseDto simularPrestamo(SimuladorPrestamoRequestDto datos, Integer idPersona) {
 
         Cliente cliente = clienteRepositoryPort.obtenerPorIdPersona(idPersona)
                 .orElseThrow(
                         () -> new IllegalArgumentException("No se encontro un cliente con el idPersona: " + idPersona));
 
-        scorePrestamo += calcularPuntajeHistorial(cliente.getHistorialCrediticio()); // HISTORIAL (CALIFICACION DE 1 -
-                                                                                     // 100)
+        int scorePrestamo = scoreCrediticioService.calcularScoreTotal(cliente, datos);
 
-        scorePrestamo += calcularPuntajeCapacidad(cliente.getSalario());
+        EstimacionPuntaje estimacion = estimacionPuntaje(scorePrestamo);
 
-        scorePrestamo += calcularPuntajeEndeudamiento(cliente.getSalario(), datos.ingresosAdicionales(),
-                datos.gastosMensuales());
+        BigDecimal cuotaMensual = amortizacionFrancesaService.calcularCuotaMensual(datos.monto(), datos.plazo());
+        BigDecimal totalPagar = amortizacionFrancesaService.calcularTotalPagar(datos.monto(), datos.plazo());
+        BigDecimal interesTotal = amortizacionFrancesaService.calcularInteresTotal(datos.monto(), datos.plazo());
 
-        scorePrestamo += calcularPuntajeAntiguedad(cliente.getFechaRegistro());
+        List<CuotaAmortizacion> tabla = amortizacionFrancesaService.generarTablaAmortizacion(datos.monto(),
+                datos.plazo());
 
-        if (scorePrestamo < 160) {
-            throw new IllegalArgumentException("Estimacion - Rechazo");
-        } else if (scorePrestamo < 600) {
-            throw new IllegalArgumentException("Estimacion - Posible aprobacion");
+        List<AmortizacionResponseDto> amortizacionResponse = tabla.stream().map(
+                fila -> new AmortizacionResponseDto(
+                        fila.getCuota(),
+                        fila.getSaldoInicial(),
+                        fila.getInteres(),
+                        fila.getAmortz(),
+                        fila.getMontoCuota(),
+                        fila.getSaldoFinal()))
+                .toList();
+
+        return new SimuladorPrestamoResponseDto(
+                datos.monto(),
+                cuotaMensual,
+                totalPagar,
+                interesTotal,
+                datos.plazo(),
+                INTERES_BASE_MENSUAL,
+                scorePrestamo,
+                estimacion,
+                datos.tipoPrestamo(), // POSIBLES AJUSTES POR EL TIPO DE PRESTAMO
+                amortizacionResponse);
+    }
+
+    private EstimacionPuntaje estimacionPuntaje(int scorePrestamo) {
+        if (scorePrestamo < SCORE_RECHAZADO) {
+            return EstimacionPuntaje.RECHAZO;
+        } else if (scorePrestamo < SCORE_APROBACION_PARCIAL) {
+            return EstimacionPuntaje.POSIBLE_APROBACION;
         } else {
-            throw new IllegalArgumentException("Estimacion - Aprobacion");
+            return EstimacionPuntaje.APROBACION;
         }
     }
-
-    public int calcularPuntajeHistorial(Integer historialCrediticio) {
-        int score = 0;
-
-        // EL HISTORIAL CREDITICIO TIENE UN RANGO DE [0 , 100]
-        if (historialCrediticio != null) {
-            Double historial = (historialCrediticio / 10.0);
-
-            score = historial >= 9 ? 400
-                    : historial >= 6 ? 150
-                            : historial >= 3 ? 60
-                                    : 0;
-        }
-
-        return score;
-    }
-
-    public int calcularPuntajeCapacidad(BigDecimal salario) {
-        int score = 0;
-
-        if (salario.compareTo(INGRESO_ALTO) > 0) {
-            score += 300;
-        } else if (salario.compareTo(INGRESO_MEDIO) > 0) {
-            score += 150;
-        } else {
-            score += 0;
-        }
-
-        return score;
-    }
-
-    public int calcularPuntajeEndeudamiento(BigDecimal salario, BigDecimal ingresosAdicional,
-            BigDecimal gastosMensuales) {
-        int score = 0;
-        BigDecimal ingresosTotal = salario.add(ingresosAdicional);
-
-        if (gastosMensuales.divide(ingresosTotal).compareTo(BigDecimal.valueOf(0.3)) < 0) {
-            score += 200;
-        } else if (gastosMensuales.divide(ingresosTotal).compareTo(BigDecimal.valueOf(0.5)) < 0) {
-            score += 100;
-        } else {
-            score += 0;
-        }
-
-        return score;
-    }
-
-    public int calcularPuntajeAntiguedad(LocalDate fechaRegistro) {
-        int score = 0;
-
-        LocalDate ANTIGUEDAD_5 = fechaRegistro.plusYears(5);
-        LocalDate ANTIGUEDAD_1 = fechaRegistro.plusYears(1);
-
-        if (ANTIGUEDAD_5.isBefore(LocalDate.now())) {
-            score += 100;
-        } else if (ANTIGUEDAD_1.isBefore(LocalDate.now())) {
-            score += 50;
-        } else {
-            score += 0;
-        }
-
-        return score;
-    }
-
-    // Cuota Mensual: c = p * r(1 + r)^n / (1 + r)^n - 1
-    public BigDecimal calcularCuotaMensual(SimuladorPrestamoDto datos) {
-
-        BigDecimal tasa = BigDecimal.valueOf(INTERES_BASE_MENSUAL);
-        BigDecimal UnoMasTasa = BigDecimal.valueOf(1).add(tasa);
-        BigDecimal potencia = UnoMasTasa.pow(datos.plazo());
-
-        BigDecimal numerador = tasa.multiply(potencia);
-        BigDecimal denominador = potencia.subtract(BigDecimal.valueOf(1));
-
-        BigDecimal cuotaMensual = datos.monto().multiply(numerador).divide(denominador, 2, RoundingMode.HALF_UP);
-
-        return cuotaMensual;
-    }
-
-    /*
-     * // I = c * r * t
-     * public BigDecimal calcularInteresSimple(SimuladorPrestamoDto datos) {
-     * 
-     * BigDecimal tiempoAnual =
-     * BigDecimal.valueOf(datos.plazo()).divide(BigDecimal.valueOf(12), 2,
-     * RoundingMode.HALF_UP);
-     * 
-     * BigDecimal interesAnual =
-     * BigDecimal.valueOf(INTERES_BASE_MENSUAL).multiply(BigDecimal.valueOf(12));
-     * 
-     * 
-     * return datos.monto().multiply(interesAnual)
-     * .multiply(tiempoAnual);
-     * }
-     */
-
-    public BigDecimal calcularTotalPagar(SimuladorPrestamoDto datos) {
-        return calcularCuotaMensual(datos).multiply(BigDecimal.valueOf(datos.plazo()));
-    }
-
-    /*
-     * C = cuota mensual
-     * c = capital
-     * P = préstamo
-     * r = interés mensual (tasa)
-     * n = número de cuotas
-     */
-
 }
