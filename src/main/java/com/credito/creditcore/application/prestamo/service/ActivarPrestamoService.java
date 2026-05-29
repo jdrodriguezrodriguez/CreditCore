@@ -44,7 +44,7 @@ public class ActivarPrestamoService implements ActivarPrestamoUseCase {
                 .orElseThrow(
                         () -> new IllegalArgumentException("No se encontro un cliente con el idPersona: " + idPersona));
 
-        Prestamo prestamo = prestamorepositoryPort.obtenerPorIdPersona(idPersona)
+        Prestamo prestamo = prestamorepositoryPort.obtenerPorIdCliente(idPersona)
                 .orElseThrow(
                         () -> new IllegalArgumentException("No se encontro un cliente con el idPersona: " + idPersona));
 
@@ -79,6 +79,6 @@ public class ActivarPrestamoService implements ActivarPrestamoUseCase {
         }
 
         prestamorepositoryPort.actualizar(idPersona, prestamo);
-        cuotaRepositoryPort.guardar(cuotas, prestamo, cliente);
+        cuotaRepositoryPort.guardarCuotas(cuotas, prestamo, cliente);
     }
 }

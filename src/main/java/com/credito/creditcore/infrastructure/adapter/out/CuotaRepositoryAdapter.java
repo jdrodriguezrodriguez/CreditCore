@@ -1,6 +1,8 @@
 package com.credito.creditcore.infrastructure.adapter.out;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,8 @@ import com.credito.creditcore.infrastructure.entity.PersonaEntity;
 import com.credito.creditcore.infrastructure.entity.PrestamoEntity;
 import com.credito.creditcore.infrastructure.persistence.CuotaRepositoryJpa;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Component
 public class CuotaRepositoryAdapter implements CuotaRepositoryPort {
 
@@ -28,7 +32,7 @@ public class CuotaRepositoryAdapter implements CuotaRepositoryPort {
     }
 
     @Override
-    public void guardar(List<Cuota> cuotas, Prestamo prestamo, Cliente cliente) {
+    public void guardarCuotas(List<Cuota> cuotas, Prestamo prestamo, Cliente cliente) {
 
         PersonaEntity personaEntity = PersonaMapperOut.toEntity(cliente.getPersona());
         ClienteEntity clienteEntity = ClienteMapperOut.toEntity(prestamo.getCliente(), personaEntity);
@@ -37,6 +41,27 @@ public class CuotaRepositoryAdapter implements CuotaRepositoryPort {
         List<CuotaEntity> cuotaEntities = CuotaMapperOut.crearEntidad(cuotas, prestamoEntity);
 
         repositoryJpa.saveAll(cuotaEntities);
+    }
+
+    @Override
+    public Optional<Cuota> obtenerCuota(Integer idCuota) {
+        return repositoryJpa.findById(idCuota).map(
+                CuotaMapperOut::toDomain);
+    }
+
+    @Override
+    public void actualizarCuota(Integer idCuota, BigDecimal monto) {
+        CuotaEntity cuotaEntity = repositoryJpa.findById(idCuota)
+                .orElseThrow(() -> new EntityNotFoundException());
+
+        repositoryJpa.save(CuotaMapperOut.updateEntity(cuotaEntity, monto));
+    }
+
+    @Override
+    public List<Cuota> obtenerCuotasPorIdPrestamo(Integer idCliente) {
+        List<CuotaEntity> cuotaEntity = repositoryJpa.findByPrestamo_Cliente_IdCliente(idCliente);
+        
+        return CuotaMapperOut.cuotasToDomain(cuotaEntity);
     }
 
 }

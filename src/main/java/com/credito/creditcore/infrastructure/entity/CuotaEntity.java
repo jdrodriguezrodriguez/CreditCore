@@ -30,7 +30,7 @@ public class CuotaEntity {
 
     @ManyToOne
     @JoinColumn(name = "idPrestamo", referencedColumnName = "idPrestamo")
-    private PrestamoEntity prestamoEntity;
+    private PrestamoEntity prestamo;
 
     @Column(name = "numero_cuota")
     private int numeroCuota;
@@ -69,11 +69,11 @@ public class CuotaEntity {
     public CuotaEntity() {
     }
 
-    public CuotaEntity(PrestamoEntity prestamoEntity, int numeroCuota, BigDecimal montoCuota,
+    public CuotaEntity(PrestamoEntity prestamo, int numeroCuota, BigDecimal montoCuota,
             LocalDate fechaVencimiento, EstadoCuota estadoCuota, BigDecimal saldoInicial, BigDecimal interes,
             BigDecimal amortizacionCapital, BigDecimal saldoFinal, BigDecimal montoPagado, BigDecimal mora,
             LocalDate fechaPagoReal) {
-        this.prestamoEntity = prestamoEntity;
+        this.prestamo = prestamo;
         this.numeroCuota = numeroCuota;
         this.montoCuota = montoCuota;
         this.fechaVencimiento = fechaVencimiento;

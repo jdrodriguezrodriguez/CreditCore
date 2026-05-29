@@ -56,6 +56,31 @@ public class Cuota {
         this.fechaPagoReal = fechaPagoReal;
     }
 
+    public Cuota(int numero_cuota, LocalDate fecha_vencimiento,
+            EstadoCuota estadoCuota, BigDecimal saldoInicial,
+            BigDecimal interes, BigDecimal amortizacionCapital,
+            BigDecimal montoCuota, BigDecimal saldoFinal,
+            BigDecimal montoPagado, BigDecimal mora,
+            LocalDate fechaPagoReal) {
+
+        if (montoCuota.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException(
+                    "El monto de la cuota debe ser mayor a $0");
+        }
+
+        this.numero_cuota = numero_cuota;
+        this.fecha_vencimiento = fecha_vencimiento;
+        this.estadoCuota = estadoCuota;
+        this.saldoInicial = saldoInicial;
+        this.interes = interes;
+        this.amortizacionCapital = amortizacionCapital;
+        this.montoCuota = montoCuota;
+        this.saldoFinal = saldoFinal;
+        this.montoPagado = montoPagado;
+        this.mora = mora;
+        this.fechaPagoReal = fechaPagoReal;
+    }
+
     public static Cuota crear(Prestamo prestamo, int numero_cuota, BigDecimal montoCuota, LocalDate fecha_vencimiento,
             EstadoCuota estadoCuota, BigDecimal saldoInicial, BigDecimal interes, BigDecimal amortizacionCapital,
             BigDecimal saldoFinal, BigDecimal montoPagado, BigDecimal mora, LocalDate fechaPagoReal) {

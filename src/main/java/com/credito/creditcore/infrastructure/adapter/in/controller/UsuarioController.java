@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.credito.creditcore.application.dto.UpdateUsuarioDto;
+import com.credito.creditcore.application.dto.usuario.UpdateUsuarioDto;
 import com.credito.creditcore.application.usuario.port.in.ActualizarUsuarioUseCase;
 import com.credito.creditcore.application.usuario.port.in.ObtenerUsuarioUseCase;
 

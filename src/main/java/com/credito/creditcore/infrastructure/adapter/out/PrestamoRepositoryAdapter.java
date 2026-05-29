@@ -27,9 +27,11 @@ public class PrestamoRepositoryAdapter implements PrestamorepositoryPort {
     }
 
     @Override
-    public Optional<Prestamo> obtenerPorIdPersona(Integer idPersona) {
-        return repositoryJpa.findByCliente_Persona_idPersona(idPersona)
-                .map(null);
+    public Optional<Prestamo> obtenerPorIdCliente(Integer idCliente) {
+        return repositoryJpa.findByCliente_IdCliente(idCliente)
+                .map(p -> {
+                    return PrestamoMapperOut.toDomain(p);
+                });
     }
 
     @Override
@@ -42,11 +44,18 @@ public class PrestamoRepositoryAdapter implements PrestamorepositoryPort {
     }
 
     @Override
-    public void actualizar(Integer idPersona, Prestamo prestamo) {
-        PrestamoEntity prestamoEntity = repositoryJpa.findByCliente_Persona_idPersona(idPersona).orElseThrow(
+    public void actualizar(Integer idCliente, Prestamo prestamo) {
+        PrestamoEntity prestamoEntity = repositoryJpa.findByCliente_IdCliente(idCliente).orElseThrow(
                 () -> new EntityNotFoundException());
         prestamoEntity = PrestamoMapperOut.actualizarEntidad(prestamoEntity, prestamo);
 
         repositoryJpa.save(prestamoEntity);
+    }
+
+    @Override
+    public Optional<Prestamo> obtenerPorId(Integer idPrestamo) {
+        return repositoryJpa.findById(idPrestamo).map(p -> {
+            return PrestamoMapperOut.toDomain(p);
+        });
     }
 }

@@ -1,6 +1,6 @@
 package com.credito.creditcore.infrastructure.adapter.in.mapper;
 
-import com.credito.creditcore.application.dto.ClienteDto;
+import com.credito.creditcore.application.dto.cliente.ClienteDto;
 import com.credito.creditcore.domain.model.Cliente;
 
 public class ClienteMapperIn {
