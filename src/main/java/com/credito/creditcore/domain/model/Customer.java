@@ -6,19 +6,19 @@ import java.time.LocalDate;
 import lombok.Getter;
 
 @Getter
-public class Cliente {
+public class Customer {
 
     private Integer idCliente;
-    private Persona persona;
+    private Person persona;
     private BigDecimal salario;
     private Integer historialCrediticio;
     private LocalDate fechaRegistro;
 
-    public Cliente() {
+    public Customer() {
 
     }
 
-    public Cliente(Integer idCliente, Persona persona, BigDecimal salario, Integer historialCrediticio,
+    public Customer(Integer idCliente, Person persona, BigDecimal salario, Integer historialCrediticio,
             LocalDate fechaRegistro) {
 
         if (persona == null) {
@@ -36,8 +36,8 @@ public class Cliente {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public static Cliente crearCliente(BigDecimal salario, Integer scoreCrediticio, Persona persona){
-        return new Cliente(null, 
+    public static Customer createCustomer(BigDecimal salario, Integer scoreCrediticio, Person persona){
+        return new Customer(null, 
             persona, 
             salario, 
             scoreCrediticio, 

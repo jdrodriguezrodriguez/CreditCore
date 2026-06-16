@@ -1,7 +1,7 @@
 package com.credito.creditcore.application.persona.port.in;
 
-import com.credito.creditcore.domain.model.Persona;
+import com.credito.creditcore.domain.model.Person;
 
 public interface ObtenerPersonaUseCase {
-    Persona obtenerPersona(String documento);
+    Person obtenerPersona(String documento);
 }

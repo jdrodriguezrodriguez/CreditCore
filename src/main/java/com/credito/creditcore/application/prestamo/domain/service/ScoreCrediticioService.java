@@ -9,7 +9,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.credito.creditcore.application.dto.prestamo.SimuladorPrestamoRequestDto;
-import com.credito.creditcore.domain.model.Cliente;
+import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.score.PuntajeAntiguedad;
 import com.credito.creditcore.domain.model.score.PuntajeCapacidad;
 import com.credito.creditcore.domain.model.score.PuntajeEndeudamiento;
@@ -111,7 +111,7 @@ public class ScoreCrediticioService {
         return 0;
     }
 
-    public int calcularScoreTotal(Cliente cliente, SimuladorPrestamoRequestDto datos) {
+    public int calcularScoreTotal(Customer cliente, SimuladorPrestamoRequestDto datos) {
         int scorePrestamo = 0;
         // HISTORIAL(CALIFICACION DE 1 - 100)
         scorePrestamo += calcularPuntajeHistorial(cliente.getHistorialCrediticio());

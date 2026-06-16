@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import com.credito.creditcore.domain.model.Cliente;
+import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.Cuota;
 import com.credito.creditcore.domain.model.Prestamo;
 import com.credito.creditcore.domain.port.CuotaRepositoryPort;
@@ -32,7 +32,7 @@ public class CuotaRepositoryAdapter implements CuotaRepositoryPort {
     }
 
     @Override
-    public void guardarCuotas(List<Cuota> cuotas, Prestamo prestamo, Cliente cliente) {
+    public void guardarCuotas(List<Cuota> cuotas, Prestamo prestamo, Customer cliente) {
 
         PersonaEntity personaEntity = PersonaMapperOut.toEntity(cliente.getPersona());
         ClienteEntity clienteEntity = ClienteMapperOut.toEntity(prestamo.getCliente(), personaEntity);

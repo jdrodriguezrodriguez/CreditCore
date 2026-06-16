@@ -11,10 +11,10 @@ import com.credito.creditcore.application.dto.prestamo.SimuladorPrestamoResponse
 import com.credito.creditcore.application.prestamo.domain.service.ScoreCrediticioService;
 import com.credito.creditcore.application.prestamo.port.AmortizacionFrancesaService;
 import com.credito.creditcore.application.prestamo.port.SimularPrestamoUseCase;
-import com.credito.creditcore.domain.model.Cliente;
+import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.enums.EstimacionPuntaje;
 import com.credito.creditcore.domain.model.score.CuotaAmortizacion;
-import com.credito.creditcore.domain.port.ClienteRepositoryPort;
+import com.credito.creditcore.domain.port.CustomerRepositoryPort;
 
 @Service
 public class SimulacionPrestamoService implements SimularPrestamoUseCase {
@@ -23,12 +23,12 @@ public class SimulacionPrestamoService implements SimularPrestamoUseCase {
     private static final int SCORE_RECHAZADO = 160;
     private static final int SCORE_APROBACION_PARCIAL = 600;
 
-    private final ClienteRepositoryPort clienteRepositoryPort;
+    private final CustomerRepositoryPort clienteRepositoryPort;
 
     private final ScoreCrediticioService scoreCrediticioService;
     private final AmortizacionFrancesaService amortizacionFrancesaService;
 
-    public SimulacionPrestamoService(ClienteRepositoryPort clienteRepositoryPort,
+    public SimulacionPrestamoService(CustomerRepositoryPort clienteRepositoryPort,
             ScoreCrediticioService scoreCrediticioService,
             AmortizacionFrancesaService amortizacionFrancesaService) {
         this.clienteRepositoryPort = clienteRepositoryPort;
@@ -39,7 +39,7 @@ public class SimulacionPrestamoService implements SimularPrestamoUseCase {
     @Override
     public SimuladorPrestamoResponseDto simularPrestamo(SimuladorPrestamoRequestDto datos, Integer idPersona) {
 
-        Cliente cliente = clienteRepositoryPort.obtenerPorIdPersona(idPersona)
+        Customer cliente = clienteRepositoryPort.obtenerPorIdPersona(idPersona)
                 .orElseThrow(
                         () -> new IllegalArgumentException("No se encontro un cliente con el idPersona: " + idPersona));
 

@@ -18,7 +18,7 @@ import com.credito.creditcore.application.persona.port.in.ActualizarPersonaUseCa
 import com.credito.creditcore.application.persona.port.in.EliminarPersonaUseCase;
 import com.credito.creditcore.application.persona.port.in.ObtenerPersonaUseCase;
 import com.credito.creditcore.application.persona.port.in.RegistrarPersonaUseCase;
-import com.credito.creditcore.domain.model.Persona;
+import com.credito.creditcore.domain.model.Person;
 import com.credito.creditcore.infrastructure.adapter.in.mapper.PersonaMapperIn;
 
 import jakarta.validation.Valid;
@@ -44,7 +44,7 @@ public class PersonaController {
     @PostMapping("/registrar")
     public ResponseEntity<?> registrarPersona(@Valid @RequestBody RegistrarPersonaCommand datos) {
 
-        Persona persona = PersonaMapperIn.crearModelo(datos.persona());
+        Person persona = PersonaMapperIn.crearModelo(datos.persona());
 
         registrarPersonaUseCase.registrarPersona(persona, datos.usuario().password());
 
@@ -54,7 +54,7 @@ public class PersonaController {
     @PutMapping("/{documento}")
     public ResponseEntity<?> actualizarPersona(@Valid @RequestBody PersonaDto personaDto,
             @PathVariable String documento) {
-        Persona persona = PersonaMapperIn.crearModelo(personaDto);
+        Person persona = PersonaMapperIn.crearModelo(personaDto);
         actualizarPersonaUseCase.actualizarPersona(documento, persona);
         return ResponseEntity.ok(Map.of("Mensaje", "Actualizacion exitosa."));
     }
@@ -67,7 +67,7 @@ public class PersonaController {
 
     @GetMapping("/{documento}")
     public ResponseEntity<?> buscarPersona(@PathVariable String documento) {
-        Persona persona = obtenerPersonaUseCase.obtenerPersona(documento);
+        Person persona = obtenerPersonaUseCase.obtenerPersona(documento);
 
         PersonaDto datos = PersonaMapperIn.crearDto(persona);
 

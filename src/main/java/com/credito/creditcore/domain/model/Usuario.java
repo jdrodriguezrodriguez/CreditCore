@@ -12,7 +12,7 @@ import lombok.Setter;
 public class Usuario {
 
     private Integer idUsuario;
-    private Persona persona;
+    private Person persona;
 
     private String username;
     private String password;
@@ -26,7 +26,7 @@ public class Usuario {
 
     public Usuario(){}
 
-    public Usuario(Integer idUsuario, Persona persona, String username, String password, RolUsuario rolUsuario,
+    public Usuario(Integer idUsuario, Person persona, String username, String password, RolUsuario rolUsuario,
             boolean is_enabled, boolean account_no_expired, boolean account_no_locked, boolean credential_no_expired) {
 
         if (persona == null) {
@@ -64,7 +64,7 @@ public class Usuario {
         this.username = username.toLowerCase();
     }
 
-    public static Usuario crear(Persona persona, RolUsuario rol, String password){
+    public static Usuario crear(Person persona, RolUsuario rol, String password){
         return new Usuario(
             null, 
             persona, 

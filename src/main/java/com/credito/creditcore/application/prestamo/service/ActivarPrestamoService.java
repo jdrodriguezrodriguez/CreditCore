@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 
 import com.credito.creditcore.application.prestamo.port.ActivarPrestamoUseCase;
 import com.credito.creditcore.application.prestamo.port.AmortizacionFrancesaService;
-import com.credito.creditcore.domain.model.Cliente;
+import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.Cuota;
 import com.credito.creditcore.domain.model.Prestamo;
 import com.credito.creditcore.domain.model.enums.EstadoCuota;
 import com.credito.creditcore.domain.model.enums.EstadoPrestamo;
 import com.credito.creditcore.domain.model.score.CuotaAmortizacion;
-import com.credito.creditcore.domain.port.ClienteRepositoryPort;
+import com.credito.creditcore.domain.port.CustomerRepositoryPort;
 import com.credito.creditcore.domain.port.CuotaRepositoryPort;
 import com.credito.creditcore.domain.port.PrestamorepositoryPort;
 
@@ -23,13 +23,13 @@ import com.credito.creditcore.domain.port.PrestamorepositoryPort;
 public class ActivarPrestamoService implements ActivarPrestamoUseCase {
 
     private final PrestamorepositoryPort prestamorepositoryPort;
-    private final ClienteRepositoryPort clienteRepositoryPort;
+    private final CustomerRepositoryPort clienteRepositoryPort;
     private final CuotaRepositoryPort cuotaRepositoryPort;
 
     private final AmortizacionFrancesaService amortizacionFrancesaService;
 
     public ActivarPrestamoService(PrestamorepositoryPort prestamorepositoryPort,
-            ClienteRepositoryPort clienteRepositoryPort, CuotaRepositoryPort cuotaRepositoryPort,
+            CustomerRepositoryPort clienteRepositoryPort, CuotaRepositoryPort cuotaRepositoryPort,
             AmortizacionFrancesaService amortizacionFrancesaService) {
         this.prestamorepositoryPort = prestamorepositoryPort;
         this.clienteRepositoryPort = clienteRepositoryPort;
@@ -40,7 +40,7 @@ public class ActivarPrestamoService implements ActivarPrestamoUseCase {
     @Override
     public void activarPrestamo(int idPersona) {
 
-        Cliente cliente = clienteRepositoryPort.obtenerPorIdPersona(idPersona)
+        Customer cliente = clienteRepositoryPort.obtenerPorIdPersona(idPersona)
                 .orElseThrow(
                         () -> new IllegalArgumentException("No se encontro un cliente con el idPersona: " + idPersona));
 

@@ -3,20 +3,20 @@ package com.credito.creditcore.application.persona.service;
 import org.springframework.stereotype.Service;
 
 import com.credito.creditcore.application.persona.port.in.ObtenerPersonaUseCase;
-import com.credito.creditcore.domain.model.Persona;
-import com.credito.creditcore.domain.port.PersonaRepositoryPort;
+import com.credito.creditcore.domain.model.Person;
+import com.credito.creditcore.domain.port.PersonRepositoryPort;
 
 @Service
 public class ObtenerPersonaService implements ObtenerPersonaUseCase {
 
-    private final PersonaRepositoryPort personaRepositoryPort;
+    private final PersonRepositoryPort personaRepositoryPort;
 
-    public ObtenerPersonaService(PersonaRepositoryPort personaRepositoryPort) {
+    public ObtenerPersonaService(PersonRepositoryPort personaRepositoryPort) {
         this.personaRepositoryPort = personaRepositoryPort;
     }
 
     @Override
-    public Persona obtenerPersona(String documento) {
+    public Person obtenerPersona(String documento) {
 
         if (documento == null) {
             throw new IllegalArgumentException("El documento es obligatorio");
@@ -26,7 +26,7 @@ public class ObtenerPersonaService implements ObtenerPersonaUseCase {
             throw new IllegalArgumentException("El documento es invalido.");
         }
 
-        Persona persona = personaRepositoryPort.consultar(documento)
+        Person persona = personaRepositoryPort.consultar(documento)
             .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ese documento."));
 
         if (persona == null) {

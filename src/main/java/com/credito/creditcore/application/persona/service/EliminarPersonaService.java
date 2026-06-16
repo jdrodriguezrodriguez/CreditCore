@@ -3,14 +3,14 @@ package com.credito.creditcore.application.persona.service;
 import org.springframework.stereotype.Service;
 
 import com.credito.creditcore.application.persona.port.in.EliminarPersonaUseCase;
-import com.credito.creditcore.domain.port.PersonaRepositoryPort;
+import com.credito.creditcore.domain.port.PersonRepositoryPort;
 
 @Service
 public class EliminarPersonaService implements EliminarPersonaUseCase{
 
-    private PersonaRepositoryPort personaRepositoryPort;
+    private PersonRepositoryPort personaRepositoryPort;
 
-    public EliminarPersonaService(PersonaRepositoryPort personaRepositoryPort) {
+    public EliminarPersonaService(PersonRepositoryPort personaRepositoryPort) {
         this.personaRepositoryPort = personaRepositoryPort;
     }
 

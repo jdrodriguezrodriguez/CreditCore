@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import com.credito.creditcore.domain.model.Persona;
-import com.credito.creditcore.domain.port.PersonaRepositoryPort;
+import com.credito.creditcore.domain.model.Person;
+import com.credito.creditcore.domain.port.PersonRepositoryPort;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.PersonaMapperOut;
 import com.credito.creditcore.infrastructure.entity.PersonaEntity;
 import com.credito.creditcore.infrastructure.persistence.PersonaRepositoryJpa;
@@ -13,7 +13,7 @@ import com.credito.creditcore.infrastructure.persistence.PersonaRepositoryJpa;
 import jakarta.persistence.EntityNotFoundException;
 
 @Component
-public class PersonaRepositoryAdapter implements PersonaRepositoryPort {
+public class PersonaRepositoryAdapter implements PersonRepositoryPort {
 
     private final PersonaRepositoryJpa repositoryJpa;
 
@@ -22,7 +22,7 @@ public class PersonaRepositoryAdapter implements PersonaRepositoryPort {
     }
 
     @Override
-    public Persona guardar(Persona persona) {
+    public Person guardar(Person persona) {
 
         PersonaEntity personaEntity = PersonaMapperOut.crearEntidad(persona);
 
@@ -32,13 +32,13 @@ public class PersonaRepositoryAdapter implements PersonaRepositoryPort {
     }
 
     @Override
-    public Optional<Persona> consultar(String documento) {
+    public Optional<Person> consultar(String documento) {
         return repositoryJpa.findByDocumento(documento)
                 .map(PersonaMapperOut::toDomain);
     }
 
     @Override
-    public void actualizar(String documento, Persona persona) {
+    public void actualizar(String documento, Person persona) {
         PersonaEntity pEntity = repositoryJpa.findByDocumento(documento)
                 .orElseThrow(() -> new EntityNotFoundException());
 
@@ -59,7 +59,7 @@ public class PersonaRepositoryAdapter implements PersonaRepositoryPort {
     }
 
     @Override
-    public Optional<Persona> findById(Integer idPersona) {
+    public Optional<Person> findById(Integer idPersona) {
         return repositoryJpa.findById(idPersona).map(
                 PersonaMapperOut::toDomain);
     }

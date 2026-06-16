@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.credito.creditcore.application.cliente.port.ObtenerClienteUseCase;
-import com.credito.creditcore.application.cliente.port.RegistrarClienteUseCase;
+import com.credito.creditcore.application.customer.port.GetCustomerUseCase;
+import com.credito.creditcore.application.customer.port.RegisterCustomerUseCase;
 import com.credito.creditcore.application.dto.cliente.ClienteDto;
 import com.credito.creditcore.application.dto.cliente.SalarioClienteDto;
 import com.credito.creditcore.infrastructure.adapter.in.mapper.ClienteMapperIn;
@@ -21,17 +21,17 @@ import com.credito.creditcore.infrastructure.adapter.in.mapper.ClienteMapperIn;
 @RequestMapping("/api/credito/clientes")
 public class ClienteController {
 
-    private final RegistrarClienteUseCase registrarClienteUseCase;
-    private final ObtenerClienteUseCase obtenerClienteUseCase;
+    private final RegisterCustomerUseCase registrarClienteUseCase;
+    private final GetCustomerUseCase getCustomerUseCase;
 
-    public ClienteController(RegistrarClienteUseCase registrarClienteUseCase, ObtenerClienteUseCase obtenerClienteUseCase) {
+    public ClienteController(RegisterCustomerUseCase registrarClienteUseCase, GetCustomerUseCase getCustomerUseCase) {
         this.registrarClienteUseCase = registrarClienteUseCase;
-        this.obtenerClienteUseCase = obtenerClienteUseCase;
+        this.getCustomerUseCase = getCustomerUseCase;
     }
 
     @GetMapping("/{idCliente}")
     public ResponseEntity<?> buscarCliente(@PathVariable Integer idCliente) {
-        ClienteDto clienteDto = ClienteMapperIn.crearDto(obtenerClienteUseCase.obtenerCliente(idCliente));
+        ClienteDto clienteDto = ClienteMapperIn.crearDto(getCustomerUseCase.getCustomer(idCliente));
         
         return ResponseEntity.ok(clienteDto);
     }
@@ -45,7 +45,7 @@ public class ClienteController {
     @PostMapping("/{idPersona}")
     public ResponseEntity<?> registrarCliente(@PathVariable Integer idPersona, @RequestBody SalarioClienteDto clienteDto) {
 
-        registrarClienteUseCase.registrarCliente(clienteDto.salario(), idPersona);
+        registrarClienteUseCase.registerCustomer(clienteDto.salario(), idPersona);
 
         return ResponseEntity.ok(Map.of("Mensaje", "Se registro el cliente correctamente."));
     }

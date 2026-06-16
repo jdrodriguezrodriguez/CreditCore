@@ -14,7 +14,7 @@ import lombok.Setter;
 public class Prestamo {
 
     private Integer idPrestamo;
-    private Cliente cliente;
+    private Customer cliente;
     private BigDecimal monto;
     private double interes;
     private int plazo;
@@ -32,7 +32,7 @@ public class Prestamo {
 
     }
 
-    public Prestamo(Integer idPrestamo, Cliente cliente, BigDecimal monto, double interes, int plazo,
+    public Prestamo(Integer idPrestamo, Customer cliente, BigDecimal monto, double interes, int plazo,
             EstadoPrestamo estadoPrestamo, LocalDate fechaSolicitud, LocalDate fechaAprobacion,
             TipoPrestamo tipoPrestamo, BigDecimal interesTotal, BigDecimal totalPagar, BigDecimal totalPagado,
             BigDecimal saldoPendiente) {
@@ -91,7 +91,7 @@ public class Prestamo {
         this.saldoPendiente = saldoPendiente;
     }
 
-    public static Prestamo crear(Cliente cliente, BigDecimal monto,
+    public static Prestamo crear(Customer cliente, BigDecimal monto,
             double interes, int plazo, EstadoPrestamo estadoPrestamo, LocalDate fechaSolicitud,
             LocalDate fechaAprobacion, TipoPrestamo tipoPrestamo, BigDecimal interesTotal, BigDecimal totalPagar,
             BigDecimal totalPagado, BigDecimal saldoPendiente) {

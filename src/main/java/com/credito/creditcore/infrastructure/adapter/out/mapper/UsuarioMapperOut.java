@@ -2,7 +2,7 @@ package com.credito.creditcore.infrastructure.adapter.out.mapper;
 
 
 import com.credito.creditcore.application.dto.usuario.UsuarioDto;
-import com.credito.creditcore.domain.model.Persona;
+import com.credito.creditcore.domain.model.Person;
 import com.credito.creditcore.domain.model.Usuario;
 import com.credito.creditcore.domain.model.enums.RolUsuario;
 import com.credito.creditcore.infrastructure.entity.PersonaEntity;
@@ -30,7 +30,7 @@ public class UsuarioMapperOut {
         return usuario;
     }
 
-    public static Usuario toDomain(UsuarioEntity uEntity, Persona persona) {
+    public static Usuario toDomain(UsuarioEntity uEntity, Person persona) {
         return new Usuario(
                 uEntity.getIdUsuario(),
                 persona,

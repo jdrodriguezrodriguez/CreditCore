@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import lombok.Getter;
 
 @Getter
-public class Persona {
+public class Person {
 
     private Integer idPersona;
     private String nombre;
@@ -14,9 +14,9 @@ public class Persona {
     private LocalDate nacimiento;
     private String correo;
 
-    public Persona(){}
+    public Person(){}
 
-    public Persona(Integer idPersona, String nombre, String apellido, String documento,
+    public Person(Integer idPersona, String nombre, String apellido, String documento,
             LocalDate nacimiento, String correo) {
 
         if (nombre == null || apellido == null) {
@@ -43,13 +43,13 @@ public class Persona {
         this.correo = correo;
     }
 
-    public static Persona crear(
+    public static Person crear(
             String nombre,
             String apellido,
             String documento,
             LocalDate nacimiento,
             String correo) {
-        return new Persona(
+        return new Person(
                 null,
                 nombre,
                 apellido,

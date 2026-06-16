@@ -1,11 +1,11 @@
 package com.credito.creditcore.infrastructure.adapter.out.mapper;
 
-import com.credito.creditcore.domain.model.Persona;
+import com.credito.creditcore.domain.model.Person;
 import com.credito.creditcore.infrastructure.entity.PersonaEntity;
 
 public class PersonaMapperOut {
 
-    public static PersonaEntity crearEntidad(Persona persona) {
+    public static PersonaEntity crearEntidad(Person persona) {
         return new PersonaEntity(
                 persona.getNombre(),
                 persona.getApellido(),
@@ -14,7 +14,7 @@ public class PersonaMapperOut {
                 persona.getCorreo());
     }
 
-    public static PersonaEntity toEntity(Persona persona) {
+    public static PersonaEntity toEntity(Person persona) {
         PersonaEntity entity = new PersonaEntity(
                 persona.getNombre(),
                 persona.getApellido(),
@@ -27,8 +27,8 @@ public class PersonaMapperOut {
         return entity;
     }
 
-    public static Persona toDomain(PersonaEntity pEntity) {
-        return new Persona(
+    public static Person toDomain(PersonaEntity pEntity) {
+        return new Person(
                 pEntity.getIdPersona(),
                 pEntity.getNombre(),
                 pEntity.getApellido(),
@@ -37,7 +37,7 @@ public class PersonaMapperOut {
                 pEntity.getCorreo());
     }
 
-    public static PersonaEntity updateEntity(PersonaEntity pEntity, Persona persona) {
+    public static PersonaEntity updateEntity(PersonaEntity pEntity, Person persona) {
         pEntity.setNombre(persona.getNombre());
         pEntity.setApellido(persona.getApellido());
         pEntity.setNacimiento(persona.getNacimiento());

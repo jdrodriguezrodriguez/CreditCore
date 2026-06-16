@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import com.credito.creditcore.domain.model.Persona;
+import com.credito.creditcore.domain.model.Person;
 import com.credito.creditcore.domain.model.Usuario;
 import com.credito.creditcore.domain.port.UsuarioRepositoryPort;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.PersonaMapperOut;
@@ -44,7 +44,7 @@ public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
 
         return usuarioRepositoryJpa.findByUsername(username).map(
                 t -> {
-                    Persona persona = new Persona();
+                    Person persona = new Person();
                     return UsuarioMapperOut.toDomain(t, persona);
                 });
     }
@@ -64,7 +64,7 @@ public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
     public Optional<Usuario> consultar(Integer idUser) {
         return usuarioRepositoryJpa.findById(idUser).map(
             usuario ->{
-                Persona persona = PersonaMapperOut.toDomain(usuario.getPersona());
+                Person persona = PersonaMapperOut.toDomain(usuario.getPersona());
                 return UsuarioMapperOut.toDomain(usuario, persona);
             }
         );

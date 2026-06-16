@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import com.credito.creditcore.domain.model.Cliente;
+import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.Prestamo;
 import com.credito.creditcore.domain.port.PrestamorepositoryPort;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.ClienteMapperOut;
@@ -35,7 +35,7 @@ public class PrestamoRepositoryAdapter implements PrestamorepositoryPort {
     }
 
     @Override
-    public void guardar(Prestamo prestamo, Cliente cliente) {
+    public void guardar(Prestamo prestamo, Customer cliente) {
         PersonaEntity personaEntity = PersonaMapperOut.toEntity(cliente.getPersona());
         ClienteEntity clienteEntity = ClienteMapperOut.toEntity(cliente, personaEntity);
         PrestamoEntity prestamoEntity = PrestamoMapperOut.crearEntidad(prestamo, clienteEntity);

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.credito.creditcore.application.cuota.port.ObtenerCuotasUseCase;
 import com.credito.creditcore.application.prestamo.port.AmortizacionFrancesaService;
 import com.credito.creditcore.domain.model.Cuota;
-import com.credito.creditcore.domain.port.ClienteRepositoryPort;
+import com.credito.creditcore.domain.port.CustomerRepositoryPort;
 import com.credito.creditcore.domain.port.CuotaRepositoryPort;
 import com.credito.creditcore.domain.port.PrestamorepositoryPort;
 

@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.credito.creditcore.domain.excepcion.ClienteNoEncontradoException;
-import com.credito.creditcore.domain.excepcion.PersonaNoEncontradaException;
+import com.credito.creditcore.domain.excepcion.PersonNotFoundException;
 import com.credito.creditcore.domain.excepcion.UsuarioNoEncontradoException;
 
 @RestController
 public class GlobalExceptionHandler {
     
-    @ExceptionHandler(PersonaNoEncontradaException.class)
-    public ResponseEntity<Map<String,String>> handlePersonaNoEncontrada(PersonaNoEncontradaException ex){
+    @ExceptionHandler(PersonNotFoundException.class)
+    public ResponseEntity<Map<String,String>> handlePersonaNoEncontrada(PersonNotFoundException ex){
 
         Map<String, String> errores = new HashMap<>();
 
