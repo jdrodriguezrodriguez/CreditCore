@@ -7,9 +7,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.credito.creditcore.domain.model.Customer;
-import com.credito.creditcore.domain.model.Cuota;
+import com.credito.creditcore.domain.model.Installment;
 import com.credito.creditcore.domain.model.Prestamo;
-import com.credito.creditcore.domain.port.CuotaRepositoryPort;
+import com.credito.creditcore.domain.port.InstallmentRepositoryPort;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.ClienteMapperOut;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.CuotaMapperOut;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.PersonaMapperOut;
@@ -23,7 +23,7 @@ import com.credito.creditcore.infrastructure.persistence.CuotaRepositoryJpa;
 import jakarta.persistence.EntityNotFoundException;
 
 @Component
-public class CuotaRepositoryAdapter implements CuotaRepositoryPort {
+public class CuotaRepositoryAdapter implements InstallmentRepositoryPort {
 
     private CuotaRepositoryJpa repositoryJpa;
 
@@ -32,7 +32,7 @@ public class CuotaRepositoryAdapter implements CuotaRepositoryPort {
     }
 
     @Override
-    public void guardarCuotas(List<Cuota> cuotas, Prestamo prestamo, Customer cliente) {
+    public void guardarCuotas(List<Installment> cuotas, Prestamo prestamo, Customer cliente) {
 
         PersonaEntity personaEntity = PersonaMapperOut.toEntity(cliente.getPersona());
         ClienteEntity clienteEntity = ClienteMapperOut.toEntity(prestamo.getCliente(), personaEntity);
@@ -44,13 +44,13 @@ public class CuotaRepositoryAdapter implements CuotaRepositoryPort {
     }
 
     @Override
-    public Optional<Cuota> obtenerCuota(Integer idCuota) {
+    public Optional<Installment> findById(Integer idCuota) {
         return repositoryJpa.findById(idCuota).map(
                 CuotaMapperOut::toDomain);
     }
 
     @Override
-    public void actualizarCuota(Integer idCuota, BigDecimal monto) {
+    public void updateInstallment(Integer idCuota, BigDecimal monto) {
         CuotaEntity cuotaEntity = repositoryJpa.findById(idCuota)
                 .orElseThrow(() -> new EntityNotFoundException());
 
@@ -58,7 +58,7 @@ public class CuotaRepositoryAdapter implements CuotaRepositoryPort {
     }
 
     @Override
-    public List<Cuota> obtenerCuotasPorIdPrestamo(Integer idCliente) {
+    public List<Installment> findByLoanId(Integer idCliente) {
         List<CuotaEntity> cuotaEntity = repositoryJpa.findByPrestamo_Cliente_IdCliente(idCliente);
         
         return CuotaMapperOut.cuotasToDomain(cuotaEntity);

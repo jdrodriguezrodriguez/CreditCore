@@ -10,26 +10,26 @@ import org.springframework.stereotype.Service;
 import com.credito.creditcore.application.prestamo.port.ActivarPrestamoUseCase;
 import com.credito.creditcore.application.prestamo.port.AmortizacionFrancesaService;
 import com.credito.creditcore.domain.model.Customer;
-import com.credito.creditcore.domain.model.Cuota;
+import com.credito.creditcore.domain.model.Installment;
 import com.credito.creditcore.domain.model.Prestamo;
 import com.credito.creditcore.domain.model.enums.EstadoCuota;
 import com.credito.creditcore.domain.model.enums.EstadoPrestamo;
 import com.credito.creditcore.domain.model.score.CuotaAmortizacion;
 import com.credito.creditcore.domain.port.CustomerRepositoryPort;
-import com.credito.creditcore.domain.port.CuotaRepositoryPort;
-import com.credito.creditcore.domain.port.PrestamorepositoryPort;
+import com.credito.creditcore.domain.port.InstallmentRepositoryPort;
+import com.credito.creditcore.domain.port.LoanRepositoryPort;
 
 @Service
 public class ActivarPrestamoService implements ActivarPrestamoUseCase {
 
-    private final PrestamorepositoryPort prestamorepositoryPort;
+    private final LoanRepositoryPort prestamorepositoryPort;
     private final CustomerRepositoryPort clienteRepositoryPort;
-    private final CuotaRepositoryPort cuotaRepositoryPort;
+    private final InstallmentRepositoryPort cuotaRepositoryPort;
 
     private final AmortizacionFrancesaService amortizacionFrancesaService;
 
-    public ActivarPrestamoService(PrestamorepositoryPort prestamorepositoryPort,
-            CustomerRepositoryPort clienteRepositoryPort, CuotaRepositoryPort cuotaRepositoryPort,
+    public ActivarPrestamoService(LoanRepositoryPort prestamorepositoryPort,
+            CustomerRepositoryPort clienteRepositoryPort, InstallmentRepositoryPort cuotaRepositoryPort,
             AmortizacionFrancesaService amortizacionFrancesaService) {
         this.prestamorepositoryPort = prestamorepositoryPort;
         this.clienteRepositoryPort = clienteRepositoryPort;
@@ -51,7 +51,7 @@ public class ActivarPrestamoService implements ActivarPrestamoUseCase {
         prestamo.setFechaAprobacion(LocalDate.now());
         prestamo.setEstadoPrestamo(EstadoPrestamo.ACTIVO);
 
-        List<Cuota> cuotas = new ArrayList<>();
+        List<Installment> cuotas = new ArrayList<>();
         List<CuotaAmortizacion> tabla = amortizacionFrancesaService.generarTablaAmortizacion(prestamo.getMonto(),
                 prestamo.getPlazo());
 
@@ -60,7 +60,7 @@ public class ActivarPrestamoService implements ActivarPrestamoUseCase {
             CuotaAmortizacion cuotaAmortizacion = tabla.get(i);
             LocalDate fechaLimiteCuota = prestamo.getFechaAprobacion().plusMonths(i + 1);
 
-            Cuota cuota = new Cuota(
+            Installment cuota = new Installment(
                     null,
                     prestamo,
                     i + 1,

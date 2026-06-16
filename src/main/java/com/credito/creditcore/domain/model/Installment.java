@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Cuota {
+public class Installment {
 
     private Integer idCuota;
     private Prestamo prestamo;
@@ -28,11 +28,11 @@ public class Cuota {
     private BigDecimal mora;
     private LocalDate fechaPagoReal;
 
-    public Cuota() {
+    public Installment() {
 
     }
 
-    public Cuota(Integer idCuota, Prestamo prestamo, int numero_cuota, LocalDate fecha_vencimiento,
+    public Installment(Integer idCuota, Prestamo prestamo, int numero_cuota, LocalDate fecha_vencimiento,
             EstadoCuota estadoCuota, BigDecimal saldoInicial, BigDecimal interes, BigDecimal amortizacionCapital,
             BigDecimal montoCuota, BigDecimal saldoFinal, BigDecimal montoPagado, BigDecimal mora,
             LocalDate fechaPagoReal) {
@@ -56,7 +56,7 @@ public class Cuota {
         this.fechaPagoReal = fechaPagoReal;
     }
 
-    public Cuota(int numero_cuota, LocalDate fecha_vencimiento,
+    public Installment(int numero_cuota, LocalDate fecha_vencimiento,
             EstadoCuota estadoCuota, BigDecimal saldoInicial,
             BigDecimal interes, BigDecimal amortizacionCapital,
             BigDecimal montoCuota, BigDecimal saldoFinal,
@@ -81,10 +81,10 @@ public class Cuota {
         this.fechaPagoReal = fechaPagoReal;
     }
 
-    public static Cuota crear(Prestamo prestamo, int numero_cuota, BigDecimal montoCuota, LocalDate fecha_vencimiento,
+    public static Installment crear(Prestamo prestamo, int numero_cuota, BigDecimal montoCuota, LocalDate fecha_vencimiento,
             EstadoCuota estadoCuota, BigDecimal saldoInicial, BigDecimal interes, BigDecimal amortizacionCapital,
             BigDecimal saldoFinal, BigDecimal montoPagado, BigDecimal mora, LocalDate fechaPagoReal) {
-        return new Cuota(null,
+        return new Installment(null,
                 prestamo,
                 numero_cuota,
                 fecha_vencimiento,

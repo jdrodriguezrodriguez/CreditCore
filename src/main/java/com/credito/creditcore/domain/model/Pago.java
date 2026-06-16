@@ -12,14 +12,14 @@ import lombok.Setter;
 public class Pago {
 
     private Integer idPago;
-    private Cuota cuota;
+    private Installment cuota;
     private BigDecimal montoPagado;
     private Fpago fpago;
 
     public Pago() {
     }
 
-    public Pago(Cuota cuota, BigDecimal montoPagado, Fpago fpago) {
+    public Pago(Installment cuota, BigDecimal montoPagado, Fpago fpago) {
 
         if (montoPagado.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("El monto debe ser mayor a $0");
@@ -30,7 +30,7 @@ public class Pago {
         this.fpago = fpago;
     }
 
-    public static Pago crear(Cuota cuota, BigDecimal montoPagado, Fpago fpago) {
+    public static Pago crear(Installment cuota, BigDecimal montoPagado, Fpago fpago) {
         return new Pago(cuota, montoPagado, fpago);
     }
 }

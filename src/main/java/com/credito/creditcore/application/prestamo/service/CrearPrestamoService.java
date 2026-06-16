@@ -11,16 +11,16 @@ import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.Prestamo;
 import com.credito.creditcore.domain.model.enums.EstadoPrestamo;
 import com.credito.creditcore.domain.port.CustomerRepositoryPort;
-import com.credito.creditcore.domain.port.PrestamorepositoryPort;
+import com.credito.creditcore.domain.port.LoanRepositoryPort;
 
 @Service
 public class CrearPrestamoService implements CrearPrestamoUseCase {
 
     private CustomerRepositoryPort clienteRepositoryPort;
-    private PrestamorepositoryPort prestamorepositoryPort;
+    private LoanRepositoryPort prestamorepositoryPort;
 
     public CrearPrestamoService(CustomerRepositoryPort clienteRepositoryPort,
-            PrestamorepositoryPort prestamorepositoryPort) {
+            LoanRepositoryPort prestamorepositoryPort) {
         this.clienteRepositoryPort = clienteRepositoryPort;
         this.prestamorepositoryPort = prestamorepositoryPort;
     }

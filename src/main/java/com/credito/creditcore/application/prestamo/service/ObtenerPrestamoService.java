@@ -4,14 +4,14 @@ import org.springframework.stereotype.Service;
 
 import com.credito.creditcore.application.prestamo.port.ObtenerPrestamoUseCase;
 import com.credito.creditcore.domain.model.Prestamo;
-import com.credito.creditcore.domain.port.PrestamorepositoryPort;
+import com.credito.creditcore.domain.port.LoanRepositoryPort;
 
 @Service
 public class ObtenerPrestamoService implements ObtenerPrestamoUseCase {
 
-    private final PrestamorepositoryPort prestamorepositoryPort;
+    private final LoanRepositoryPort prestamorepositoryPort;
 
-    public ObtenerPrestamoService(PrestamorepositoryPort prestamorepositoryPort) {
+    public ObtenerPrestamoService(LoanRepositoryPort prestamorepositoryPort) {
         this.prestamorepositoryPort = prestamorepositoryPort;
     }
 

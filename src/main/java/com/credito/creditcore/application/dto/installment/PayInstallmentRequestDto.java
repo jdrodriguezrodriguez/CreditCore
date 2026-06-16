@@ -1,4 +1,4 @@
-package com.credito.creditcore.application.dto.cuota;
+package com.credito.creditcore.application.dto.installment;
 
 import java.math.BigDecimal;
 
@@ -6,12 +6,12 @@ import com.credito.creditcore.domain.model.enums.Fpago;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record PagarCuotaRequestDto(
+public record PayInstallmentRequestDto(
 
         @NotBlank(message = "El monto a pagar es obligatorio")
-        BigDecimal montoPagar,
+        BigDecimal amountToPay,
 
         @NotBlank(message = "La forma de pago es obligatoria")
-        Fpago fpago
+        Fpago paymentMethod
 ) {                         
 }

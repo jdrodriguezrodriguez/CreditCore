@@ -4,15 +4,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.credito.creditcore.domain.model.Cuota;
+import com.credito.creditcore.domain.model.Installment;
 import com.credito.creditcore.infrastructure.entity.CuotaEntity;
 import com.credito.creditcore.infrastructure.entity.PrestamoEntity;
 
 public class CuotaMapperOut {
-    public static List<CuotaEntity> crearEntidad(List<Cuota> cuotas, PrestamoEntity prestamoEntity) {
+    public static List<CuotaEntity> crearEntidad(List<Installment> cuotas, PrestamoEntity prestamoEntity) {
         List<CuotaEntity> cuotaEntities = new ArrayList<>();
 
-        for (Cuota cuota : cuotas) {
+        for (Installment cuota : cuotas) {
             CuotaEntity cuotasEntity = new CuotaEntity(
                     prestamoEntity,
                     cuota.getNumero_cuota(),
@@ -33,11 +33,11 @@ public class CuotaMapperOut {
         return cuotaEntities;
     }
 
-    public static List<Cuota> cuotasToDomain(List<CuotaEntity> cuotaEntities){
-        List<Cuota> cuotasModelos = new ArrayList<>();
+    public static List<Installment> cuotasToDomain(List<CuotaEntity> cuotaEntities){
+        List<Installment> cuotasModelos = new ArrayList<>();
 
         for (CuotaEntity cuota : cuotaEntities) {
-            Cuota cuotaModel = new Cuota(
+            Installment cuotaModel = new Installment(
                     cuota.getNumeroCuota(),
                     cuota.getFechaVencimiento(),
                     cuota.getEstadoCuota(),
@@ -57,8 +57,8 @@ public class CuotaMapperOut {
         return cuotasModelos;
     }
 
-    public static Cuota toDomain(CuotaEntity cuotaEntity) {
-        return new Cuota(
+    public static Installment toDomain(CuotaEntity cuotaEntity) {
+        return new Installment(
                 cuotaEntity.getIdCuota(),
                 null,
                 cuotaEntity.getNumeroCuota(),
@@ -80,7 +80,7 @@ public class CuotaMapperOut {
         return cuotaEntity;
     }
 
-    public static CuotaEntity toEntity(Cuota cuota) {
+    public static CuotaEntity toEntity(Installment cuota) {
         CuotaEntity cuotasEntity = new CuotaEntity(
                 null,
                 cuota.getNumero_cuota(),

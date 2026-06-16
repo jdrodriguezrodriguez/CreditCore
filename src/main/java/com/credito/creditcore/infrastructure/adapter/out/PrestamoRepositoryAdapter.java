@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.Prestamo;
-import com.credito.creditcore.domain.port.PrestamorepositoryPort;
+import com.credito.creditcore.domain.port.LoanRepositoryPort;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.ClienteMapperOut;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.PersonaMapperOut;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.PrestamoMapperOut;
@@ -18,7 +18,7 @@ import com.credito.creditcore.infrastructure.persistence.PrestamoRepositoryJpa;
 import jakarta.persistence.EntityNotFoundException;
 
 @Component
-public class PrestamoRepositoryAdapter implements PrestamorepositoryPort {
+public class PrestamoRepositoryAdapter implements LoanRepositoryPort {
 
     private final PrestamoRepositoryJpa repositoryJpa;
 
