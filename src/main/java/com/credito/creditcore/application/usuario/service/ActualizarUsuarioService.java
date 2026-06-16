@@ -6,16 +6,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.credito.creditcore.application.usuario.port.in.ActualizarUsuarioUseCase;
-import com.credito.creditcore.domain.model.Usuario;
-import com.credito.creditcore.domain.port.UsuarioRepositoryPort;
+import com.credito.creditcore.domain.model.User;
+import com.credito.creditcore.domain.port.UserRepositoryPort;
 
 @Service
 public class ActualizarUsuarioService implements ActualizarUsuarioUseCase {
 
-    private final UsuarioRepositoryPort uRepositoryPort;
+    private final UserRepositoryPort uRepositoryPort;
     private final PasswordEncoder passwordEncoder;
 
-    public ActualizarUsuarioService(UsuarioRepositoryPort uRepositoryPort, PasswordEncoder passwordEncoder) {
+    public ActualizarUsuarioService(UserRepositoryPort uRepositoryPort, PasswordEncoder passwordEncoder) {
         this.uRepositoryPort = uRepositoryPort;
         this.passwordEncoder = passwordEncoder;
     }
@@ -23,10 +23,10 @@ public class ActualizarUsuarioService implements ActualizarUsuarioUseCase {
     @Override
     public void actualizarUsuario(Integer idUser, String username, String password) {
 
-        Optional<Usuario> usuario = uRepositoryPort.buscarPorUsername(username);
+        Optional<User> usuario = uRepositoryPort.buscarPorUsername(username);
 
         if (usuario.isPresent()) {
-            Usuario u = usuario.get();
+            User u = usuario.get();
 
             if (u.getIdUsuario().equals(idUser)) {
                 throw new IllegalArgumentException("Ya tienes este username.");

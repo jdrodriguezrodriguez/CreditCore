@@ -5,11 +5,11 @@ import java.util.Optional;
 import com.credito.creditcore.domain.model.Person;
 
 public interface PersonRepositoryPort {
-    Person guardar(Person persona);
-    Optional<Person> consultar(String documento);
-    void actualizar(String documento, Person persona);
-    void eliminar(String documento);
-    boolean existePorDocumento(String documento);
+    Person save(Person persona);
+    Optional<Person> findByDocumentNumber(String documento);
+    void update(String documento, Person persona);
+    void delete(String documento);
+    boolean existsByDocumentNumber(String documento);
 
     Optional<Person> findById(Integer idPersona);
 } 

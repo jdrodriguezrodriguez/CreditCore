@@ -1,7 +1,7 @@
 package com.credito.creditcore.application.usuario.port.in;
 
-import com.credito.creditcore.domain.model.Usuario;
+import com.credito.creditcore.domain.model.User;
 
 public interface ObtenerUsuarioUseCase {
-    Usuario buscarUsuario(Integer idUser);
+    User buscarUsuario(Integer idUser);
 }

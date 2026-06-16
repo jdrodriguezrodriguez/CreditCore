@@ -1,6 +1,6 @@
 package com.credito.creditcore.infrastructure.entity;
 
-import com.credito.creditcore.domain.model.enums.RolUsuario;
+import com.credito.creditcore.domain.model.enums.UserRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,7 +38,7 @@ public class UsuarioEntity {
     
     @Column(name = "rol", nullable = false)
     @Enumerated(EnumType.STRING)
-    private RolUsuario rolUsuario;
+    private UserRole rolUsuario;
 
     @Column(name = "is_enabled", nullable = false)
     private boolean is_enabled;
@@ -56,7 +56,7 @@ public class UsuarioEntity {
     }
 
     public UsuarioEntity(PersonaEntity persona, String username, String password,
-            RolUsuario rolUsuario, boolean is_enabled, boolean account_no_expired, boolean account_no_locked,
+            UserRole rolUsuario, boolean is_enabled, boolean account_no_expired, boolean account_no_locked,
             boolean credential_no_expired) {
         this.persona = persona;
         this.username = username;

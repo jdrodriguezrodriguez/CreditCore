@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.credito.creditcore.domain.model.Person;
-import com.credito.creditcore.domain.model.Usuario;
-import com.credito.creditcore.domain.port.UsuarioRepositoryPort;
+import com.credito.creditcore.domain.model.User;
+import com.credito.creditcore.domain.port.UserRepositoryPort;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.PersonaMapperOut;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.UsuarioMapperOut;
 import com.credito.creditcore.infrastructure.entity.PersonaEntity;
@@ -17,7 +17,7 @@ import com.credito.creditcore.infrastructure.persistence.UsuarioRepositoryJpa;
 import jakarta.persistence.EntityNotFoundException;
 
 @Component
-public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
+public class UsuarioRepositoryAdapter implements UserRepositoryPort {
 
     private final UsuarioRepositoryJpa usuarioRepositoryJpa;
     private final PersonaRepositoryJpa personaRepositoryJpa;
@@ -29,7 +29,7 @@ public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
     }
 
     @Override
-    public void guardar(Usuario usuario) {
+    public void save(User usuario) {
 
         PersonaEntity personaEntity = personaRepositoryJpa.findById(usuario.getPersona().getIdPersona())
                 .orElseThrow(() -> new EntityNotFoundException());
@@ -40,7 +40,7 @@ public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
     }
 
     @Override
-    public Optional<Usuario> buscarPorUsername(String username) {
+    public Optional<User> buscarPorUsername(String username) {
 
         return usuarioRepositoryJpa.findByUsername(username).map(
                 t -> {
@@ -61,7 +61,7 @@ public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
     }
 
     @Override
-    public Optional<Usuario> consultar(Integer idUser) {
+    public Optional<User> consultar(Integer idUser) {
         return usuarioRepositoryJpa.findById(idUser).map(
             usuario ->{
                 Person persona = PersonaMapperOut.toDomain(usuario.getPersona());

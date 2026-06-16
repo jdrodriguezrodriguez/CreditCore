@@ -22,7 +22,7 @@ public class PersonaRepositoryAdapter implements PersonRepositoryPort {
     }
 
     @Override
-    public Person guardar(Person persona) {
+    public Person save(Person persona) {
 
         PersonaEntity personaEntity = PersonaMapperOut.crearEntidad(persona);
 
@@ -32,13 +32,13 @@ public class PersonaRepositoryAdapter implements PersonRepositoryPort {
     }
 
     @Override
-    public Optional<Person> consultar(String documento) {
+    public Optional<Person> findByDocumentNumber(String documento) {
         return repositoryJpa.findByDocumento(documento)
                 .map(PersonaMapperOut::toDomain);
     }
 
     @Override
-    public void actualizar(String documento, Person persona) {
+    public void update(String documento, Person persona) {
         PersonaEntity pEntity = repositoryJpa.findByDocumento(documento)
                 .orElseThrow(() -> new EntityNotFoundException());
 
@@ -46,7 +46,7 @@ public class PersonaRepositoryAdapter implements PersonRepositoryPort {
     }
 
     @Override
-    public void eliminar(String documento) {
+    public void delete(String documento) {
         PersonaEntity pEntity = repositoryJpa.findByDocumento(documento)
                 .orElseThrow(() -> new EntityNotFoundException());
 
@@ -54,7 +54,7 @@ public class PersonaRepositoryAdapter implements PersonRepositoryPort {
     }
 
     @Override
-    public boolean existePorDocumento(String documento) {
+    public boolean existsByDocumentNumber(String documento) {
         return repositoryJpa.existsByDocumento(documento);
     }
 

@@ -3,14 +3,14 @@ package com.credito.creditcore.infrastructure.adapter.out.mapper;
 
 import com.credito.creditcore.application.dto.usuario.UsuarioDto;
 import com.credito.creditcore.domain.model.Person;
-import com.credito.creditcore.domain.model.Usuario;
-import com.credito.creditcore.domain.model.enums.RolUsuario;
+import com.credito.creditcore.domain.model.User;
+import com.credito.creditcore.domain.model.enums.UserRole;
 import com.credito.creditcore.infrastructure.entity.PersonaEntity;
 import com.credito.creditcore.infrastructure.entity.UsuarioEntity;
 
 public class UsuarioMapperOut {
 
-    public static UsuarioEntity crearEntidad(Usuario usuario, PersonaEntity personaEntity) {
+    public static UsuarioEntity crearEntidad(User usuario, PersonaEntity personaEntity) {
         return new UsuarioEntity(
                 personaEntity,
                 usuario.getUsername(),
@@ -22,16 +22,16 @@ public class UsuarioMapperOut {
                 usuario.isCredential_no_expired());
     }
 
-    public static Usuario crearModelo(UsuarioDto usuarioDto) {
-        Usuario usuario = new Usuario();
-        usuario.setRolUsuario(RolUsuario.CLIENTE);
+    public static User crearModelo(UsuarioDto usuarioDto) {
+        User usuario = new User();
+        usuario.setRolUsuario(UserRole.CLIENTE);
         usuario.setPassword(usuarioDto.password());
 
         return usuario;
     }
 
-    public static Usuario toDomain(UsuarioEntity uEntity, Person persona) {
-        return new Usuario(
+    public static User toDomain(UsuarioEntity uEntity, Person persona) {
+        return new User(
                 uEntity.getIdUsuario(),
                 persona,
                 uEntity.getUsername(),

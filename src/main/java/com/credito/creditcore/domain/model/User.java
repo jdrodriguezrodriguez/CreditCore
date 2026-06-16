@@ -2,14 +2,14 @@ package com.credito.creditcore.domain.model;
 
 import java.time.LocalDate;
 
-import com.credito.creditcore.domain.model.enums.RolUsuario;
+import com.credito.creditcore.domain.model.enums.UserRole;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
-public class Usuario {
+public class User {
 
     private Integer idUsuario;
     private Person persona;
@@ -17,16 +17,16 @@ public class Usuario {
     private String username;
     private String password;
 
-    private RolUsuario rolUsuario;
+    private UserRole rolUsuario;
 
     private boolean is_enabled;
     private boolean account_no_expired;
     private boolean account_no_locked;
     private boolean credential_no_expired;
 
-    public Usuario(){}
+    public User(){}
 
-    public Usuario(Integer idUsuario, Person persona, String username, String password, RolUsuario rolUsuario,
+    public User(Integer idUsuario, Person persona, String username, String password, UserRole rolUsuario,
             boolean is_enabled, boolean account_no_expired, boolean account_no_locked, boolean credential_no_expired) {
 
         if (persona == null) {
@@ -48,7 +48,7 @@ public class Usuario {
         this.credential_no_expired = credential_no_expired;
     }
 
-    public void generarUsername() {
+    public void generateUsername() {
 
         String nombre = persona.getNombre();
         String apellido = persona.getApellido();
@@ -64,13 +64,13 @@ public class Usuario {
         this.username = username.toLowerCase();
     }
 
-    public static Usuario crear(Person persona, RolUsuario rol, String password){
-        return new Usuario(
+    public static User create(Person persona, UserRole rol, String password){
+        return new User(
             null, 
             persona, 
             null, 
             password, 
-            RolUsuario.CLIENTE, 
+            UserRole.CLIENTE, 
             true, 
             true, 
             true, 

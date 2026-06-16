@@ -1,6 +1,6 @@
 package com.credito.creditcore.domain.model.enums;
 
-public enum RolUsuario {
+public enum UserRole {
     ADMIN,
     ANALISTA,
     CLIENTE

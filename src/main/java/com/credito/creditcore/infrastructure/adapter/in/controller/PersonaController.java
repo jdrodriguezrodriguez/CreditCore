@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.credito.creditcore.application.dto.persona.PersonaDto;
 import com.credito.creditcore.application.dto.persona.RegistrarPersonaCommand;
-import com.credito.creditcore.application.persona.port.in.ActualizarPersonaUseCase;
-import com.credito.creditcore.application.persona.port.in.EliminarPersonaUseCase;
-import com.credito.creditcore.application.persona.port.in.ObtenerPersonaUseCase;
-import com.credito.creditcore.application.persona.port.in.RegistrarPersonaUseCase;
+import com.credito.creditcore.application.person.port.in.UpdatePersonUseCase;
+import com.credito.creditcore.application.person.port.in.DeletePersonUseCase;
+import com.credito.creditcore.application.person.port.in.GetPersonUseCase;
+import com.credito.creditcore.application.person.port.in.RegisterPersonUseCase;
 import com.credito.creditcore.domain.model.Person;
 import com.credito.creditcore.infrastructure.adapter.in.mapper.PersonaMapperIn;
 
@@ -27,14 +27,14 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/credito/personas")
 public class PersonaController {
 
-    private final RegistrarPersonaUseCase registrarPersonaUseCase;
-    private final ObtenerPersonaUseCase obtenerPersonaUseCase;
-    private final ActualizarPersonaUseCase actualizarPersonaUseCase;
-    private final EliminarPersonaUseCase eliminarPersonaUseCase;
+    private final RegisterPersonUseCase registrarPersonaUseCase;
+    private final GetPersonUseCase obtenerPersonaUseCase;
+    private final UpdatePersonUseCase actualizarPersonaUseCase;
+    private final DeletePersonUseCase eliminarPersonaUseCase;
 
-    public PersonaController(RegistrarPersonaUseCase registrarPersonaUseCase,
-            ObtenerPersonaUseCase obtenerPersonaUseCase, ActualizarPersonaUseCase actualizarPersonaUseCase,
-            EliminarPersonaUseCase eliminarPersonaUseCase) {
+    public PersonaController(RegisterPersonUseCase registrarPersonaUseCase,
+            GetPersonUseCase obtenerPersonaUseCase, UpdatePersonUseCase actualizarPersonaUseCase,
+            DeletePersonUseCase eliminarPersonaUseCase) {
         this.registrarPersonaUseCase = registrarPersonaUseCase;
         this.obtenerPersonaUseCase = obtenerPersonaUseCase;
         this.actualizarPersonaUseCase = actualizarPersonaUseCase;
@@ -46,7 +46,7 @@ public class PersonaController {
 
         Person persona = PersonaMapperIn.crearModelo(datos.persona());
 
-        registrarPersonaUseCase.registrarPersona(persona, datos.usuario().password());
+        registrarPersonaUseCase.registerPerson(persona, datos.usuario().password());
 
         return ResponseEntity.ok(Map.of("Mensaje", "Registro exitoso."));
     }
@@ -55,19 +55,19 @@ public class PersonaController {
     public ResponseEntity<?> actualizarPersona(@Valid @RequestBody PersonaDto personaDto,
             @PathVariable String documento) {
         Person persona = PersonaMapperIn.crearModelo(personaDto);
-        actualizarPersonaUseCase.actualizarPersona(documento, persona);
+        actualizarPersonaUseCase.updatePerson(documento, persona);
         return ResponseEntity.ok(Map.of("Mensaje", "Actualizacion exitosa."));
     }
 
     @DeleteMapping("/{documento}")
     public ResponseEntity<?> eliminarPersona(@PathVariable String documento) {
-        eliminarPersonaUseCase.eliminarPersona(documento);
+        eliminarPersonaUseCase.deletePerson(documento);
         return ResponseEntity.ok(Map.of("Mensaje", "Se elimino a la persona."));
     }
 
     @GetMapping("/{documento}")
     public ResponseEntity<?> buscarPersona(@PathVariable String documento) {
-        Person persona = obtenerPersonaUseCase.obtenerPersona(documento);
+        Person persona = obtenerPersonaUseCase.getPerson(documento);
 
         PersonaDto datos = PersonaMapperIn.crearDto(persona);
 
