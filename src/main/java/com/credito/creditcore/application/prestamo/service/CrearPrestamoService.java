@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import com.credito.creditcore.application.dto.prestamo.CrearPrestamoRequestDto;
 import com.credito.creditcore.application.prestamo.port.CrearPrestamoUseCase;
 import com.credito.creditcore.domain.model.Customer;
-import com.credito.creditcore.domain.model.Prestamo;
-import com.credito.creditcore.domain.model.enums.EstadoPrestamo;
+import com.credito.creditcore.domain.model.Loan;
+import com.credito.creditcore.domain.model.enums.LoanStatus;
 import com.credito.creditcore.domain.port.CustomerRepositoryPort;
 import com.credito.creditcore.domain.port.LoanRepositoryPort;
 
@@ -26,17 +26,17 @@ public class CrearPrestamoService implements CrearPrestamoUseCase {
     }
 
     @Override
-    public Prestamo crearPrestamo(CrearPrestamoRequestDto datos, Integer idPersona) {
+    public Loan crearPrestamo(CrearPrestamoRequestDto datos, Integer idPersona) {
 
         Customer cliente = clienteRepositoryPort.obtenerPorIdPersona(idPersona).orElseThrow(
                 () -> new IllegalArgumentException("No se encontro un cliente con el idPersona: " + idPersona));
 
-        Prestamo prestamo = Prestamo.crear(
+        Loan prestamo = Loan.create(
                 cliente,
                 datos.monto(), 
                 datos.tasaInteres(), 
                 datos.plazo(), 
-                EstadoPrestamo.SOLICITADO, 
+                LoanStatus.REQUESTED, 
                 LocalDate.now(), 
                 null,
                 datos.tipoPrestamo(),

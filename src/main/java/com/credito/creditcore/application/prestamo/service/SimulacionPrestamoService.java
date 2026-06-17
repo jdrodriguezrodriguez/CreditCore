@@ -12,7 +12,7 @@ import com.credito.creditcore.application.prestamo.domain.service.ScoreCreditici
 import com.credito.creditcore.application.prestamo.port.AmortizacionFrancesaService;
 import com.credito.creditcore.application.prestamo.port.SimularPrestamoUseCase;
 import com.credito.creditcore.domain.model.Customer;
-import com.credito.creditcore.domain.model.enums.EstimacionPuntaje;
+import com.credito.creditcore.domain.model.enums.ApprovalEstimate;
 import com.credito.creditcore.domain.model.score.CuotaAmortizacion;
 import com.credito.creditcore.domain.port.CustomerRepositoryPort;
 
@@ -45,7 +45,7 @@ public class SimulacionPrestamoService implements SimularPrestamoUseCase {
 
         int scorePrestamo = scoreCrediticioService.calcularScoreTotal(cliente, datos);
 
-        EstimacionPuntaje estimacion = estimacionPuntaje(scorePrestamo);
+        ApprovalEstimate estimacion = estimacionPuntaje(scorePrestamo);
 
         BigDecimal cuotaMensual = amortizacionFrancesaService.calcularCuotaMensual(datos.monto(), datos.plazo());
         BigDecimal totalPagar = amortizacionFrancesaService.calcularTotalPagar(datos.monto(), datos.plazo());
@@ -77,13 +77,13 @@ public class SimulacionPrestamoService implements SimularPrestamoUseCase {
                 amortizacionResponse);
     }
 
-    private EstimacionPuntaje estimacionPuntaje(int scorePrestamo) {
+    private ApprovalEstimate estimacionPuntaje(int scorePrestamo) {
         if (scorePrestamo < SCORE_RECHAZADO) {
-            return EstimacionPuntaje.RECHAZO;
+            return ApprovalEstimate.REJECTION;
         } else if (scorePrestamo < SCORE_APROBACION_PARCIAL) {
-            return EstimacionPuntaje.POSIBLE_APROBACION;
+            return ApprovalEstimate.POSSIBLE_APPROVAL;
         } else {
-            return EstimacionPuntaje.APROBACION;
+            return ApprovalEstimate.APPROVAL;
         }
     }
 }

@@ -7,22 +7,22 @@ public class PersonaMapperOut {
 
     public static PersonaEntity crearEntidad(Person persona) {
         return new PersonaEntity(
-                persona.getNombre(),
-                persona.getApellido(),
-                persona.getDocumento(),
-                persona.getNacimiento(),
-                persona.getCorreo());
+                persona.getFirstName(),
+                persona.getLastName(),
+                persona.getDocumentNumber(),
+                persona.getBirthDate(),
+                persona.getEmail());
     }
 
     public static PersonaEntity toEntity(Person persona) {
         PersonaEntity entity = new PersonaEntity(
-                persona.getNombre(),
-                persona.getApellido(),
-                persona.getDocumento(),
-                persona.getNacimiento(),
-                persona.getCorreo());
+                persona.getFirstName(),
+                persona.getLastName(),
+                persona.getDocumentNumber(),
+                persona.getBirthDate(),
+                persona.getEmail());
 
-        entity.setIdPersona(persona.getIdPersona());
+        entity.setIdPersona(persona.getPersonId());
 
         return entity;
     }
@@ -38,10 +38,10 @@ public class PersonaMapperOut {
     }
 
     public static PersonaEntity updateEntity(PersonaEntity pEntity, Person persona) {
-        pEntity.setNombre(persona.getNombre());
-        pEntity.setApellido(persona.getApellido());
-        pEntity.setNacimiento(persona.getNacimiento());
-        pEntity.setCorreo(persona.getCorreo());
+        pEntity.setNombre(persona.getFirstName());
+        pEntity.setApellido(persona.getLastName());
+        pEntity.setNacimiento(persona.getBirthDate());
+        pEntity.setCorreo(persona.getEmail());
 
         return pEntity;
     }

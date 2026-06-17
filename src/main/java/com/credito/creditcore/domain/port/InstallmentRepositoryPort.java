@@ -6,11 +6,11 @@ import java.util.Optional;
 
 import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.Installment;
-import com.credito.creditcore.domain.model.Prestamo;
+import com.credito.creditcore.domain.model.Loan;
 
 public interface InstallmentRepositoryPort {
-    void guardarCuotas(List<Installment> cuotas, Prestamo prestamo, Customer cliente);
+    void saveInstallments(List<Installment> cuotas, Loan prestamo, Customer cliente);
     Optional<Installment> findById(Integer idCuota);
-    List<Installment> findByLoanId(Integer idCliente);
+    List<Installment> findByCustomerId(Integer idCliente);
     void updateInstallment(Integer idCuota, BigDecimal monto);
 }

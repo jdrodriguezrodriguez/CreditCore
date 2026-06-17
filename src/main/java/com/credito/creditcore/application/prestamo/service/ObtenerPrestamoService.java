@@ -3,7 +3,7 @@ package com.credito.creditcore.application.prestamo.service;
 import org.springframework.stereotype.Service;
 
 import com.credito.creditcore.application.prestamo.port.ObtenerPrestamoUseCase;
-import com.credito.creditcore.domain.model.Prestamo;
+import com.credito.creditcore.domain.model.Loan;
 import com.credito.creditcore.domain.port.LoanRepositoryPort;
 
 @Service
@@ -16,9 +16,9 @@ public class ObtenerPrestamoService implements ObtenerPrestamoUseCase {
     }
 
     @Override
-    public Prestamo obtenerPrestamo(Integer idCliente) {
+    public Loan obtenerPrestamo(Integer idCliente) {
 
-        Prestamo prestamo = prestamorepositoryPort.obtenerPorIdCliente(idCliente)
+        Loan prestamo = prestamorepositoryPort.obtenerPorIdCliente(idCliente)
                 .orElseThrow(
                         () -> new IllegalArgumentException(
                                 "No se encontro el prestamo con el idPersona: " + idCliente));

@@ -11,9 +11,9 @@ import com.credito.creditcore.application.prestamo.port.ActivarPrestamoUseCase;
 import com.credito.creditcore.application.prestamo.port.AmortizacionFrancesaService;
 import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.Installment;
-import com.credito.creditcore.domain.model.Prestamo;
-import com.credito.creditcore.domain.model.enums.EstadoCuota;
-import com.credito.creditcore.domain.model.enums.EstadoPrestamo;
+import com.credito.creditcore.domain.model.Loan;
+import com.credito.creditcore.domain.model.enums.InstallmentStatus;
+import com.credito.creditcore.domain.model.enums.LoanStatus;
 import com.credito.creditcore.domain.model.score.CuotaAmortizacion;
 import com.credito.creditcore.domain.port.CustomerRepositoryPort;
 import com.credito.creditcore.domain.port.InstallmentRepositoryPort;
@@ -44,28 +44,28 @@ public class ActivarPrestamoService implements ActivarPrestamoUseCase {
                 .orElseThrow(
                         () -> new IllegalArgumentException("No se encontro un cliente con el idPersona: " + idPersona));
 
-        Prestamo prestamo = prestamorepositoryPort.obtenerPorIdCliente(idPersona)
+        Loan prestamo = prestamorepositoryPort.obtenerPorIdCliente(idPersona)
                 .orElseThrow(
                         () -> new IllegalArgumentException("No se encontro un cliente con el idPersona: " + idPersona));
 
-        prestamo.setFechaAprobacion(LocalDate.now());
-        prestamo.setEstadoPrestamo(EstadoPrestamo.ACTIVO);
+        prestamo.setApprovalDate(LocalDate.now());
+        prestamo.setLoanStatus(LoanStatus.ACTIVE);
 
         List<Installment> cuotas = new ArrayList<>();
-        List<CuotaAmortizacion> tabla = amortizacionFrancesaService.generarTablaAmortizacion(prestamo.getMonto(),
-                prestamo.getPlazo());
+        List<CuotaAmortizacion> tabla = amortizacionFrancesaService.generarTablaAmortizacion(prestamo.getPrincipalAmount(),
+                prestamo.getTermInMonths());
 
-        for (int i = 0; i < prestamo.getPlazo(); i++) {
+        for (int i = 0; i < prestamo.getTermInMonths(); i++) {
 
             CuotaAmortizacion cuotaAmortizacion = tabla.get(i);
-            LocalDate fechaLimiteCuota = prestamo.getFechaAprobacion().plusMonths(i + 1);
+            LocalDate fechaLimiteCuota = prestamo.getApprovalDate().plusMonths(i + 1);
 
             Installment cuota = new Installment(
                     null,
                     prestamo,
                     i + 1,
                     fechaLimiteCuota,
-                    EstadoCuota.PENDIENTE,
+                    InstallmentStatus.PENDING,
                     cuotaAmortizacion.getSaldoInicial(),
                     cuotaAmortizacion.getInteres(),
                     cuotaAmortizacion.getAmortz(),

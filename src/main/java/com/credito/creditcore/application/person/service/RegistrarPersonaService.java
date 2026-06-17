@@ -28,7 +28,7 @@ public class RegistrarPersonaService implements RegisterPersonUseCase {
     @Override
     public void registerPerson(Person person, String password) {
 
-        if (personRepositoryPort.existsByDocumentNumber(person.getDocumento())) {
+        if (personRepositoryPort.existsByDocumentNumber(person.getDocumentNumber())) {
             throw new IllegalArgumentException(
                     "A person with this document number is already registered.");
         }
@@ -39,7 +39,7 @@ public class RegistrarPersonaService implements RegisterPersonUseCase {
 
         User newUser = User.create(
                 savedPerson,
-                UserRole.CLIENTE,
+                UserRole.CUSTOMER,
                 encodedPassword);
 
         newUser.generateUsername();

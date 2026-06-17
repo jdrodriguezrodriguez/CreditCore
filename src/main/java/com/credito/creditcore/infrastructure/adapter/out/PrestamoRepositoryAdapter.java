@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.credito.creditcore.domain.model.Customer;
-import com.credito.creditcore.domain.model.Prestamo;
+import com.credito.creditcore.domain.model.Loan;
 import com.credito.creditcore.domain.port.LoanRepositoryPort;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.ClienteMapperOut;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.PersonaMapperOut;
@@ -27,7 +27,7 @@ public class PrestamoRepositoryAdapter implements LoanRepositoryPort {
     }
 
     @Override
-    public Optional<Prestamo> obtenerPorIdCliente(Integer idCliente) {
+    public Optional<Loan> obtenerPorIdCliente(Integer idCliente) {
         return repositoryJpa.findByCliente_IdCliente(idCliente)
                 .map(p -> {
                     return PrestamoMapperOut.toDomain(p);
@@ -35,7 +35,7 @@ public class PrestamoRepositoryAdapter implements LoanRepositoryPort {
     }
 
     @Override
-    public void guardar(Prestamo prestamo, Customer cliente) {
+    public void guardar(Loan prestamo, Customer cliente) {
         PersonaEntity personaEntity = PersonaMapperOut.toEntity(cliente.getPersona());
         ClienteEntity clienteEntity = ClienteMapperOut.toEntity(cliente, personaEntity);
         PrestamoEntity prestamoEntity = PrestamoMapperOut.crearEntidad(prestamo, clienteEntity);
@@ -44,7 +44,7 @@ public class PrestamoRepositoryAdapter implements LoanRepositoryPort {
     }
 
     @Override
-    public void actualizar(Integer idCliente, Prestamo prestamo) {
+    public void actualizar(Integer idCliente, Loan prestamo) {
         PrestamoEntity prestamoEntity = repositoryJpa.findByCliente_IdCliente(idCliente).orElseThrow(
                 () -> new EntityNotFoundException());
         prestamoEntity = PrestamoMapperOut.actualizarEntidad(prestamoEntity, prestamo);
@@ -53,7 +53,7 @@ public class PrestamoRepositoryAdapter implements LoanRepositoryPort {
     }
 
     @Override
-    public Optional<Prestamo> obtenerPorId(Integer idPrestamo) {
+    public Optional<Loan> obtenerPorId(Integer idPrestamo) {
         return repositoryJpa.findById(idPrestamo).map(p -> {
             return PrestamoMapperOut.toDomain(p);
         });

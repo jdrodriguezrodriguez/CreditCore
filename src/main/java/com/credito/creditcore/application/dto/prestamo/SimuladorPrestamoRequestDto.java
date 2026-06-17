@@ -2,7 +2,7 @@ package com.credito.creditcore.application.dto.prestamo;
 
 import java.math.BigDecimal;
 
-import com.credito.creditcore.domain.model.enums.TipoPrestamo;
+import com.credito.creditcore.domain.model.enums.LoanType;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -15,7 +15,7 @@ public record SimuladorPrestamoRequestDto(
     int plazo,
 
     @NotBlank(message = "El tipo de prestamo es obligatorio")
-    TipoPrestamo tipoPrestamo,
+    LoanType tipoPrestamo,
 
     BigDecimal ingresosAdicionales,
 

@@ -26,7 +26,7 @@ public class UpdatePersonService implements UpdatePersonUseCase {
             throw new IllegalArgumentException("Invalid document number.");
         }
 
-        if (!documentNumber.equals(person.getDocumento())) {
+        if (!documentNumber.equals(person.getDocumentNumber())) {
             throw new IllegalArgumentException(
                     "Document number cannot be updated.");
         }

@@ -3,7 +3,7 @@ package com.credito.creditcore.infrastructure.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.credito.creditcore.domain.model.enums.EstadoCuota;
+import com.credito.creditcore.domain.model.enums.InstallmentStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,7 +43,7 @@ public class CuotaEntity {
 
     @Column(name = "estado")
     @Enumerated(EnumType.STRING)
-    private EstadoCuota estadoCuota;
+    private InstallmentStatus estadoCuota;
 
     @Column(name = "saldo_inicial")
     private BigDecimal saldoInicial;
@@ -70,7 +70,7 @@ public class CuotaEntity {
     }
 
     public CuotaEntity(PrestamoEntity prestamo, int numeroCuota, BigDecimal montoCuota,
-            LocalDate fechaVencimiento, EstadoCuota estadoCuota, BigDecimal saldoInicial, BigDecimal interes,
+            LocalDate fechaVencimiento, InstallmentStatus estadoCuota, BigDecimal saldoInicial, BigDecimal interes,
             BigDecimal amortizacionCapital, BigDecimal saldoFinal, BigDecimal montoPagado, BigDecimal mora,
             LocalDate fechaPagoReal) {
         this.prestamo = prestamo;

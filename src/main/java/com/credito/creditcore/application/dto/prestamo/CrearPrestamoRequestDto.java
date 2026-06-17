@@ -3,8 +3,8 @@ package com.credito.creditcore.application.dto.prestamo;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.credito.creditcore.domain.model.enums.EstimacionPuntaje;
-import com.credito.creditcore.domain.model.enums.TipoPrestamo;
+import com.credito.creditcore.domain.model.enums.ApprovalEstimate;
+import com.credito.creditcore.domain.model.enums.LoanType;
 
 public record CrearPrestamoRequestDto(
 
@@ -15,8 +15,8 @@ public record CrearPrestamoRequestDto(
         Integer plazo,
         double tasaInteres,
         int scoreCrediticio,
-        EstimacionPuntaje nivelRiesgo,
-        TipoPrestamo tipoPrestamo,
+        ApprovalEstimate nivelRiesgo,
+        LoanType tipoPrestamo,
         List<AmortizacionResponseDto> amortizacionResponseDto) {
 
 }

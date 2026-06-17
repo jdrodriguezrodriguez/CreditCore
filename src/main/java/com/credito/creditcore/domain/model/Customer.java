@@ -8,39 +8,45 @@ import lombok.Getter;
 @Getter
 public class Customer {
 
-    private Integer idCliente;
-    private Person persona;
-    private BigDecimal salario;
-    private Integer historialCrediticio;
-    private LocalDate fechaRegistro;
+    private Integer customerId;
+    private Person person;
+    private BigDecimal salary;
+    private Integer creditHistoryScore;
+    private LocalDate registrationDate;
 
     public Customer() {
-
     }
 
-    public Customer(Integer idCliente, Person persona, BigDecimal salario, Integer historialCrediticio,
-            LocalDate fechaRegistro) {
+    public Customer(
+            Integer customerId,
+            Person person,
+            BigDecimal salary,
+            Integer creditHistoryScore,
+            LocalDate registrationDate) {
 
-        if (persona == null) {
-            throw new IllegalArgumentException("La persona es obligatoria.");
+        if (person == null) {
+            throw new IllegalArgumentException("Person is required.");
         }
 
-        if (salario == null || historialCrediticio == null) {
-            throw new IllegalArgumentException("Los datos financieros son obligatorios.");
+        if (salary == null || creditHistoryScore == null) {
+            throw new IllegalArgumentException("Financial data is required.");
         }
 
-        this.idCliente = idCliente;
-        this.persona = persona;
-        this.salario = salario;
-        this.historialCrediticio = historialCrediticio;
-        this.fechaRegistro = fechaRegistro;
+        this.customerId = customerId;
+        this.person = person;
+        this.salary = salary;
+        this.creditHistoryScore = creditHistoryScore;
+        this.registrationDate = registrationDate;
     }
 
-    public static Customer createCustomer(BigDecimal salario, Integer scoreCrediticio, Person persona){
-        return new Customer(null, 
-            persona, 
-            salario, 
-            scoreCrediticio, 
-            LocalDate.now());
+    public static Customer create(
+            BigDecimal salary, Integer creditScore, Person person) {
+
+        return new Customer(
+                null,
+                person,
+                salary,
+                creditScore,
+                LocalDate.now());
     }
 }

@@ -7,72 +7,76 @@ import lombok.Getter;
 @Getter
 public class Person {
 
-    private Integer idPersona;
-    private String nombre;
-    private String apellido;
-    private String documento;
-    private LocalDate nacimiento;
-    private String correo;
+    private Integer personId;
+    private String firstName;
+    private String lastName;
+    private String documentNumber;
+    private LocalDate birthDate;
+    private String email;
 
-    public Person(){}
-
-    public Person(Integer idPersona, String nombre, String apellido, String documento,
-            LocalDate nacimiento, String correo) {
-
-        if (nombre == null || apellido == null) {
-            throw new IllegalArgumentException("el nombre y apellido son obligatorios.");
-        }
-
-        if (documento == null) {
-            throw new IllegalArgumentException("El documento es obligatorio");
-        }
-
-        if (documento.length() < 7 || documento.length() > 10) {
-            throw new IllegalArgumentException("El documento es invalido.");
-        }
-
-        if (correo == null) {
-            throw new IllegalArgumentException("El correo es obligatorio");
-        }
-
-        this.idPersona = idPersona;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.documento = documento;
-        this.nacimiento = nacimiento;
-        this.correo = correo;
+    public Person() {
     }
 
-    public static Person crear(
-            String nombre,
-            String apellido,
-            String documento,
-            LocalDate nacimiento,
-            String correo) {
+    public Person(
+            Integer personId,
+            String firstName,
+            String lastName,
+            String documentNumber,
+            LocalDate birthDate,
+            String email) {
+
+        if (firstName == null || lastName == null) {
+            throw new IllegalArgumentException("First name and last name are required.");
+        }
+
+        if (documentNumber == null) {
+            throw new IllegalArgumentException("Document number is required.");
+        }
+
+        if (documentNumber.length() < 7 || documentNumber.length() > 10) {
+            throw new IllegalArgumentException("Document number is invalid.");
+        }
+
+        if (email == null) {
+            throw new IllegalArgumentException("Email is required.");
+        }
+
+        this.personId = personId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.documentNumber = documentNumber;
+        this.birthDate = birthDate;
+        this.email = email;
+    }
+
+    public static Person create(
+            String firstName, String lastName, String documentNumber,
+            LocalDate birthDate, String email) {
+
         return new Person(
                 null,
-                nombre,
-                apellido,
-                documento,
-                nacimiento,
-                correo);
+                firstName,
+                lastName,
+                documentNumber,
+                birthDate,
+                email);
     }
-
-    /* public class Documento {
-
-    private final String valor;
-
-    public Documento(String valor) {
-        if (valor == null) throw new IllegalArgumentException("Obligatorio");
-        if (valor.length() < 7 || valor.length() > 10)
-            throw new IllegalArgumentException("Inválido");
-
-        this.valor = valor;
-    }
-
-    public String getValor() {
-        return valor;
-    } */
-
 }
 
+/*
+ * public class Documento {
+ * 
+ * private final String valor;
+ * 
+ * public Documento(String valor) {
+ * if (valor == null) throw new IllegalArgumentException("Obligatorio");
+ * if (valor.length() < 7 || valor.length() > 10)
+ * throw new IllegalArgumentException("Inválido");
+ * 
+ * this.valor = valor;
+ * }
+ * 
+ * public String getValor() {
+ * return valor;
+ * }
+ */

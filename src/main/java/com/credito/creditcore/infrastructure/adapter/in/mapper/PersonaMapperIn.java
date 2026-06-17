@@ -8,7 +8,7 @@ import com.credito.creditcore.domain.model.Person;
 public class PersonaMapperIn {
 
     public static Person crearModelo(PersonaDto datos) {
-        return Person.crear(
+        return Person.create(
             datos.nombre(), 
             datos.apellido(), 
             datos.documento(), 
@@ -18,11 +18,11 @@ public class PersonaMapperIn {
 
     public static PersonaDto crearDto(Person persona){
        return new PersonaDto(
-            persona.getNombre(), 
-            persona.getApellido(), 
-            persona.getDocumento(),
-            persona.getNacimiento().toString(), 
-            persona.getCorreo()
+            persona.getFirstName(), 
+            persona.getLastName(), 
+            persona.getDocumentNumber(),
+            persona.getBirthDate().toString(), 
+            persona.getEmail()
         );
     }
     

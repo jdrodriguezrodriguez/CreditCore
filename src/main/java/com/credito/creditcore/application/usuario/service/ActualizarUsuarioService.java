@@ -28,7 +28,7 @@ public class ActualizarUsuarioService implements ActualizarUsuarioUseCase {
         if (usuario.isPresent()) {
             User u = usuario.get();
 
-            if (u.getIdUsuario().equals(idUser)) {
+            if (u.getUserId().equals(idUser)) {
                 throw new IllegalArgumentException("Ya tienes este username.");
             }
             throw new IllegalArgumentException("Usuario ya registrado con ese username.");

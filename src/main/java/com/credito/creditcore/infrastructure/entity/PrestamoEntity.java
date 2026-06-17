@@ -3,8 +3,8 @@ package com.credito.creditcore.infrastructure.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.credito.creditcore.domain.model.enums.EstadoPrestamo;
-import com.credito.creditcore.domain.model.enums.TipoPrestamo;
+import com.credito.creditcore.domain.model.enums.LoanStatus;
+import com.credito.creditcore.domain.model.enums.LoanType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,7 +42,7 @@ public class PrestamoEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
-    private EstadoPrestamo estadoPrestamo;
+    private LoanStatus estadoPrestamo;
 
     @Column(name = "fecha_solicitud")
     private LocalDate fechaSolicitud;
@@ -52,7 +52,7 @@ public class PrestamoEntity {
 
     @Column(name = "tipo_prestamo")
     @Enumerated(EnumType.STRING)
-    private TipoPrestamo tipoPrestamo;
+    private LoanType tipoPrestamo;
 
     @Column(name = "interes_total")
     private BigDecimal interesTotal;
@@ -70,8 +70,8 @@ public class PrestamoEntity {
     }
 
     public PrestamoEntity(ClienteEntity cliente, BigDecimal monto, double interes, int plazo,
-            EstadoPrestamo estadoPrestamo, LocalDate fechaSolicitud, LocalDate fechaAprobacion,
-            TipoPrestamo tipoPrestamo, BigDecimal interesTotal, BigDecimal totalPagar, BigDecimal totalPagado,
+            LoanStatus estadoPrestamo, LocalDate fechaSolicitud, LocalDate fechaAprobacion,
+            LoanType tipoPrestamo, BigDecimal interesTotal, BigDecimal totalPagar, BigDecimal totalPagado,
             BigDecimal saldoPendiente) {
         this.cliente = cliente;
         this.monto = monto;

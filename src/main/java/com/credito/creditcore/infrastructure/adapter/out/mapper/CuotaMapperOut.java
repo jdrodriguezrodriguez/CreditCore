@@ -9,7 +9,7 @@ import com.credito.creditcore.infrastructure.entity.CuotaEntity;
 import com.credito.creditcore.infrastructure.entity.PrestamoEntity;
 
 public class CuotaMapperOut {
-    public static List<CuotaEntity> crearEntidad(List<Installment> cuotas, PrestamoEntity prestamoEntity) {
+    public static List<CuotaEntity> toEntityList(List<Installment> cuotas, PrestamoEntity prestamoEntity) {
         List<CuotaEntity> cuotaEntities = new ArrayList<>();
 
         for (Installment cuota : cuotas) {
@@ -33,7 +33,7 @@ public class CuotaMapperOut {
         return cuotaEntities;
     }
 
-    public static List<Installment> cuotasToDomain(List<CuotaEntity> cuotaEntities){
+    public static List<Installment> toDomainList(List<CuotaEntity> cuotaEntities){
         List<Installment> cuotasModelos = new ArrayList<>();
 
         for (CuotaEntity cuota : cuotaEntities) {

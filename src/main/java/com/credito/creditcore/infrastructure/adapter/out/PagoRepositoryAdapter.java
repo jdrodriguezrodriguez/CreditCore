@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.springframework.stereotype.Component;
 
 import com.credito.creditcore.domain.model.Installment;
-import com.credito.creditcore.domain.model.enums.Fpago;
+import com.credito.creditcore.domain.model.enums.PaymentMethod;
 import com.credito.creditcore.domain.port.PaymentRepositoryPort;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.CuotaMapperOut;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.PagoMapperOut;
@@ -22,7 +22,7 @@ public class PagoRepositoryAdapter implements PaymentRepositoryPort {
     }
 
     @Override
-    public void savePayment(Installment cuota, Fpago fpago, BigDecimal monto) {
+    public void savePayment(Installment cuota, PaymentMethod fpago, BigDecimal monto) {
         repositoryJpa.save(PagoMapperOut.crearEntity(
                 cuota.getIdCuota(),
                 fpago,

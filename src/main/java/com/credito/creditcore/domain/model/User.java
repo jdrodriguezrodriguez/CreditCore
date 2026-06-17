@@ -11,70 +11,73 @@ import lombok.Setter;
 @Getter
 public class User {
 
-    private Integer idUsuario;
-    private Person persona;
+    private Integer userId;
+    private Person person;
 
     private String username;
     private String password;
 
-    private UserRole rolUsuario;
+    private UserRole userRole;
 
-    private boolean is_enabled;
-    private boolean account_no_expired;
-    private boolean account_no_locked;
-    private boolean credential_no_expired;
+    private boolean enabled;
+    private boolean accountNonExpired;
+    private boolean accountNonLocked;
+    private boolean credentialsNonExpired;
 
-    public User(){}
+    public User() {
+    }
 
-    public User(Integer idUsuario, Person persona, String username, String password, UserRole rolUsuario,
-            boolean is_enabled, boolean account_no_expired, boolean account_no_locked, boolean credential_no_expired) {
+    public User(
+            Integer userId, Person person, String username, String password,
+            UserRole userRole, boolean enabled, boolean accountNonExpired,
+            boolean accountNonLocked, boolean credentialsNonExpired) {
 
-        if (persona == null) {
-            throw new IllegalArgumentException("La persona es obligatoria.");
+        if (person == null) {
+            throw new IllegalArgumentException("Person is required.");
         }
 
         if (password == null) {
-            throw new IllegalArgumentException("La contraseña es obligatoria.");
+            throw new IllegalArgumentException("Password is required.");
         }
 
-        this.idUsuario = idUsuario;
-        this.persona = persona;
+        this.userId = userId;
+        this.person = person;
         this.username = username;
         this.password = password;
-        this.rolUsuario = rolUsuario;
-        this.is_enabled = is_enabled;
-        this.account_no_expired = account_no_expired;
-        this.account_no_locked = account_no_locked;
-        this.credential_no_expired = credential_no_expired;
+        this.userRole = userRole;
+        this.enabled = enabled;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
     }
 
     public void generateUsername() {
 
-        String nombre = persona.getNombre();
-        String apellido = persona.getApellido();
-        LocalDate fecha = persona.getNacimiento();
+        String firstName = person.getFirstName();
+        String lastName = person.getLastName();
+        LocalDate birthDate = person.getBirthDate();
 
-        if (nombre == null || apellido == null || fecha == null) {
-            throw new IllegalArgumentException("Datos invalidos para generar username");
+        if (firstName == null || lastName == null || birthDate == null) {
+            throw new IllegalArgumentException("Invalid data for username generation.");
         }
 
-        String username = nombre.substring(0, Math.min(4, nombre.length()))
-                + apellido.substring(0, Math.min(2, apellido.length())) + fecha.getDayOfMonth();
+        String generatedUsername = firstName.substring(0, Math.min(4, firstName.length()))
+                + lastName.substring(0, Math.min(2, lastName.length()))
+                + birthDate.getDayOfMonth();
 
-        this.username = username.toLowerCase();
+        this.username = generatedUsername.toLowerCase();
     }
 
-    public static User create(Person persona, UserRole rol, String password){
+    public static User create(Person person, UserRole role, String password) {
         return new User(
-            null, 
-            persona, 
-            null, 
-            password, 
-            UserRole.CLIENTE, 
-            true, 
-            true, 
-            true, 
-            true);
+                null,
+                person,
+                null,
+                password,
+                role,
+                true,
+                true,
+                true,
+                true);
     }
 }
-

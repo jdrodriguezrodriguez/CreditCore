@@ -3,8 +3,7 @@ package com.credito.creditcore.domain.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.credito.creditcore.domain.model.enums.EstadoCuota;
-
+import com.credito.creditcore.domain.model.enums.InstallmentStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,90 +11,74 @@ import lombok.Setter;
 @Setter
 public class Installment {
 
-    private Integer idCuota;
-    private Prestamo prestamo;
-    private int numero_cuota;
-    private LocalDate fecha_vencimiento;
-    private EstadoCuota estadoCuota;
+    private Integer installmentId;
+    private Loan loan;
 
-    private BigDecimal saldoInicial;
-    private BigDecimal interes;
-    private BigDecimal amortizacionCapital;
-    private BigDecimal montoCuota;
-    private BigDecimal saldoFinal;
+    private int installmentNumber;
+    private LocalDate dueDate;
+    private InstallmentStatus status;
 
-    private BigDecimal montoPagado;
-    private BigDecimal mora;
-    private LocalDate fechaPagoReal;
+    private BigDecimal initialBalance;
+    private BigDecimal interest;
+    private BigDecimal capitalAmortization;
+    private BigDecimal installmentAmount;
+    private BigDecimal finalBalance;
+
+    private BigDecimal paidAmount;
+    private BigDecimal lateFee;
+    private LocalDate actualPaymentDate;
 
     public Installment() {
-
     }
 
-    public Installment(Integer idCuota, Prestamo prestamo, int numero_cuota, LocalDate fecha_vencimiento,
-            EstadoCuota estadoCuota, BigDecimal saldoInicial, BigDecimal interes, BigDecimal amortizacionCapital,
-            BigDecimal montoCuota, BigDecimal saldoFinal, BigDecimal montoPagado, BigDecimal mora,
-            LocalDate fechaPagoReal) {
+    public Installment(
+            Integer installmentId,
+            Loan loan,int installmentNumber, LocalDate dueDate,
+            InstallmentStatus status,BigDecimal initialBalance,
+            BigDecimal interest,BigDecimal capitalAmortization,
+            BigDecimal installmentAmount,BigDecimal finalBalance,BigDecimal paidAmount,
+            BigDecimal lateFee,
+            LocalDate actualPaymentDate) {
 
-        if (montoCuota.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("El monto de la cuota debe ser mayor a $0");
+        if (installmentAmount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Installment amount must be greater than 0");
         }
 
-        this.idCuota = idCuota;
-        this.prestamo = prestamo;
-        this.numero_cuota = numero_cuota;
-        this.fecha_vencimiento = fecha_vencimiento;
-        this.estadoCuota = estadoCuota;
-        this.saldoInicial = saldoInicial;
-        this.interes = interes;
-        this.amortizacionCapital = amortizacionCapital;
-        this.montoCuota = montoCuota;
-        this.saldoFinal = saldoFinal;
-        this.montoPagado = montoPagado;
-        this.mora = mora;
-        this.fechaPagoReal = fechaPagoReal;
+        this.installmentId = installmentId;
+        this.loan = loan;
+        this.installmentNumber = installmentNumber;
+        this.dueDate = dueDate;
+        this.status = status;
+        this.initialBalance = initialBalance;
+        this.interest = interest;
+        this.capitalAmortization = capitalAmortization;
+        this.installmentAmount = installmentAmount;
+        this.finalBalance = finalBalance;
+        this.paidAmount = paidAmount;
+        this.lateFee = lateFee;
+        this.actualPaymentDate = actualPaymentDate;
     }
 
-    public Installment(int numero_cuota, LocalDate fecha_vencimiento,
-            EstadoCuota estadoCuota, BigDecimal saldoInicial,
-            BigDecimal interes, BigDecimal amortizacionCapital,
-            BigDecimal montoCuota, BigDecimal saldoFinal,
-            BigDecimal montoPagado, BigDecimal mora,
-            LocalDate fechaPagoReal) {
+    public static Installment create(
+            Loan loan, int installmentNumber, BigDecimal installmentAmount,
+            LocalDate dueDate, InstallmentStatus status,
+            BigDecimal initialBalance, BigDecimal interest, BigDecimal capitalAmortization,
+            BigDecimal finalBalance, BigDecimal paidAmount, BigDecimal lateFee,
+            LocalDate actualPaymentDate) {
 
-        if (montoCuota.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException(
-                    "El monto de la cuota debe ser mayor a $0");
-        }
-
-        this.numero_cuota = numero_cuota;
-        this.fecha_vencimiento = fecha_vencimiento;
-        this.estadoCuota = estadoCuota;
-        this.saldoInicial = saldoInicial;
-        this.interes = interes;
-        this.amortizacionCapital = amortizacionCapital;
-        this.montoCuota = montoCuota;
-        this.saldoFinal = saldoFinal;
-        this.montoPagado = montoPagado;
-        this.mora = mora;
-        this.fechaPagoReal = fechaPagoReal;
-    }
-
-    public static Installment crear(Prestamo prestamo, int numero_cuota, BigDecimal montoCuota, LocalDate fecha_vencimiento,
-            EstadoCuota estadoCuota, BigDecimal saldoInicial, BigDecimal interes, BigDecimal amortizacionCapital,
-            BigDecimal saldoFinal, BigDecimal montoPagado, BigDecimal mora, LocalDate fechaPagoReal) {
-        return new Installment(null,
-                prestamo,
-                numero_cuota,
-                fecha_vencimiento,
-                estadoCuota,
-                saldoInicial,
-                interes,
-                amortizacionCapital,
-                montoCuota,
-                saldoFinal,
-                montoPagado,
-                mora,
-                fechaPagoReal);
+        return new Installment(
+                null,
+                loan,
+                installmentNumber,
+                dueDate,
+                status,
+                initialBalance,
+                interest,
+                capitalAmortization,
+                installmentAmount,
+                finalBalance,
+                paidAmount,
+                lateFee,
+                actualPaymentDate);
     }
 }
