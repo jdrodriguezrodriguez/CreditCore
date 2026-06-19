@@ -61,7 +61,7 @@ public class InstallmentRepositoryAdapter implements InstallmentRepositoryPort {
     }
 
     @Override
-    public List<Installment> findByCustomerId(Integer customerId) {
+    public List<Installment> findByLoanId(Integer customerId) {
 
         List<CuotaEntity> entities =
                 repositoryJpa.findByPrestamo_Cliente_IdCliente(customerId);

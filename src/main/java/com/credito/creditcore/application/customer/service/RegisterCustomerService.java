@@ -32,7 +32,7 @@ public class RegisterCustomerService implements RegisterCustomerUseCase {
 
         Integer creditScore  = 0;
 
-        Customer newCustomer = Customer.createCustomer(salary, creditScore, person);
+        Customer newCustomer = Customer.create(salary, creditScore, person);
 
         customerRepositoryPort.save(newCustomer);
     }
