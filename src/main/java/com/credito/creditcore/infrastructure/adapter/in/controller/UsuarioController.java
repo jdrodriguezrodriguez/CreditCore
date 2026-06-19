@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.credito.creditcore.application.dto.usuario.UpdateUsuarioDto;
-import com.credito.creditcore.application.usuario.port.in.ActualizarUsuarioUseCase;
-import com.credito.creditcore.application.usuario.port.in.ObtenerUsuarioUseCase;
+import com.credito.creditcore.application.usuario.port.in.UpdateUserUseCase;
+import com.credito.creditcore.application.usuario.port.in.GetUserUseCase;
 
 @RestController
 @RequestMapping("/api/credito/usuarios")
 public class UsuarioController {
 
-    private final ActualizarUsuarioUseCase actualizarUsuarioUseCase;
-    private final ObtenerUsuarioUseCase obtenerUsuarioUseCase;
+    private final UpdateUserUseCase actualizarUsuarioUseCase;
+    private final GetUserUseCase obtenerUsuarioUseCase;
 
-    public UsuarioController(ActualizarUsuarioUseCase actualizarUsuarioUseCase,
-            ObtenerUsuarioUseCase obtenerUsuarioUseCase) {
+    public UsuarioController(UpdateUserUseCase actualizarUsuarioUseCase,
+            GetUserUseCase obtenerUsuarioUseCase) {
         this.actualizarUsuarioUseCase = actualizarUsuarioUseCase;
         this.obtenerUsuarioUseCase = obtenerUsuarioUseCase;
     }

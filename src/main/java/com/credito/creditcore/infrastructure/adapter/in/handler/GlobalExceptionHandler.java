@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.credito.creditcore.domain.excepcion.ClienteNoEncontradoException;
+import com.credito.creditcore.domain.excepcion.CustomerNotFoundException;
 import com.credito.creditcore.domain.excepcion.PersonNotFoundException;
 import com.credito.creditcore.domain.excepcion.UsuarioNoEncontradoException;
 
@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<Map<String, String>> handleClienteNoEncontrado(ClienteNoEncontradoException ex){
+    public ResponseEntity<Map<String, String>> handleClienteNoEncontrado(CustomerNotFoundException ex){
         Map<String, String> errores = new HashMap<>();
 
         errores.put("error", "Cliente no encontrado ");

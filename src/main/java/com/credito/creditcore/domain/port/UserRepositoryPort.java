@@ -7,7 +7,7 @@ import com.credito.creditcore.domain.model.User;
 public interface UserRepositoryPort {
 
     void save(User usuario);
-    void actualizar(Integer idUser, String username, String password);
-    Optional<User> buscarPorUsername(String username);
-    Optional<User> consultar(Integer idUser);
+    void update(Integer idUser, String username, String password);
+    Optional<User> findByUsername(String username);
+    Optional<User> findById(Integer idUser);
 } 
