@@ -24,7 +24,7 @@ public class PagoRepositoryAdapter implements PaymentRepositoryPort {
     @Override
     public void savePayment(Installment cuota, PaymentMethod fpago, BigDecimal monto) {
         repositoryJpa.save(PagoMapperOut.crearEntity(
-                cuota.getIdCuota(),
+                cuota.getInstallmentId(),
                 fpago,
                 monto,
                 CuotaMapperOut.toEntity(cuota)));

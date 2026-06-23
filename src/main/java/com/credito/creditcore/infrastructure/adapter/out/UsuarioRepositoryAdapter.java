@@ -29,18 +29,18 @@ public class UsuarioRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public void save(User usuario) {
+    public void save(User user) {
 
-        PersonaEntity personaEntity = personaRepositoryJpa.findById(usuario.getPersona().getIdPersona())
+        PersonaEntity personaEntity = personaRepositoryJpa.findById(user.getPerson().getPersonId())
                 .orElseThrow(() -> new EntityNotFoundException());
 
-        UsuarioEntity userEntity = UsuarioMapperOut.crearEntidad(usuario, personaEntity);
+        UsuarioEntity userEntity = UsuarioMapperOut.toEntity(user, personaEntity);
 
         usuarioRepositoryJpa.save(userEntity);
     }
 
     @Override
-    public Optional<User> buscarPorUsername(String username) {
+    public Optional<User> findByUsername(String username) {
 
         return usuarioRepositoryJpa.findByUsername(username).map(
                 t -> {
@@ -50,7 +50,7 @@ public class UsuarioRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public void actualizar(Integer idUser, String username, String password) {
+    public void update(Integer idUser, String username, String password) {
         UsuarioEntity usuarioEntity = usuarioRepositoryJpa.findById(idUser)
                 .orElseThrow(() -> new EntityNotFoundException());
 
@@ -61,7 +61,7 @@ public class UsuarioRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public Optional<User> consultar(Integer idUser) {
+    public Optional<User> findById(Integer idUser) {
         return usuarioRepositoryJpa.findById(idUser).map(
             usuario ->{
                 Person persona = PersonaMapperOut.toDomain(usuario.getPersona());

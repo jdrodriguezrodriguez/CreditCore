@@ -18,19 +18,19 @@ import com.credito.creditcore.application.usuario.port.in.GetUserUseCase;
 @RequestMapping("/api/credito/usuarios")
 public class UsuarioController {
 
-    private final UpdateUserUseCase actualizarUsuarioUseCase;
-    private final GetUserUseCase obtenerUsuarioUseCase;
+    private final UpdateUserUseCase updateUserUseCase;
+    private final GetUserUseCase getUserUseCase;
 
-    public UsuarioController(UpdateUserUseCase actualizarUsuarioUseCase,
-            GetUserUseCase obtenerUsuarioUseCase) {
-        this.actualizarUsuarioUseCase = actualizarUsuarioUseCase;
-        this.obtenerUsuarioUseCase = obtenerUsuarioUseCase;
+    public UsuarioController(UpdateUserUseCase updateUserUseCase,
+            GetUserUseCase getUserUseCase) {
+        this.updateUserUseCase = updateUserUseCase;
+        this.getUserUseCase = getUserUseCase;
     }
 
     @PutMapping("/{idUser}")
     public ResponseEntity<?> actualizarUsuario(@PathVariable Integer idUser, @RequestBody UpdateUsuarioDto datos) {
 
-        actualizarUsuarioUseCase.actualizarUsuario(idUser, datos.username(), datos.password());
+        updateUserUseCase.updateUser(idUser, datos.username(), datos.password());
 
         return ResponseEntity.ok(Map.of("Mensaje", "Usuario actualizado correctamente."));
     }
@@ -38,6 +38,6 @@ public class UsuarioController {
     @GetMapping("/{idUser}")
     public ResponseEntity<?> buscarUsuario(@PathVariable Integer idUser) {
 
-        return ResponseEntity.ok(obtenerUsuarioUseCase.buscarUsuario(idUser));
+        return ResponseEntity.ok(getUserUseCase.getUser(idUser));
     }
 }

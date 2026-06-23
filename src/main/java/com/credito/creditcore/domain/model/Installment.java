@@ -33,10 +33,10 @@ public class Installment {
 
     public Installment(
             Integer installmentId,
-            Loan loan,int installmentNumber, LocalDate dueDate,
-            InstallmentStatus status,BigDecimal initialBalance,
-            BigDecimal interest,BigDecimal capitalAmortization,
-            BigDecimal installmentAmount,BigDecimal finalBalance,BigDecimal paidAmount,
+            Loan loan, int installmentNumber, LocalDate dueDate,
+            InstallmentStatus status, BigDecimal initialBalance,
+            BigDecimal interest, BigDecimal capitalAmortization,
+            BigDecimal installmentAmount, BigDecimal finalBalance, BigDecimal paidAmount,
             BigDecimal lateFee,
             LocalDate actualPaymentDate) {
 
@@ -46,6 +46,32 @@ public class Installment {
 
         this.installmentId = installmentId;
         this.loan = loan;
+        this.installmentNumber = installmentNumber;
+        this.dueDate = dueDate;
+        this.status = status;
+        this.initialBalance = initialBalance;
+        this.interest = interest;
+        this.capitalAmortization = capitalAmortization;
+        this.installmentAmount = installmentAmount;
+        this.finalBalance = finalBalance;
+        this.paidAmount = paidAmount;
+        this.lateFee = lateFee;
+        this.actualPaymentDate = actualPaymentDate;
+    }
+
+    public Installment(
+            Integer installmentNumber,
+            LocalDate dueDate,
+            InstallmentStatus status,
+            BigDecimal initialBalance,
+            BigDecimal interest,
+            BigDecimal capitalAmortization,
+            BigDecimal installmentAmount,
+            BigDecimal finalBalance,
+            BigDecimal paidAmount,
+            BigDecimal lateFee,
+            LocalDate actualPaymentDate) {
+
         this.installmentNumber = installmentNumber;
         this.dueDate = dueDate;
         this.status = status;

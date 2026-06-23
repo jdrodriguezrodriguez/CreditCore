@@ -9,35 +9,35 @@ import com.credito.creditcore.infrastructure.entity.CuotaEntity;
 import com.credito.creditcore.infrastructure.entity.PrestamoEntity;
 
 public class CuotaMapperOut {
-    public static List<CuotaEntity> toEntityList(List<Installment> cuotas, PrestamoEntity prestamoEntity) {
-        List<CuotaEntity> cuotaEntities = new ArrayList<>();
+    public static List<CuotaEntity> toEntityList(List<Installment> installments, PrestamoEntity prestamoEntity) {
+        List<CuotaEntity> table = new ArrayList<>();
 
-        for (Installment cuota : cuotas) {
-            CuotaEntity cuotasEntity = new CuotaEntity(
+        for (Installment installment : installments) {
+            CuotaEntity installmEntity = new CuotaEntity(
                     prestamoEntity,
-                    cuota.getNumero_cuota(),
-                    cuota.getMontoCuota(),
-                    cuota.getFecha_vencimiento(),
-                    cuota.getEstadoCuota(),
-                    cuota.getSaldoInicial(),
-                    cuota.getInteres(),
-                    cuota.getAmortizacionCapital(),
-                    cuota.getSaldoFinal(),
-                    cuota.getMontoPagado(),
-                    cuota.getMora(),
-                    cuota.getFechaPagoReal());
+                    installment.getInstallmentNumber(),
+                    installment.getInstallmentAmount(),
+                    installment.getDueDate(),
+                    installment.getStatus(),
+                    installment.getInitialBalance(),
+                    installment.getInterest(),
+                    installment.getCapitalAmortization(),
+                    installment.getFinalBalance(),
+                    installment.getPaidAmount(),
+                    installment.getLateFee(),
+                    installment.getActualPaymentDate());
 
-            cuotaEntities.add(cuotasEntity);
+            table.add(installmEntity);
         }
 
-        return cuotaEntities;
+        return table;
     }
 
-    public static List<Installment> toDomainList(List<CuotaEntity> cuotaEntities){
-        List<Installment> cuotasModelos = new ArrayList<>();
+    public static List<Installment> toDomainList(List<CuotaEntity> cuotaEntities) {
+        List<Installment> table = new ArrayList<>();
 
         for (CuotaEntity cuota : cuotaEntities) {
-            Installment cuotaModel = new Installment(
+            Installment installment = new Installment(
                     cuota.getNumeroCuota(),
                     cuota.getFechaVencimiento(),
                     cuota.getEstadoCuota(),
@@ -48,13 +48,12 @@ public class CuotaMapperOut {
                     cuota.getSaldoFinal(),
                     cuota.getMontoPagado(),
                     cuota.getMora(),
-                    cuota.getFechaPagoReal()
-                    );
+                    cuota.getFechaPagoReal());
 
-            cuotasModelos.add(cuotaModel);
+            table.add(installment);
         }
 
-        return cuotasModelos;
+        return table;
     }
 
     public static Installment toDomain(CuotaEntity cuotaEntity) {
@@ -80,22 +79,22 @@ public class CuotaMapperOut {
         return cuotaEntity;
     }
 
-    public static CuotaEntity toEntity(Installment cuota) {
+    public static CuotaEntity toEntity(Installment installment) {
         CuotaEntity cuotasEntity = new CuotaEntity(
                 null,
-                cuota.getNumero_cuota(),
-                cuota.getMontoCuota(),
-                cuota.getFecha_vencimiento(),
-                cuota.getEstadoCuota(),
-                cuota.getSaldoInicial(),
-                cuota.getInteres(),
-                cuota.getAmortizacionCapital(),
-                cuota.getSaldoFinal(),
-                cuota.getMontoPagado(),
-                cuota.getMora(),
-                cuota.getFechaPagoReal());
+                installment.getInstallmentNumber(),
+                installment.getInstallmentAmount(),
+                installment.getDueDate(),
+                installment.getStatus(),
+                installment.getInitialBalance(),
+                installment.getInterest(),
+                installment.getCapitalAmortization(),
+                installment.getFinalBalance(),
+                installment.getPaidAmount(),
+                installment.getLateFee(),
+                installment.getActualPaymentDate());
 
-        cuotasEntity.setIdCuota(cuota.getIdCuota());
+        cuotasEntity.setIdCuota(installment.getInstallmentId());
 
         return cuotasEntity;
     }

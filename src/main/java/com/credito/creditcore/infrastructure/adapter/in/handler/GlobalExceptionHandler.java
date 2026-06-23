@@ -4,46 +4,47 @@ package com.credito.creditcore.infrastructure.adapter.in.handler;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.credito.creditcore.domain.excepcion.CustomerNotFoundException;
 import com.credito.creditcore.domain.excepcion.PersonNotFoundException;
-import com.credito.creditcore.domain.excepcion.UsuarioNoEncontradoException;
+import com.credito.creditcore.domain.excepcion.UserNotFoundException;
 
 @RestController
 public class GlobalExceptionHandler {
     
     @ExceptionHandler(PersonNotFoundException.class)
-    public ResponseEntity<Map<String,String>> handlePersonaNoEncontrada(PersonNotFoundException ex){
+    public ResponseEntity<Map<String,String>> handlePersonNotFound(PersonNotFoundException ex){
 
-        Map<String, String> errores = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
 
-        errores.put("error", "Persona no encontrada");
-        errores.put("detalle", ex.getMessage());
+        errors.put("error", "Person not found ");
+        errors.put("details", ex.getMessage());
 
-        return ResponseEntity.badRequest().body(errores);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
     }
 
-    @ExceptionHandler(UsuarioNoEncontradoException.class)
-    public ResponseEntity<Map<String,String>> handleUsuarioNoEncontrado(UsuarioNoEncontradoException ex){
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String,String>> handleUserNotFound(UserNotFoundException ex){
 
-        Map<String, String> errores = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
 
-        errores.put("error", "Usuario no encontrado ");
-        errores.put("detalle", ex.getMessage());
+        errors.put("error", "Customer not found ");
+        errors.put("details", ex.getMessage());
 
-        return ResponseEntity.badRequest().body(errores);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
     }
 
     @ExceptionHandler
-    public ResponseEntity<Map<String, String>> handleClienteNoEncontrado(CustomerNotFoundException ex){
-        Map<String, String> errores = new HashMap<>();
+    public ResponseEntity<Map<String, String>> handleCustomerNotFound(CustomerNotFoundException ex){
+        Map<String, String> errors = new HashMap<>();
 
-        errores.put("error", "Cliente no encontrado ");
-        errores.put("detalle", ex.getMessage());
+        errors.put("error", "Customer not found ");
+        errors.put("details", ex.getMessage());
 
-        return ResponseEntity.badRequest().body(errores);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
     }
 }

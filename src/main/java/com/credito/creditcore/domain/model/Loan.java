@@ -115,17 +115,9 @@ public class Loan {
     }
 
     public static Loan create(
-            Customer customer,
-            BigDecimal principalAmount,
-            double interestRate,
-            int termInMonths,
-            LoanStatus loanStatus,
-            LocalDate applicationDate,
-            LocalDate approvalDate,
-            LoanType loanType,
-            BigDecimal totalInterest,
-            BigDecimal totalAmountDue,
-            BigDecimal totalPaid,
+            Customer customer, BigDecimal principalAmount, double interestRate, int termInMonths,
+            LoanStatus loanStatus, LocalDate applicationDate, LocalDate approvalDate, LoanType loanType,
+            BigDecimal totalInterest, BigDecimal totalAmountDue, BigDecimal totalPaid,
             BigDecimal outstandingBalance) {
 
         return new Loan(

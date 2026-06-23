@@ -5,12 +5,12 @@ import com.credito.creditcore.domain.model.Customer;
 
 public class ClienteMapperIn {
     
-    public static ClienteDto crearDto(Customer cliente){
+    public static ClienteDto crearDto(Customer customer){
         return new ClienteDto(
-            cliente.getIdCliente(), 
-            cliente.getPersona(), 
-            cliente.getSalario(), 
-            cliente.getHistorialCrediticio(), 
-            cliente.getFechaRegistro());
+            customer.getCustomerId(), 
+            customer.getPerson(), 
+            customer.getSalary(), 
+            customer.getCreditHistoryScore(), 
+            customer.getRegistrationDate());
     }
 }

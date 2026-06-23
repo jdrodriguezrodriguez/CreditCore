@@ -8,5 +8,5 @@ public interface CustomerRepositoryPort {
     void save(Customer cliente);
     void update(Integer idCliente, Customer cliente);
     Optional<Customer> findById(Integer idCliente);
-    Optional<Customer> obtenerPorIdPersona(Integer idPersona);
+    Optional<Customer> findByPersonId(Integer idPersona);
 }

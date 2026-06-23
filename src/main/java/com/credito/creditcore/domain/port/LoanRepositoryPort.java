@@ -6,8 +6,8 @@ import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.Loan;
 
 public interface LoanRepositoryPort {
-    Optional<Loan> obtenerPorIdCliente(Integer idCliente);
-    Optional<Loan> obtenerPorId(Integer idPrestamo);
-    void guardar(Loan prestamo, Customer cliente);
-    void actualizar(Integer idCliente, Loan prestamo);
+    Optional<Loan> findByCustomerId(Integer customerId);
+    Optional<Loan> findByLoanId(Integer loanId);
+    void save(Loan loan, Customer customer);
+    void update(Loan loan);
 } 

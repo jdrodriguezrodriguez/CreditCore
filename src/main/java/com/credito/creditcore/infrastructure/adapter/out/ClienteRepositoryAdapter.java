@@ -25,11 +25,11 @@ public class ClienteRepositoryAdapter implements CustomerRepositoryPort {
     }
 
     @Override
-    public void save(Customer cliente) {
+    public void save(Customer customer) {
 
-        PersonaEntity personaEntity = PersonaMapperOut.toEntity(cliente.getPersona());
+        PersonaEntity personaEntity = PersonaMapperOut.toEntity(customer.getPerson());
 
-        clienteRepositoryJpa.save(ClienteMapperOut.crearEntidad(cliente, personaEntity));
+        clienteRepositoryJpa.save(ClienteMapperOut.crearEntidad(customer, personaEntity));
     }
 
     @Override
@@ -49,8 +49,8 @@ public class ClienteRepositoryAdapter implements CustomerRepositoryPort {
     }
 
     @Override
-    public Optional<Customer> obtenerPorIdPersona(Integer idPersona) {
-        return clienteRepositoryJpa.findByPersona_idPersona(idPersona).map(cliente -> {
+    public Optional<Customer> findByPersonId(Integer idPerson) {
+        return clienteRepositoryJpa.findByPersona_idPersona(idPerson).map(cliente -> {
             Person persona = PersonaMapperOut.toDomain(cliente.getPersona());
             return ClienteMapperOut.toDomain(cliente, persona);
         });

@@ -7,20 +7,20 @@ import com.credito.creditcore.infrastructure.entity.PersonaEntity;
 
 public class ClienteMapperOut {
 
-    public static ClienteEntity crearEntidad(Customer cliente, PersonaEntity personaEntity) {
+    public static ClienteEntity crearEntidad(Customer customer, PersonaEntity personaEntity) {
         return new ClienteEntity(personaEntity,
-                cliente.getSalario(),
-                cliente.getHistorialCrediticio(),
-                cliente.getFechaRegistro());
+                customer.getSalary(), 
+                customer.getCreditHistoryScore(), 
+                customer.getRegistrationDate());
     }
     
-    public static ClienteEntity toEntity(Customer cliente, PersonaEntity personaEntity){
+    public static ClienteEntity toEntity(Customer customer, PersonaEntity personaEntity){
         ClienteEntity clienteEntity = new ClienteEntity(personaEntity,
-                cliente.getSalario(),
-                cliente.getHistorialCrediticio(),
-                cliente.getFechaRegistro());
+                customer.getSalary(), 
+                customer.getCreditHistoryScore(), 
+                customer.getRegistrationDate());
 
-        clienteEntity.setIdCliente(cliente.getIdCliente());
+        clienteEntity.setIdCliente(customer.getCustomerId());
 
         return clienteEntity;
     }
@@ -33,9 +33,9 @@ public class ClienteMapperOut {
          entity.getFechaRegistro());
     }
 
-    public static ClienteEntity actualizarEntity(ClienteEntity clienteEntity, Customer cliente){
-        clienteEntity.setSalario(cliente.getSalario());
-        clienteEntity.setHistorialCrediticio(cliente.getHistorialCrediticio());
+    public static ClienteEntity actualizarEntity(ClienteEntity clienteEntity, Customer customer){
+        clienteEntity.setSalario(customer.getSalary());
+        clienteEntity.setHistorialCrediticio(customer.getCreditHistoryScore());
 
         return clienteEntity;
     }
