@@ -1,7 +1,6 @@
 package com.credito.creditcore.application.customer.service;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 

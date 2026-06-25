@@ -7,55 +7,55 @@ import org.springframework.stereotype.Component;
 import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.Loan;
 import com.credito.creditcore.domain.port.LoanRepositoryPort;
-import com.credito.creditcore.infrastructure.adapter.out.mapper.ClienteMapperOut;
+import com.credito.creditcore.infrastructure.adapter.out.mapper.CustomerMapperOut;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.LoanMapperOut;
-import com.credito.creditcore.infrastructure.adapter.out.mapper.PersonaMapperOut;
-import com.credito.creditcore.infrastructure.entity.ClienteEntity;
-import com.credito.creditcore.infrastructure.entity.PersonaEntity;
-import com.credito.creditcore.infrastructure.entity.PrestamoEntity;
-import com.credito.creditcore.infrastructure.persistence.PrestamoRepositoryJpa;
+import com.credito.creditcore.infrastructure.adapter.out.mapper.PersonMapperOut;
+import com.credito.creditcore.infrastructure.entity.CustomerEntity;
+import com.credito.creditcore.infrastructure.entity.PersonEntity;
+import com.credito.creditcore.infrastructure.entity.LoanEntity;
+import com.credito.creditcore.infrastructure.persistence.LoanRepositoryJpa;
 
 import jakarta.persistence.EntityNotFoundException;
 
 @Component
 public class LoanRepositoryAdapter implements LoanRepositoryPort {
 
-    private final PrestamoRepositoryJpa repositoryJpa;
+    private final LoanRepositoryJpa repositoryJpa;
 
-    public LoanRepositoryAdapter(PrestamoRepositoryJpa repositoryJpa) {
+    public LoanRepositoryAdapter(LoanRepositoryJpa repositoryJpa) {
         this.repositoryJpa = repositoryJpa;
     }
 
     @Override
-    public Optional<Loan> findByCustomerId(Integer idCliente) {
-        return repositoryJpa.findByCliente_IdCliente(idCliente)
-                .map(p -> {
-                    return LoanMapperOut.toDomain(p);
+    public Optional<Loan> findByCustomerId(Integer customerId) {
+        return repositoryJpa.findByCliente_IdCliente(customerId)
+                .map(loan -> {
+                    return LoanMapperOut.toDomain(loan);
                 });
     }
 
     @Override
-    public void save(Loan prestamo, Customer cliente) {
-        PersonaEntity personaEntity = PersonaMapperOut.toEntity(cliente.getPerson());
-        ClienteEntity clienteEntity = ClienteMapperOut.toEntity(cliente, personaEntity);
-        PrestamoEntity prestamoEntity = LoanMapperOut.toEntity(prestamo, clienteEntity);
+    public void save(Loan loan, Customer customer) {
+        PersonEntity personEntity = PersonMapperOut.toEntity(customer.getPerson());
+        CustomerEntity customerEntity = CustomerMapperOut.toEntity(customer, personEntity);
+        LoanEntity loanEntity = LoanMapperOut.toEntity(loan, customerEntity);
 
-        repositoryJpa.save(prestamoEntity);
+        repositoryJpa.save(loanEntity);
     }
 
     @Override
     public void update(Loan loan) {
-        PrestamoEntity prestamoEntity = repositoryJpa.findById(loan.getLoanId()).orElseThrow(
+        LoanEntity loanEntity = repositoryJpa.findById(loan.getLoanId()).orElseThrow(
                 () -> new EntityNotFoundException());
-        prestamoEntity = LoanMapperOut.updateEntity(prestamoEntity, loan);
+        loanEntity = LoanMapperOut.updateEntity(loanEntity, loan);
 
-        repositoryJpa.save(prestamoEntity);
+        repositoryJpa.save(loanEntity);
     }
 
     @Override
-    public Optional<Loan> findByLoanId(Integer idPrestamo) {
-        return repositoryJpa.findById(idPrestamo).map(p -> {
-            return LoanMapperOut.toDomain(p);
+    public Optional<Loan> findByLoanId(Integer loanId) {
+        return repositoryJpa.findById(loanId).map(loan -> {
+            return LoanMapperOut.toDomain(loan);
         });
     }
 }

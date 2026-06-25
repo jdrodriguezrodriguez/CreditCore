@@ -2,27 +2,27 @@ package com.credito.creditcore.infrastructure.adapter.in.mapper;
 
 import java.time.LocalDate;
 
-import com.credito.creditcore.application.dto.persona.PersonaDto;
+import com.credito.creditcore.application.dto.person.PersonDto;
 import com.credito.creditcore.domain.model.Person;
 
 public class PersonaMapperIn {
 
-    public static Person crearModelo(PersonaDto datos) {
+    public static Person createModel(PersonDto data) {
         return Person.create(
-            datos.nombre(), 
-            datos.apellido(), 
-            datos.documento(), 
-            LocalDate.parse(datos.nacimiento()), 
-            datos.correo());
+            data.firstName(), 
+            data.lastName(), 
+            data.documentNumber(), 
+            LocalDate.parse(data.birthDate()), 
+            data.email());
     }
 
-    public static PersonaDto crearDto(Person persona){
-       return new PersonaDto(
-            persona.getFirstName(), 
-            persona.getLastName(), 
-            persona.getDocumentNumber(),
-            persona.getBirthDate().toString(), 
-            persona.getEmail()
+    public static PersonDto createDto(Person person){
+       return new PersonDto(
+            person.getFirstName(), 
+            person.getLastName(), 
+            person.getDocumentNumber(),
+            person.getBirthDate().toString(), 
+            person.getEmail()
         );
     }
     

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
 
-import com.credito.creditcore.application.dto.prestamo.LoanCreationRequestDto;
+import com.credito.creditcore.application.dto.loan.LoanCreationRequestDto;
 import com.credito.creditcore.application.loan.port.CreateLoanUseCase;
 import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.Loan;

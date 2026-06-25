@@ -1,12 +1,12 @@
 package com.credito.creditcore.infrastructure.adapter.out.mapper;
 
 import com.credito.creditcore.domain.model.Loan;
-import com.credito.creditcore.infrastructure.entity.ClienteEntity;
-import com.credito.creditcore.infrastructure.entity.PrestamoEntity;
+import com.credito.creditcore.infrastructure.entity.CustomerEntity;
+import com.credito.creditcore.infrastructure.entity.LoanEntity;
 
 public class LoanMapperOut {
 
-    public static Loan toDomain(PrestamoEntity entity) {
+    public static Loan toDomain(LoanEntity entity) {
         return new Loan(
                 entity.getIdPrestamo(),
                 entity.getMonto(),
@@ -23,9 +23,9 @@ public class LoanMapperOut {
         );
     }
 
-    public static PrestamoEntity toEntity(Loan loan, ClienteEntity cliente) {
-        PrestamoEntity entity = new PrestamoEntity(
-                cliente,
+    public static LoanEntity toEntity(Loan loan, CustomerEntity customerEntity) {
+        LoanEntity entity = new LoanEntity(
+                customerEntity,
                 loan.getPrincipalAmount(),
                 loan.getInterestRate(),
                 loan.getTermInMonths(),
@@ -44,7 +44,7 @@ public class LoanMapperOut {
         return entity;
     }
 
-    public static PrestamoEntity updateEntity(PrestamoEntity entity, Loan loan) {
+    public static LoanEntity updateEntity(LoanEntity entity, Loan loan) {
         entity.setFechaAprobacion(loan.getApprovalDate());
         entity.setEstadoPrestamo(loan.getLoanStatus());
 

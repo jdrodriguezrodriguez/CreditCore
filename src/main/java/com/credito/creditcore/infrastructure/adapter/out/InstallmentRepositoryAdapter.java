@@ -10,35 +10,35 @@ import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.Installment;
 import com.credito.creditcore.domain.model.Loan;
 import com.credito.creditcore.domain.port.InstallmentRepositoryPort;
-import com.credito.creditcore.infrastructure.adapter.out.mapper.ClienteMapperOut;
-import com.credito.creditcore.infrastructure.adapter.out.mapper.CuotaMapperOut;
+import com.credito.creditcore.infrastructure.adapter.out.mapper.CustomerMapperOut;
+import com.credito.creditcore.infrastructure.adapter.out.mapper.InstallmentMapperOut;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.LoanMapperOut;
-import com.credito.creditcore.infrastructure.adapter.out.mapper.PersonaMapperOut;
-import com.credito.creditcore.infrastructure.entity.ClienteEntity;
-import com.credito.creditcore.infrastructure.entity.CuotaEntity;
-import com.credito.creditcore.infrastructure.entity.PersonaEntity;
-import com.credito.creditcore.infrastructure.persistence.CuotaRepositoryJpa;
+import com.credito.creditcore.infrastructure.adapter.out.mapper.PersonMapperOut;
+import com.credito.creditcore.infrastructure.entity.CustomerEntity;
+import com.credito.creditcore.infrastructure.entity.InstallmentEntity;
+import com.credito.creditcore.infrastructure.entity.PersonEntity;
+import com.credito.creditcore.infrastructure.persistence.InstallmentRepositoryJpa;
 
 import jakarta.persistence.EntityNotFoundException;
 
 @Component
 public class InstallmentRepositoryAdapter implements InstallmentRepositoryPort {
 
-    private final CuotaRepositoryJpa repositoryJpa;
+    private final InstallmentRepositoryJpa repositoryJpa;
 
-    public InstallmentRepositoryAdapter(CuotaRepositoryJpa repositoryJpa) {
+    public InstallmentRepositoryAdapter(InstallmentRepositoryJpa repositoryJpa) {
         this.repositoryJpa = repositoryJpa;
     }
 
     @Override
     public void saveInstallments(List<Installment> installments, Loan loan, Customer customer) {
 
-        PersonaEntity personaEntity = PersonaMapperOut.toEntity(customer.getPerson());
-        ClienteEntity customerEntity = ClienteMapperOut.toEntity(customer, personaEntity);
+        PersonEntity personaEntity = PersonMapperOut.toEntity(customer.getPerson());
+        CustomerEntity customerEntity = CustomerMapperOut.toEntity(customer, personaEntity);
         var loanEntity = LoanMapperOut.toEntity(loan, customerEntity);
 
-        List<CuotaEntity> entities =
-                CuotaMapperOut.toEntityList(installments, loanEntity);
+        List<InstallmentEntity> entities =
+                InstallmentMapperOut.toEntityList(installments, loanEntity);
 
         repositoryJpa.saveAll(entities);
     }
@@ -46,26 +46,26 @@ public class InstallmentRepositoryAdapter implements InstallmentRepositoryPort {
     @Override
     public Optional<Installment> findById(Integer installmentId) {
         return repositoryJpa.findById(installmentId)
-                .map(CuotaMapperOut::toDomain);
+                .map(InstallmentMapperOut::toDomain);
     }
 
     @Override
     public void updateInstallment(Integer installmentId, BigDecimal paidAmount) {
 
-        CuotaEntity entity = repositoryJpa.findById(installmentId)
+        InstallmentEntity entity = repositoryJpa.findById(installmentId)
                 .orElseThrow(() -> new EntityNotFoundException("Installment not found"));
 
         repositoryJpa.save(
-                CuotaMapperOut.updateEntity(entity, paidAmount)
+                InstallmentMapperOut.updatePaidAmount(entity, paidAmount)
         );
     }
 
     @Override
     public List<Installment> findByLoanId(Integer customerId) {
 
-        List<CuotaEntity> entities =
+        List<InstallmentEntity> entities =
                 repositoryJpa.findByPrestamo_Cliente_IdCliente(customerId);
 
-        return CuotaMapperOut.toDomainList(entities);
+        return InstallmentMapperOut.toDomainList(entities);
     }
 }

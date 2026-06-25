@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.credito.creditcore.application.dto.prestamo.AmortizationResponseDto;
-import com.credito.creditcore.application.dto.prestamo.LoanSimulationRequestDto;
-import com.credito.creditcore.application.dto.prestamo.LoanSimulationResponseDto;
+import com.credito.creditcore.application.dto.loan.AmortizationResponseDto;
+import com.credito.creditcore.application.dto.loan.LoanSimulationRequestDto;
+import com.credito.creditcore.application.dto.loan.LoanSimulationResponseDto;
 import com.credito.creditcore.application.loan.domain.service.CreditScoreService;
 import com.credito.creditcore.application.loan.port.FrenchAmortizationService;
 import com.credito.creditcore.application.loan.port.SimulateLoanUseCase;

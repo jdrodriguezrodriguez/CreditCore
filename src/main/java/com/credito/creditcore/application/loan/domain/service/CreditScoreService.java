@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.credito.creditcore.application.dto.prestamo.LoanSimulationRequestDto;
+import com.credito.creditcore.application.dto.loan.LoanSimulationRequestDto;
 import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.score.DebtScore;
 import com.credito.creditcore.domain.model.score.PaymentCapacityScore;

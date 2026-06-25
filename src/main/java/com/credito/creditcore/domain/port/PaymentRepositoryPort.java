@@ -6,5 +6,5 @@ import com.credito.creditcore.domain.model.Installment;
 import com.credito.creditcore.domain.model.enums.PaymentMethod;
 
 public interface PaymentRepositoryPort {
-    void savePayment(Installment cuota, PaymentMethod fpago, BigDecimal monto);
+    void savePayment(Installment installment, PaymentMethod methodPayment, BigDecimal amount);
 }

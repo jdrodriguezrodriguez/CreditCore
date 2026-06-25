@@ -8,10 +8,10 @@ import jakarta.validation.constraints.NotBlank;
 
 public record PayInstallmentRequestDto(
 
-        @NotBlank(message = "El monto a pagar es obligatorio")
+        @NotBlank(message = "The amount to pay is required.")
         BigDecimal amountToPay,
 
-        @NotBlank(message = "La forma de pago es obligatoria")
+        @NotBlank(message = "The payment method is required.")
         PaymentMethod paymentMethod
 ) {                         
 }

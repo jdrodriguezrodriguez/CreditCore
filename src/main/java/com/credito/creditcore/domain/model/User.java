@@ -51,6 +51,25 @@ public class User {
         this.credentialsNonExpired = credentialsNonExpired;
     }
 
+    public User(
+            Integer userId, String username, String password,
+            UserRole userRole, boolean enabled, boolean accountNonExpired,
+            boolean accountNonLocked, boolean credentialsNonExpired) {
+
+        if (password == null) {
+            throw new IllegalArgumentException("Password is required.");
+        }
+
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.userRole = userRole;
+        this.enabled = enabled;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
+    }
+
     public void generateUsername() {
 
         String firstName = person.getFirstName();
