@@ -11,31 +11,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.credito.creditcore.application.cuota.port.ObtenerCuotasUseCase;
-import com.credito.creditcore.application.cuota.port.PagarCuotaUseCase;
-import com.credito.creditcore.application.dto.cuota.PagarCuotaRequestDto;
-import com.credito.creditcore.domain.model.Cuota;
+import com.credito.creditcore.application.dto.installment.PayInstallmentRequestDto;
+import com.credito.creditcore.application.installment.port.GetInstallmentsUseCase;
+import com.credito.creditcore.application.installment.port.PayInstallmentUseCase;
+import com.credito.creditcore.domain.model.Installment;
 
 @RestController
 @RequestMapping("/api/credito/cuotas")
 public class CuotaController {
     
-    private final ObtenerCuotasUseCase obtenerCuotasUseCase;
-    private final PagarCuotaUseCase pagarCuotaUseCase;
+    private final GetInstallmentsUseCase getInstallmentsUseCase;
+    private final PayInstallmentUseCase payInstallmentUseCase;
 
-	public CuotaController(ObtenerCuotasUseCase obtenerCuotasUseCase, PagarCuotaUseCase pagarCuotaUseCase) {
-		this.obtenerCuotasUseCase = obtenerCuotasUseCase;
-		this.pagarCuotaUseCase = pagarCuotaUseCase;
+	public CuotaController(GetInstallmentsUseCase getInstallmentsUseCase, PayInstallmentUseCase payInstallmentUseCase) {
+		this.getInstallmentsUseCase = getInstallmentsUseCase;
+		this.payInstallmentUseCase = payInstallmentUseCase;
 	}
 
     @GetMapping("/consultar/{idPrestamo}")
-    public ResponseEntity<List<Cuota>> obtenerCuotas(@PathVariable Integer idPrestamo){
-        return ResponseEntity.ok(obtenerCuotasUseCase.obtenerCuotas(idPrestamo));
+    public ResponseEntity<List<Installment>> obtenerCuotas(@PathVariable Integer idPrestamo){
+        return ResponseEntity.ok(getInstallmentsUseCase.getInstallments(idPrestamo));
     }
 
     @PostMapping("/pagar/{idCuota}")
-    public ResponseEntity<?> pagarCuota(@PathVariable Integer idCuota, @RequestBody PagarCuotaRequestDto datos){
-        pagarCuotaUseCase.pagarCuota(idCuota, datos);
+    public ResponseEntity<?> pagarCuota(@PathVariable Integer idCuota, @RequestBody PayInstallmentRequestDto datos){
+        payInstallmentUseCase.payInstallment(idCuota, datos);
         return ResponseEntity.ok(Map.of("Mensaje", "Se pago la cuota de forma exitosa."));
     }
 }
