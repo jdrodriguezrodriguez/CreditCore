@@ -20,22 +20,22 @@ public class CustomerMapperOut {
                 customer.getCreditHistoryScore(), 
                 customer.getRegistrationDate());
 
-        customerEntity.setIdCliente(customer.getCustomerId());
+        customerEntity.setCustomerId(customer.getCustomerId());
 
         return customerEntity;
     }
 
     public static Customer toDomain(CustomerEntity entity, Person person){
-        return new Customer(entity.getIdCliente(),
+        return new Customer(entity.getCustomerId(),
          person, 
-         entity.getSalario(),
-         entity.getHistorialCrediticio(), 
-         entity.getFechaRegistro());
+         entity.getSalary(),
+         entity.getCreditHistoryScore(), 
+         entity.getRegistrationDate());
     }
 
     public static CustomerEntity updateEntity(CustomerEntity customerEntity, Customer customer){
-        customerEntity.setSalario(customer.getSalary());
-        customerEntity.setHistorialCrediticio(customer.getCreditHistoryScore());
+        customerEntity.setSalary(customer.getSalary());
+        customerEntity.setCreditHistoryScore(customer.getCreditHistoryScore());
 
         return customerEntity;
     }

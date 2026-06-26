@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.credito.creditcore.infrastructure.entity.PersonEntity;
 
 public interface PersonRepositoryJpa extends JpaRepository<PersonEntity, Integer>{
-    Optional<PersonEntity> findByDocumento(String documentNumber);
-    boolean existsByDocumento(String documentNumber);
+    Optional<PersonEntity> findByDocumentNumber(String documentNumber);
+    boolean existsByDocumentNumber(String documentNumber);
 } 

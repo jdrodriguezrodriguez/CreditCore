@@ -22,26 +22,26 @@ public class PersonMapperOut {
                 person.getBirthDate(),
                 person.getEmail());
 
-        entity.setIdPersona(person.getPersonId());
+        entity.setPersonId(person.getPersonId());
 
         return entity;
     }
 
     public static Person toDomain(PersonEntity entity) {
         return new Person(
-                entity.getIdPersona(),
-                entity.getNombre(),
-                entity.getApellido(),
-                entity.getDocumento(),
-                entity.getNacimiento(),
-                entity.getCorreo());
+                entity.getPersonId(),
+                entity.getFirstName(),
+                entity.getLastName(),
+                entity.getDocumentNumber(),
+                entity.getBirthDate(),
+                entity.getEmail());
     }
 
     public static PersonEntity updateEntity(PersonEntity entity, Person person) {
-        entity.setNombre(person.getFirstName());
-        entity.setApellido(person.getLastName());
-        entity.setNacimiento(person.getBirthDate());
-        entity.setCorreo(person.getEmail());
+        entity.setFirstName(person.getFirstName());
+        entity.setLastName(person.getLastName());
+        entity.setBirthDate(person.getBirthDate());
+        entity.setEmail(person.getEmail());
 
         return entity;
     }

@@ -43,15 +43,15 @@ public class CustomerRepositoryAdapter implements CustomerRepositoryPort {
     @Override
     public Optional<Customer> findById(Integer customerId) {
         return customerRepositoryJpa.findById(customerId).map(customerEntity -> {
-            Person person = PersonMapperOut.toDomain(customerEntity.getPersona());
+            Person person = PersonMapperOut.toDomain(customerEntity.getPerson());
             return CustomerMapperOut.toDomain(customerEntity, person);
         });
     }
 
     @Override
     public Optional<Customer> findByPersonId(Integer personId) {
-        return customerRepositoryJpa.findByPersona_idPersona(personId).map(customerEntity -> {
-            Person person = PersonMapperOut.toDomain(customerEntity.getPersona());
+        return customerRepositoryJpa.findByPerson_PersonId(personId).map(customerEntity -> {
+            Person person = PersonMapperOut.toDomain(customerEntity.getPerson());
             return CustomerMapperOut.toDomain(customerEntity, person);
         });
     }

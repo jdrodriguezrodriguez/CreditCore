@@ -28,7 +28,7 @@ public class LoanRepositoryAdapter implements LoanRepositoryPort {
 
     @Override
     public Optional<Loan> findByCustomerId(Integer customerId) {
-        return repositoryJpa.findByCliente_IdCliente(customerId)
+        return repositoryJpa.findByCustomer_CustomerId(customerId)
                 .map(loan -> {
                     return LoanMapperOut.toDomain(loan);
                 });

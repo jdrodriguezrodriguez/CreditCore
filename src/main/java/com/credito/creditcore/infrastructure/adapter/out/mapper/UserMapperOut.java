@@ -24,26 +24,26 @@ public class UserMapperOut {
 
     public static User toDomain(UserEntity entity) {
     return new User(
-            entity.getIdUsuario(),
+            entity.getUserId(),
             entity.getUsername(),
             entity.getPassword(),
-            entity.getRolUsuario(),
-            entity.is_enabled(),
-            entity.isAccount_no_expired(),
-            entity.isAccount_no_locked(),
-            entity.isCredential_no_expired());
+            entity.getRole(),
+            entity.isEnabled(),
+            entity.isAccountNonExpired(),
+            entity.isAccountNonLocked(),
+            entity.isCredentialsNonExpired());
 }
 
     public static User toDomain(UserEntity entity, Person person) {
         return new User(
-                entity.getIdUsuario(),
+                entity.getUserId(),
                 entity.getUsername(),
                 entity.getPassword(),
-                entity.getRolUsuario(),
-                entity.is_enabled(),
-                entity.isAccount_no_expired(),
-                entity.isAccount_no_locked(),
-                entity.isCredential_no_expired()
+                entity.getRole(),
+                entity.isEnabled(),
+                entity.isAccountNonExpired(),
+                entity.isAccountNonLocked(),
+                entity.isCredentialsNonExpired()
         );
     }
 

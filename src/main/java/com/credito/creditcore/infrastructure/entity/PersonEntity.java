@@ -14,41 +14,41 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "persona")
+@Table(name = "person")
 public class PersonEntity {
 
-    @Id
+     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idPersona")
-    private Integer idPersona;
+    @Column(name = "person_id")
+    private Integer personId;
 
     /* @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
     private UsuarioEntity usuario; */
 
-    @Column(name = "nombre", nullable = false)
-    private String nombre;
+     @Column(name = "first_name", nullable = false)
+    private String firstName;
 
-    @Column(name = "apellido", nullable = false)
-    private String apellido;
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
-    @Column(name = "documento", nullable = false, unique = true)
-    private String documento;
+    @Column(name = "document_number", nullable = false)
+    private String documentNumber;
 
-    @Column(name = "nacimiento", nullable = false)
-    private LocalDate nacimiento;
+    @Column(name = "birth_date", nullable = false)
+    private LocalDate birthDate;
 
-    @Column(name = "correo", nullable = false)
-    private String correo;
+    @Column(name = "email", nullable = false)
+    private String email;
 
     public PersonEntity(){
     }
 
-    public PersonEntity(String nombre, String apellido, String documento,
-            LocalDate nacimiento, String correo) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.documento = documento;
-        this.nacimiento = nacimiento;
-        this.correo = correo;
+    public PersonEntity(String firstName, String lastName, String documentNumber, LocalDate birthDate,
+            String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.documentNumber = documentNumber;
+        this.birthDate = birthDate;
+        this.email = email;
     }
 }

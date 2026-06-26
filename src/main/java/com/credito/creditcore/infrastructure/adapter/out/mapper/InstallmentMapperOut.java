@@ -38,17 +38,17 @@ public class InstallmentMapperOut {
 
         for (InstallmentEntity installmentEntity : installmentEntities) {
             Installment installment = new Installment(
-                    installmentEntity.getNumeroCuota(),
-                    installmentEntity.getFechaVencimiento(),
-                    installmentEntity.getEstadoCuota(),
-                    installmentEntity.getSaldoInicial(),
-                    installmentEntity.getInteres(),
-                    installmentEntity.getAmortizacionCapital(),
-                    installmentEntity.getMontoCuota(),
-                    installmentEntity.getSaldoFinal(),
-                    installmentEntity.getMontoPagado(),
-                    installmentEntity.getMora(),
-                    installmentEntity.getFechaPagoReal());
+                    installmentEntity.getInstallmentNumber(),
+                    installmentEntity.getDueDate(),
+                    installmentEntity.getStatus(),
+                    installmentEntity.getInitialBalance(),
+                    installmentEntity.getInterest(),
+                    installmentEntity.getCapitalAmortization(),
+                    installmentEntity.getInstallmentAmount(),
+                    installmentEntity.getFinalBalance(),
+                    installmentEntity.getPaidAmount(),
+                    installmentEntity.getLateFee(),
+                    installmentEntity.getActualPaymentDate());
 
             installments.add(installment);
         }
@@ -58,23 +58,23 @@ public class InstallmentMapperOut {
 
     public static Installment toDomain(InstallmentEntity installmentEntity) {
         return new Installment(
-                installmentEntity.getIdCuota(),
+                installmentEntity.getInstallmentId(),
                 null,
-                installmentEntity.getNumeroCuota(),
-                installmentEntity.getFechaVencimiento(),
-                installmentEntity.getEstadoCuota(),
-                installmentEntity.getSaldoInicial(),
-                installmentEntity.getInteres(),
-                installmentEntity.getAmortizacionCapital(),
-                installmentEntity.getMontoCuota(),
-                installmentEntity.getSaldoFinal(),
-                installmentEntity.getMontoPagado(),
-                installmentEntity.getMora(),
-                installmentEntity.getFechaPagoReal());
+                installmentEntity.getInstallmentNumber(),
+                installmentEntity.getDueDate(),
+                installmentEntity.getStatus(),
+                installmentEntity.getInitialBalance(),
+                installmentEntity.getInterest(),
+                installmentEntity.getCapitalAmortization(),
+                installmentEntity.getInstallmentAmount(),
+                installmentEntity.getFinalBalance(),
+                installmentEntity.getPaidAmount(),
+                installmentEntity.getLateFee(),
+                installmentEntity.getActualPaymentDate());
     }
 
     public static InstallmentEntity updatePaidAmount(InstallmentEntity installmentEntity, BigDecimal amount) {
-        installmentEntity.setMontoPagado(amount);
+        installmentEntity.setPaidAmount(amount);
 
         return installmentEntity;
     }
@@ -94,7 +94,7 @@ public class InstallmentMapperOut {
                 installment.getLateFee(),
                 installment.getActualPaymentDate());
 
-        installmentEntity.setIdCuota(installment.getInstallmentId());
+        installmentEntity.setInstallmentId(installment.getInstallmentId());
 
         return installmentEntity;
     }

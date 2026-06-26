@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.credito.creditcore.infrastructure.entity.InstallmentEntity;
 
 public interface InstallmentRepositoryJpa extends JpaRepository<InstallmentEntity, Integer>{
-    List<InstallmentEntity> findByPrestamo_Cliente_IdCliente(Integer customerId);
+    List<InstallmentEntity> findByLoan_Customer_CustomerId(Integer customerId);
 }

@@ -18,53 +18,60 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "usuario")
+@Table(name = "user")
 public class UserEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idUsuario")
-    private Integer idUsuario;
+    @Column(name = "user_id")
+    private Integer userId;
 
     @OneToOne
-    @JoinColumn(name = "idPersona",referencedColumnName = "idPersona")
-    private PersonEntity persona;
+    @JoinColumn(name = "person_id", nullable = false)
+    private PersonEntity person;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
-    
+
     @Column(name = "password", nullable = false)
     private String password;
-    
-    @Column(name = "rol", nullable = false)
+
     @Enumerated(EnumType.STRING)
-    private UserRole rolUsuario;
+    @Column(name = "role")
+    private UserRole role;
 
-    @Column(name = "is_enabled", nullable = false)
-    private boolean is_enabled;
+    @Column(name = "enabled")
+    private boolean enabled;
 
-    @Column(name = "account_no_expired", nullable = false)
-    private boolean account_no_expired;
+    @Column(name = "account_non_expired")
+    private boolean accountNonExpired;
 
-    @Column(name = "account_no_locked", nullable = false)
-    private boolean account_no_locked;
+    @Column(name = "account_non_locked")
+    private boolean accountNonLocked;
 
-    @Column(name = "credential_no_expired", nullable = false)
-    private boolean credential_no_expired;
+    @Column(name = "credentials_non_expired")
+    private boolean credentialsNonExpired;
 
-    public UserEntity(){
+    public UserEntity() {
     }
 
-    public UserEntity(PersonEntity persona, String username, String password,
-            UserRole rolUsuario, boolean is_enabled, boolean account_no_expired, boolean account_no_locked,
-            boolean credential_no_expired) {
-        this.persona = persona;
+    public UserEntity(
+            PersonEntity person,
+            String username,
+            String password,
+            UserRole role,
+            boolean enabled,
+            boolean accountNonExpired,
+            boolean accountNonLocked,
+            boolean credentialsNonExpired) {
+
+        this.person = person;
         this.username = username;
         this.password = password;
-        this.rolUsuario = rolUsuario;
-        this.is_enabled = is_enabled;
-        this.account_no_expired = account_no_expired;
-        this.account_no_locked = account_no_locked;
-        this.credential_no_expired = credential_no_expired;
+        this.role = role;
+        this.enabled = enabled;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
     }
 }

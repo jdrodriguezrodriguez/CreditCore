@@ -19,71 +19,72 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "cuota")
+@Table(name = "installment")
 @Getter
 @Setter
 public class InstallmentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCuota;
+    @Column(name = "installment_id")
+    private Integer installmentId;
 
     @ManyToOne
-    @JoinColumn(name = "idPrestamo", referencedColumnName = "idPrestamo")
-    private LoanEntity prestamo;
+    @JoinColumn(name = "loan_id", referencedColumnName = "loan_id")
+    private LoanEntity loan;
 
-    @Column(name = "numero_cuota")
-    private int numeroCuota;
+    @Column(name = "installment_number", nullable = false)
+    private Integer installmentNumber;
 
-    @Column(name = "monto")
-    private BigDecimal montoCuota;
+    @Column(name = "installment_amount", nullable = false)
+    private BigDecimal installmentAmount;
 
-    @Column(name = "fecha_vencimiento")
-    private LocalDate fechaVencimiento;
+    @Column(name = "due_date", nullable = false)
+    private LocalDate dueDate;
 
-    @Column(name = "estado")
     @Enumerated(EnumType.STRING)
-    private InstallmentStatus estadoCuota;
+    @Column(name = "installment_status", nullable = false)
+    private InstallmentStatus status;
 
-    @Column(name = "saldo_inicial")
-    private BigDecimal saldoInicial;
+    @Column(name = "initial_balance", nullable = false)
+    private BigDecimal initialBalance;
 
-    @Column(name = "interes")
-    private BigDecimal interes;
+    @Column(name = "interest", nullable = false)
+    private BigDecimal interest;
 
-    @Column(name = "amortizacionCapital")
-    private BigDecimal amortizacionCapital;
+    @Column(name = "capital_amortization", nullable = false)
+    private BigDecimal capitalAmortization;
 
-    @Column(name = "saldo_final")
-    private BigDecimal saldoFinal;
+    @Column(name = "final_balance", nullable = false)
+    private BigDecimal finalBalance;
 
-    @Column(name = "monto_pagado")
-    private BigDecimal montoPagado;
+    @Column(name = "paid_amount", nullable = false)
+    private BigDecimal paidAmount;
 
-    @Column(name = "mora")
-    private BigDecimal mora;
+    @Column(name = "late_fee", nullable = false)
+    private BigDecimal lateFee;
 
-    @Column(name = "fecha_pago_real")
-    private LocalDate fechaPagoReal;
+    @Column(name = "actual_payment_date")
+    private LocalDate actualPaymentDate;
 
     public InstallmentEntity() {
     }
 
-    public InstallmentEntity(LoanEntity prestamo, int numeroCuota, BigDecimal montoCuota,
-            LocalDate fechaVencimiento, InstallmentStatus estadoCuota, BigDecimal saldoInicial, BigDecimal interes,
-            BigDecimal amortizacionCapital, BigDecimal saldoFinal, BigDecimal montoPagado, BigDecimal mora,
-            LocalDate fechaPagoReal) {
-        this.prestamo = prestamo;
-        this.numeroCuota = numeroCuota;
-        this.montoCuota = montoCuota;
-        this.fechaVencimiento = fechaVencimiento;
-        this.estadoCuota = estadoCuota;
-        this.saldoInicial = saldoInicial;
-        this.interes = interes;
-        this.amortizacionCapital = amortizacionCapital;
-        this.saldoFinal = saldoFinal;
-        this.montoPagado = montoPagado;
-        this.mora = mora;
-        this.fechaPagoReal = fechaPagoReal;
+    public InstallmentEntity(LoanEntity loan, Integer installmentNumber, BigDecimal installmentAmount,
+            LocalDate dueDate, InstallmentStatus status, BigDecimal initialBalance, BigDecimal interest,
+            BigDecimal capitalAmortization, BigDecimal finalBalance, BigDecimal paidAmount, BigDecimal lateFee,
+            LocalDate actualPaymentDate) {
+        this.loan = loan;
+        this.installmentNumber = installmentNumber;
+        this.installmentAmount = installmentAmount;
+        this.dueDate = dueDate;
+        this.status = status;
+        this.initialBalance = initialBalance;
+        this.interest = interest;
+        this.capitalAmortization = capitalAmortization;
+        this.finalBalance = finalBalance;
+        this.paidAmount = paidAmount;
+        this.lateFee = lateFee;
+        this.actualPaymentDate = actualPaymentDate;
     }
 }

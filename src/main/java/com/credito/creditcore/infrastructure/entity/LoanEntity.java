@@ -20,70 +20,73 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "prestamo")
+@Table(name = "loan")
 @Getter
 @Setter
 public class LoanEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idPrestamo;
+    @Column(name = "loan_id")
+    private Integer loanId;
 
     @ManyToOne
-    @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")
-    private CustomerEntity cliente;
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id", nullable = false)
+    private CustomerEntity customer;
 
-    private BigDecimal monto;
+    @Column(name = "principal_amount", nullable = false)
+    private BigDecimal principalAmount;
 
-    private double interes;
+    @Column(name = "interest_rate", nullable = false)
+    private double interestRate;
 
-    @Column(name = "plazo_meses")
-    private int plazo;
+    @Column(name = "term_in_months", nullable = false)
+    private int termInMonths;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "estado")
-    private LoanStatus estadoPrestamo;
+    @Column(name = "loan_status", nullable = false)
+    private LoanStatus loanStatus;
 
-    @Column(name = "fecha_solicitud")
-    private LocalDate fechaSolicitud;
+    @Column(name = "request_date", nullable = false)
+    private LocalDate requestDate;
 
-    @Column(name = "fecha_aprobacion")
-    private LocalDate fechaAprobacion;
+    @Column(name = "approval_date")
+    private LocalDate approvalDate;
 
-    @Column(name = "tipo_prestamo")
     @Enumerated(EnumType.STRING)
-    private LoanType tipoPrestamo;
+    @Column(name = "loan_type", nullable = false)
+    private LoanType loanType;
 
-    @Column(name = "interes_total")
-    private BigDecimal interesTotal;
+    @Column(name = "total_interest", nullable = false)
+    private BigDecimal totalInterest;
 
-    @Column(name = "total_pagar")
-    private BigDecimal totalPagar;
+    @Column(name = "total_amount_payable", nullable = false)
+    private BigDecimal totalAmountDue;
 
-    @Column(name = "total_pagado")
-    private BigDecimal totalPagado;
+    @Column(name = "amount_paid", nullable = false)
+    private BigDecimal totalPaid;
 
-    @Column(name = "saldo_pendiente")
-    private BigDecimal saldoPendiente;
+    @Column(name = "outstanding_balance", nullable = false)
+    private BigDecimal outstandingBalance;
 
     public LoanEntity() {
     }
 
-    public LoanEntity(CustomerEntity cliente, BigDecimal monto, double interes, int plazo,
-            LoanStatus estadoPrestamo, LocalDate fechaSolicitud, LocalDate fechaAprobacion,
-            LoanType tipoPrestamo, BigDecimal interesTotal, BigDecimal totalPagar, BigDecimal totalPagado,
-            BigDecimal saldoPendiente) {
-        this.cliente = cliente;
-        this.monto = monto;
-        this.interes = interes;
-        this.plazo = plazo;
-        this.estadoPrestamo = estadoPrestamo;
-        this.fechaSolicitud = fechaSolicitud;
-        this.fechaAprobacion = fechaAprobacion;
-        this.tipoPrestamo = tipoPrestamo;
-        this.interesTotal = interesTotal;
-        this.totalPagar = totalPagar;
-        this.totalPagado = totalPagado;
-        this.saldoPendiente = saldoPendiente;
+    public LoanEntity(CustomerEntity customer, BigDecimal principalAmount, double interestRate,
+            Integer termInMonths, LoanStatus loanStatus, LocalDate requestDate, LocalDate approvalDate,
+            LoanType loanType, BigDecimal totalInterest, BigDecimal totalAmountDue, BigDecimal totalPaid,
+            BigDecimal outstandingBalance) {
+        this.customer = customer;
+        this.principalAmount = principalAmount;
+        this.interestRate = interestRate;
+        this.termInMonths = termInMonths;
+        this.loanStatus = loanStatus;
+        this.requestDate = requestDate;
+        this.approvalDate = approvalDate;
+        this.loanType = loanType;
+        this.totalInterest = totalInterest;
+        this.totalAmountDue = totalAmountDue;
+        this.totalPaid = totalPaid;
+        this.outstandingBalance = outstandingBalance;
     }
 }

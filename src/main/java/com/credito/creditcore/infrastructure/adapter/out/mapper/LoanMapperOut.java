@@ -8,18 +8,18 @@ public class LoanMapperOut {
 
     public static Loan toDomain(LoanEntity entity) {
         return new Loan(
-                entity.getIdPrestamo(),
-                entity.getMonto(),
-                entity.getInteres(),
-                entity.getPlazo(),
-                entity.getEstadoPrestamo(),
-                entity.getFechaSolicitud(),
-                entity.getFechaAprobacion(),
-                entity.getTipoPrestamo(),
-                entity.getInteresTotal(),
-                entity.getTotalPagar(),
-                entity.getTotalPagado(),
-                entity.getSaldoPendiente()
+                entity.getLoanId(),
+                entity.getPrincipalAmount(),
+                entity.getInterestRate(),
+                entity.getTermInMonths(),
+                entity.getLoanStatus(),
+                entity.getRequestDate(),
+                entity.getApprovalDate(),
+                entity.getLoanType(),
+                entity.getTotalInterest(),
+                entity.getTotalAmountDue(),
+                entity.getTotalPaid(),
+                entity.getOutstandingBalance()
         );
     }
 
@@ -39,14 +39,14 @@ public class LoanMapperOut {
                 loan.getOutstandingBalance()
         );
 
-        entity.setIdPrestamo(loan.getLoanId());
+        entity.setLoanId(loan.getLoanId());
 
         return entity;
     }
 
     public static LoanEntity updateEntity(LoanEntity entity, Loan loan) {
-        entity.setFechaAprobacion(loan.getApprovalDate());
-        entity.setEstadoPrestamo(loan.getLoanStatus());
+        entity.setRequestDate(loan.getApprovalDate());
+        entity.setLoanStatus(loan.getLoanStatus());
 
         return entity;
     }

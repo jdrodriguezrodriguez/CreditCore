@@ -33,13 +33,13 @@ public class PersonRepositoryAdapter implements PersonRepositoryPort {
 
     @Override
     public Optional<Person> findByDocumentNumber(String documentNumber) {
-        return repositoryJpa.findByDocumento(documentNumber)
+        return repositoryJpa.findByDocumentNumber(documentNumber)
                 .map(PersonMapperOut::toDomain);
     }
 
     @Override
     public void update(String documentNumber, Person person) {
-        PersonEntity pEntity = repositoryJpa.findByDocumento(documentNumber)
+        PersonEntity pEntity = repositoryJpa.findByDocumentNumber(documentNumber)
                 .orElseThrow(() -> new EntityNotFoundException());
 
         repositoryJpa.save(PersonMapperOut.updateEntity(pEntity, person));
@@ -47,7 +47,7 @@ public class PersonRepositoryAdapter implements PersonRepositoryPort {
 
     @Override
     public void delete(String documentNumber) {
-        PersonEntity pEntity = repositoryJpa.findByDocumento(documentNumber)
+        PersonEntity pEntity = repositoryJpa.findByDocumentNumber(documentNumber)
                 .orElseThrow(() -> new EntityNotFoundException());
 
         repositoryJpa.delete(pEntity);
@@ -55,7 +55,7 @@ public class PersonRepositoryAdapter implements PersonRepositoryPort {
 
     @Override
     public boolean existsByDocumentNumber(String documentNumber) {
-        return repositoryJpa.existsByDocumento(documentNumber);
+        return repositoryJpa.existsByDocumentNumber(documentNumber);
     }
 
     @Override

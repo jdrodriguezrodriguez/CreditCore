@@ -63,7 +63,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     public Optional<User> findById(Integer userId) {
         return userRepositoryJpa.findById(userId).map(
             userEntity ->{
-                Person person = PersonMapperOut.toDomain(userEntity.getPersona());
+                Person person = PersonMapperOut.toDomain(userEntity.getPerson());
                 return UserMapperOut.toDomain(userEntity, person);
             }
         );

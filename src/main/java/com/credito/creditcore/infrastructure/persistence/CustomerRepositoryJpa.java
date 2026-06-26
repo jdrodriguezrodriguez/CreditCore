@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.credito.creditcore.infrastructure.entity.CustomerEntity;
 
 public interface CustomerRepositoryJpa extends JpaRepository<CustomerEntity, Integer>{
-    Optional<CustomerEntity> findByPersona_idPersona(Integer personId);
+    Optional<CustomerEntity> findByPerson_PersonId(Integer personId);
 }

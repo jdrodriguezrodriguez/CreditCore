@@ -17,34 +17,34 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "cliente")
+@Table(name = "customer")
 public class CustomerEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idCliente")
-    private Integer idCliente;
+    @Column(name = "customer_id")
+    private Integer customerId;
 
     @OneToOne
-    @JoinColumn(name = "idPersona", referencedColumnName = "idPersona")
-    private PersonEntity persona;
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
+    private PersonEntity person;
 
-    @Column(name = "salario", nullable = false)
-    private BigDecimal salario;
+     @Column(name = "salary", nullable = false)
+    private BigDecimal salary;
 
-    @Column(name = "score_crediticio", nullable = false)
-    private Integer historialCrediticio;
+    @Column(name = "credit_history_score", nullable = false)
+    private Integer creditHistoryScore;
 
-    @Column(name = "fecha_registro", nullable = false)
-    private LocalDate fechaRegistro;
+    @Column(name = "registration_date", nullable = false)
+    private LocalDate  registrationDate;
 
     public CustomerEntity(){}
 
-    public CustomerEntity(PersonEntity persona, BigDecimal salario, Integer historialCrediticio,
-            LocalDate fechaRegistro) {
-        this.persona = persona;
-        this.salario = salario;
-        this.historialCrediticio = historialCrediticio;
-        this.fechaRegistro = fechaRegistro;
+    public CustomerEntity(PersonEntity person, BigDecimal salary, Integer creditHistoryScore,
+            LocalDate registrationDate) {
+        this.person = person;
+        this.salary = salary;
+        this.creditHistoryScore = creditHistoryScore;
+        this.registrationDate = registrationDate;
     }
 }
