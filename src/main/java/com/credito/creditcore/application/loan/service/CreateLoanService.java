@@ -35,7 +35,7 @@ public class CreateLoanService implements CreateLoanUseCase {
                 customer,
                 request.loanAmount(),
                 request.interestRate(),
-                request.termMonths(),
+                request.termInMonths(),
                 LoanStatus.REQUESTED,
                 LocalDate.now(),
                 null,

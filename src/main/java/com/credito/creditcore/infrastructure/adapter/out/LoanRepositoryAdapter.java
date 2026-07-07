@@ -1,5 +1,6 @@
 package com.credito.creditcore.infrastructure.adapter.out;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
@@ -57,5 +58,14 @@ public class LoanRepositoryAdapter implements LoanRepositoryPort {
         return repositoryJpa.findById(loanId).map(loan -> {
             return LoanMapperOut.toDomain(loan);
         });
+    }
+
+    @Override
+    public void updateTotalPaid(BigDecimal paidAmount, Integer loanId) {
+        LoanEntity loanEntity = repositoryJpa.findById(loanId).orElseThrow(
+                () -> new EntityNotFoundException());
+        loanEntity = LoanMapperOut.updateTotalPaidEntity(loanEntity, paidAmount);
+
+        repositoryJpa.save(loanEntity);
     }
 }

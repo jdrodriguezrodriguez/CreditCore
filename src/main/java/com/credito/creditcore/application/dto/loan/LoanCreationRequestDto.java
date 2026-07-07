@@ -12,11 +12,11 @@ public record LoanCreationRequestDto(
         BigDecimal monthlyInstallment,
         BigDecimal totalAmountPayable,
         BigDecimal totalInterest,
-        Integer termMonths,
+        Integer termInMonths,
         double interestRate,
-        int creditScore,
-        ApprovalEstimate riskLevel,
+        int loanScore,
+        ApprovalEstimate approvalEstimate,
         LoanType loanType,
-        List<AmortizationResponseDto> amortizationDetails) {
+        List<AmortizationResponseDto> amortizationResponseDtos) {
 
 }

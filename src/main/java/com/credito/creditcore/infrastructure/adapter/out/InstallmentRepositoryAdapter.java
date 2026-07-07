@@ -37,8 +37,7 @@ public class InstallmentRepositoryAdapter implements InstallmentRepositoryPort {
         CustomerEntity customerEntity = CustomerMapperOut.toEntity(customer, personaEntity);
         var loanEntity = LoanMapperOut.toEntity(loan, customerEntity);
 
-        List<InstallmentEntity> entities =
-                InstallmentMapperOut.toEntityList(installments, loanEntity);
+        List<InstallmentEntity> entities = InstallmentMapperOut.toEntityList(installments, loanEntity);
 
         repositoryJpa.saveAll(entities);
     }
@@ -50,22 +49,26 @@ public class InstallmentRepositoryAdapter implements InstallmentRepositoryPort {
     }
 
     @Override
-    public void updateInstallment(Integer installmentId, BigDecimal paidAmount) {
+    public void updateInstallment(Installment installment) {
 
-        InstallmentEntity entity = repositoryJpa.findById(installmentId)
+        InstallmentEntity entity = repositoryJpa.findById(installment.getInstallmentId())
                 .orElseThrow(() -> new EntityNotFoundException("Installment not found"));
 
         repositoryJpa.save(
-                InstallmentMapperOut.updatePaidAmount(entity, paidAmount)
-        );
+                InstallmentMapperOut.updatePaidAmount(entity, installment));
     }
 
     @Override
     public List<Installment> findByLoanId(Integer customerId) {
 
-        List<InstallmentEntity> entities =
-                repositoryJpa.findByLoan_Customer_CustomerId(customerId);
+        List<InstallmentEntity> entities = repositoryJpa.findByLoan_Customer_CustomerId(customerId);
 
         return InstallmentMapperOut.toDomainList(entities);
+    }
+
+    @Override
+    public Optional<Installment> findByLoanIdAndNumber(Integer loanId, Integer installmentNumber) {
+        return repositoryJpa.findByLoan_Customer_CustomerIdAndInstallmentNumber(loanId, installmentNumber)
+                .map(InstallmentMapperOut::toDomain);
     }
 }
