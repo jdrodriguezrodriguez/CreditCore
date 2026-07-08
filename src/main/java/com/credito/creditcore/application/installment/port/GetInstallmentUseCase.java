@@ -1,7 +1,7 @@
 package com.credito.creditcore.application.installment.port;
 
-import com.credito.creditcore.domain.model.Installment;
+import com.credito.creditcore.application.dto.installment.InstallmentResponseDto;
 
 public interface GetInstallmentUseCase {
-    Installment getInstallment(Integer installmentId);
+    InstallmentResponseDto getInstallment(Integer installmentId);
 }
