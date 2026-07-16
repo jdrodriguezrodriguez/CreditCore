@@ -28,7 +28,7 @@ public class GetInstallmentService implements GetInstallmentUseCase {
                 .orElseThrow(
                         () -> new IllegalArgumentException("Not found installment with loan ID: " + installmentId));
 
-        LocalDate today = LocalDate.of(2026, 8, 01);
+        LocalDate today = LocalDate.of(2026, 8, 27);
 
         BigDecimal lateFree = lateFeeService.calculateLateFee(installment, today);
 

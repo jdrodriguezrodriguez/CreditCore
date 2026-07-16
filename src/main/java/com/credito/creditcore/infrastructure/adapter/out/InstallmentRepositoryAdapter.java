@@ -1,6 +1,5 @@
 package com.credito.creditcore.infrastructure.adapter.out;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 

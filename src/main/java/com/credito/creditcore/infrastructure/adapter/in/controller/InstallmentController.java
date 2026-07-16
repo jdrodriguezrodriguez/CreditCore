@@ -12,10 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.credito.creditcore.application.dto.installment.PayInstallmentRequestDto;
+import com.credito.creditcore.application.dto.installment.PayLateFeeRequestDto;
 import com.credito.creditcore.application.installment.port.GetInstallmentUseCase;
 import com.credito.creditcore.application.installment.port.GetInstallmentsUseCase;
 import com.credito.creditcore.application.installment.port.PayInstallmentUseCase;
+import com.credito.creditcore.application.installment.port.ProcessLateFeeUseCase;
 import com.credito.creditcore.domain.model.Installment;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/api/credito/installments")
@@ -24,13 +28,15 @@ public class InstallmentController {
     private final GetInstallmentsUseCase getInstallmentsUseCase;
     private final GetInstallmentUseCase getInstallmentUseCase;
     private final PayInstallmentUseCase payInstallmentUseCase;
+    private final ProcessLateFeeUseCase processLateFeeUseCase;
 
     public InstallmentController(GetInstallmentsUseCase getInstallmentsUseCase,
-            GetInstallmentUseCase getInstallmentUseCase,
-            PayInstallmentUseCase payInstallmentUseCase) {
+            GetInstallmentUseCase getInstallmentUseCase, PayInstallmentUseCase payInstallmentUseCase,
+            ProcessLateFeeUseCase processLateFeeUseCase) {
         this.getInstallmentsUseCase = getInstallmentsUseCase;
         this.getInstallmentUseCase = getInstallmentUseCase;
         this.payInstallmentUseCase = payInstallmentUseCase;
+        this.processLateFeeUseCase = processLateFeeUseCase;
     }
 
     @GetMapping("/{loanId}")
@@ -48,5 +54,11 @@ public class InstallmentController {
             @RequestBody PayInstallmentRequestDto request) {
         payInstallmentUseCase.payInstallment(loanId, request);
         return ResponseEntity.ok(Map.of("message", "Installment paid successfully."));
+    }
+    
+    @PutMapping("/pay/{loanId}/LateFee")
+    public ResponseEntity<?> PayLateFee(@PathVariable Integer loanId, @RequestBody PayLateFeeRequestDto request) {
+        processLateFeeUseCase.processLateFee(loanId, request);
+        return ResponseEntity.ok(Map.of("message","Late fee paid successfully."));
     }
 }

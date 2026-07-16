@@ -2,6 +2,7 @@ package com.credito.creditcore.domain.model;
 
 import java.math.BigDecimal;
 
+import com.credito.creditcore.domain.model.enums.PaymentConcept;
 import com.credito.creditcore.domain.model.enums.PaymentMethod;
 
 import lombok.Getter;
@@ -15,14 +16,14 @@ public class Payment {
     private Installment installment;
     private BigDecimal paidAmount;
     private PaymentMethod paymentMethod;
+    private PaymentConcept paymentConcept;
 
     public Payment() {
     }
 
     public Payment(
-            Installment installment,
-            BigDecimal paidAmount,
-            PaymentMethod paymentMethod) {
+            Installment installment, BigDecimal paidAmount,
+            PaymentMethod paymentMethod, PaymentConcept paymentConcept) {
 
         if (paidAmount.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Amount must be greater than $0.");
@@ -31,16 +32,17 @@ public class Payment {
         this.installment = installment;
         this.paidAmount = paidAmount;
         this.paymentMethod = paymentMethod;
+        this.paymentConcept = paymentConcept;
     }
 
     public static Payment create(
-            Installment installment,
-            BigDecimal paidAmount,
-            PaymentMethod paymentMethod) {
+            Installment installment, BigDecimal paidAmount,
+            PaymentMethod paymentMethod, PaymentConcept paymentConcept) {
 
         return new Payment(
                 installment,
                 paidAmount,
-                paymentMethod);
+                paymentMethod,
+                paymentConcept);
     }
 }

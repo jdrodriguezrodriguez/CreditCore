@@ -3,6 +3,7 @@ package com.credito.creditcore.infrastructure.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.credito.creditcore.domain.model.enums.PaymentConcept;
 import com.credito.creditcore.domain.model.enums.PaymentMethod;
 
 import jakarta.persistence.Column;
@@ -42,13 +43,18 @@ public class PaymentEntity {
     @Column(name = "payment_method", nullable = false)
     private PaymentMethod paymentMethod;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_concept", nullable = false)
+    private PaymentConcept paymentConcept;
+
     public PaymentEntity(){}
 
     public PaymentEntity(InstallmentEntity installmentEntity, BigDecimal paidAmount, LocalDate paymentDate,
-            PaymentMethod paymentMethod) {
+            PaymentMethod paymentMethod, PaymentConcept paymentConcept) {
         this.installmentEntity = installmentEntity;
         this.paidAmount = paidAmount;
         this.paymentDate = paymentDate;
         this.paymentMethod = paymentMethod;
+        this.paymentConcept = paymentConcept;
     }
 }

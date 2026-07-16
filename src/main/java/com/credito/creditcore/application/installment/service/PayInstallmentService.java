@@ -10,6 +10,7 @@ import com.credito.creditcore.application.dto.installment.PayInstallmentRequestD
 import com.credito.creditcore.application.installment.port.PayInstallmentUseCase;
 import com.credito.creditcore.domain.model.Installment;
 import com.credito.creditcore.domain.model.Loan;
+import com.credito.creditcore.domain.model.Payment;
 import com.credito.creditcore.domain.model.enums.InstallmentStatus;
 import com.credito.creditcore.domain.port.InstallmentRepositoryPort;
 import com.credito.creditcore.domain.port.LoanRepositoryPort;
@@ -52,6 +53,11 @@ public class PayInstallmentService implements PayInstallmentUseCase {
                 lateFeeValidationService.verifyPreviousLateFee(installment);
 
                 // paidAmount
+                if (installment.getStatus() == InstallmentStatus.PAID) {
+                        throw new IllegalArgumentException(
+                                        "The installment has already been paid.");
+                }
+
                 if (request.amountToPay().compareTo(BigDecimal.ZERO) <= 0) {
                         throw new IllegalArgumentException(
                                         "Amount must be greater than 0");
@@ -62,22 +68,26 @@ public class PayInstallmentService implements PayInstallmentUseCase {
                                         "Amount must be equals than installment Amount");
                 }
 
-
                 installment.setStatus(InstallmentStatus.PAID);
                 installment.setPaidAmount(request.amountToPay());
                 installment.setActualPaymentDate(request.actualPaymentDate());
 
-                BigDecimal lateFree = lateFeeValidationService.calculateLateFee(installment, request.actualPaymentDate());
+                BigDecimal lateFree = lateFeeValidationService.calculateLateFee(installment,
+                                request.actualPaymentDate());
 
                 processLateFee(lateFree, installment);
 
                 installmentRepositoryPort.updateInstallment(
                                 installment);
 
-                paymentRepositoryPort.savePayment(
+                Payment payment = Payment.create(
                                 installment,
+                                request.amountToPay(),
                                 request.paymentMethod(),
-                                request.amountToPay());
+                                request.paymentConcept());
+
+                paymentRepositoryPort.savePayment(
+                                payment);
 
                 loanRepositoryPort.updateTotalPaid(installment.getPaidAmount(), loan.getLoanId());
         }

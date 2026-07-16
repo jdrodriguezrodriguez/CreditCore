@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.credito.creditcore.application.dto.installment.PayLateFeeRequestDto;
 import com.credito.creditcore.application.installment.port.ProcessLateFeeUseCase;
 import com.credito.creditcore.domain.model.Installment;
+import com.credito.creditcore.domain.model.Payment;
 import com.credito.creditcore.domain.model.enums.InstallmentStatus;
 import com.credito.creditcore.domain.port.InstallmentRepositoryPort;
 import com.credito.creditcore.domain.port.PaymentRepositoryPort;
@@ -60,8 +61,14 @@ public class ProcessLateFeeService implements ProcessLateFeeUseCase {
         installment.setLateFee(lateFee.subtract(request.amountToPay()));
         installment.setStatus(InstallmentStatus.PAID);
 
+        Payment payment = Payment.create(
+                installment,
+                request.amountToPay(),
+                request.paymentMethod(),
+                request.paymentConcept());
+
         installmentRepositoryPort.updateInstallment(installment);
-        paymentRepositoryPort.savePayment(installment, request.paymentMethod(), request.amountToPay());
+        paymentRepositoryPort.savePayment(payment);
 
         logger.info("Has paid the late payment fee.");
     }

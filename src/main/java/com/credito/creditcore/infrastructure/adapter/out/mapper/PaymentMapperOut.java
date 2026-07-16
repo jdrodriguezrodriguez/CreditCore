@@ -1,21 +1,21 @@
 package com.credito.creditcore.infrastructure.adapter.out.mapper;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.credito.creditcore.domain.model.enums.PaymentMethod;
+import com.credito.creditcore.domain.model.Payment;
 import com.credito.creditcore.infrastructure.entity.InstallmentEntity;
 import com.credito.creditcore.infrastructure.entity.PaymentEntity;
 
 public class PaymentMapperOut {
 
     public static PaymentEntity createEntity(
-            Integer installmentId, PaymentMethod paymentMethod, BigDecimal amount, InstallmentEntity installmentEntity) {
+            Payment payment, InstallmentEntity installmentEntity) {
 
         return new PaymentEntity(
                 installmentEntity,
-                amount,
+                payment.getPaidAmount(),
                 LocalDate.now(),
-                paymentMethod);
+                payment.getPaymentMethod(),
+                payment.getPaymentConcept());
     }
 }
