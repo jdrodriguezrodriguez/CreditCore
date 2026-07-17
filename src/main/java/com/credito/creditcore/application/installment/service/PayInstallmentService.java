@@ -25,6 +25,7 @@ public class PayInstallmentService implements PayInstallmentUseCase {
         private final PaymentRepositoryPort paymentRepositoryPort;
 
         private static final Logger logger = Logger.getLogger(PayInstallmentService.class.getName());
+        private static final BigDecimal MINIMUM_PARTIAL_PAYMENT = BigDecimal.valueOf(50_000);
 
         private final LateFeeService lateFeeValidationService;
 
@@ -52,30 +53,18 @@ public class PayInstallmentService implements PayInstallmentUseCase {
 
                 lateFeeValidationService.verifyPreviousLateFee(installment);
 
-                // paidAmount
-                if (installment.getStatus() == InstallmentStatus.PAID) {
-                        throw new IllegalArgumentException(
-                                        "The installment has already been paid.");
-                }
+                validateData(installment, request);
 
-                if (request.amountToPay().compareTo(BigDecimal.ZERO) <= 0) {
-                        throw new IllegalArgumentException(
-                                        "Amount must be greater than 0");
+                if (installment.getStatus() == InstallmentStatus.PARTIALLY) {
+                        processPartialPayment(installment, request);
+                } else {
+                        processNormalPayment(installment, request);
                 }
-
-                if (installment.getInstallmentAmount().compareTo(request.amountToPay()) != 0) {
-                        throw new IllegalArgumentException(
-                                        "Amount must be equals than installment Amount");
-                }
-
-                installment.setStatus(InstallmentStatus.PAID);
-                installment.setPaidAmount(request.amountToPay());
-                installment.setActualPaymentDate(request.actualPaymentDate());
 
                 BigDecimal lateFree = lateFeeValidationService.calculateLateFee(installment,
                                 request.actualPaymentDate());
 
-                processLateFee(lateFree, installment);
+                applyLateFee(lateFree, installment);
 
                 installmentRepositoryPort.updateInstallment(
                                 installment);
@@ -89,10 +78,10 @@ public class PayInstallmentService implements PayInstallmentUseCase {
                 paymentRepositoryPort.savePayment(
                                 payment);
 
-                loanRepositoryPort.updateTotalPaid(installment.getPaidAmount(), loan.getLoanId());
+                loanRepositoryPort.updateTotalPaid(request.amountToPay(), loan.getLoanId());
         }
 
-        private void processLateFee(BigDecimal lateFree, Installment installment) {
+        private void applyLateFee(BigDecimal lateFree, Installment installment) {
                 if (lateFree.compareTo(BigDecimal.ZERO) != 0) {
 
                         BigDecimal difference = installment.getPaidAmount().subtract(lateFree);
@@ -104,6 +93,52 @@ public class PayInstallmentService implements PayInstallmentUseCase {
 
                                 logger.info("Pago la cuota, pero debe la mora, esta continuara incrementando.");
                         }
+                }
+        }
+
+        private void processPartialPayment(Installment installment, PayInstallmentRequestDto request) {
+
+                if (request.amountToPay().compareTo(MINIMUM_PARTIAL_PAYMENT) <= 0) {
+                        throw new IllegalArgumentException(
+                                        "Amount must be greater than $50.000");
+                }
+
+                BigDecimal total = installment.getPaidAmount().add(request.amountToPay());
+
+                if (total.compareTo(installment.getInstallmentAmount()) >= 0) {
+                        installment.setStatus(InstallmentStatus.PAID);
+                        logger.info("The installment was paid.");
+                }else{
+                        logger.info("The installment was recorded partially.");
+                }
+
+                installment.setPaidAmount(total);
+                installment.setActualPaymentDate(request.actualPaymentDate());
+        }
+
+        private void processNormalPayment(Installment installment, PayInstallmentRequestDto request) {
+                if (request.amountToPay().compareTo(installment.getInstallmentAmount()) < 0) {
+                        installment.setStatus(InstallmentStatus.PARTIALLY);
+                        logger.info("The installment was recorded partially.");
+
+                } else if (request.amountToPay().compareTo(installment.getInstallmentAmount()) >= 0) {
+                        installment.setStatus(InstallmentStatus.PAID);
+                        logger.info("The installment was paid.");
+                }
+
+                installment.setPaidAmount(request.amountToPay());
+                installment.setActualPaymentDate(request.actualPaymentDate());
+        }
+
+        private void validateData(Installment installment, PayInstallmentRequestDto request) {
+                if (installment.getInstallmentAmount().compareTo(installment.getPaidAmount()) == 0) {
+                        throw new IllegalArgumentException(
+                                        "The installment has already been paid.");
+                }
+
+                if (request.amountToPay().compareTo(BigDecimal.ZERO) <= 0) {
+                        throw new IllegalArgumentException(
+                                        "Amount must be greater than 0");
                 }
         }
 }

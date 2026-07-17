@@ -54,7 +54,7 @@ public class LoanMapperOut {
     }
 
     public static LoanEntity updateTotalPaidEntity(LoanEntity entity, BigDecimal paidAmount) {
-        entity.setTotalPaid(paidAmount);
+        entity.setTotalPaid(entity.getTotalPaid().add(paidAmount));
 
         return entity;
     }
