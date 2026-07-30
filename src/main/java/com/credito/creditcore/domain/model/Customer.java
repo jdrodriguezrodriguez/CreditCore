@@ -39,6 +39,22 @@ public class Customer {
         this.registrationDate = registrationDate;
     }
 
+    public Customer(
+            Integer customerId,
+            BigDecimal salary,
+            Integer creditHistoryScore,
+            LocalDate registrationDate) {
+
+        if (salary == null || creditHistoryScore == null) {
+            throw new IllegalArgumentException("Financial data is required.");
+        }
+
+        this.customerId = customerId;
+        this.salary = salary;
+        this.creditHistoryScore = creditHistoryScore;
+        this.registrationDate = registrationDate;
+    }
+
     public static Customer create(
             BigDecimal salary, Integer creditScore, Person person) {
 

@@ -37,6 +37,7 @@ public class InstallmentMapperOut {
 
         for (InstallmentEntity installmentEntity : installmentEntities) {
             Installment installment = new Installment(
+                    installmentEntity.getInstallmentId(),
                     installmentEntity.getInstallmentNumber(),
                     installmentEntity.getDueDate(),
                     installmentEntity.getStatus(),

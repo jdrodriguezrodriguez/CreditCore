@@ -1,15 +1,14 @@
 package com.credito.creditcore.infrastructure.adapter.out;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.credito.creditcore.domain.model.Installment;
 import com.credito.creditcore.domain.model.Payment;
-import com.credito.creditcore.domain.model.enums.PaymentMethod;
 import com.credito.creditcore.domain.port.PaymentRepositoryPort;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.InstallmentMapperOut;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.PaymentMapperOut;
+import com.credito.creditcore.infrastructure.entity.PaymentEntity;
 import com.credito.creditcore.infrastructure.persistence.PayRepositoryJpa;
 
 @Component
@@ -26,5 +25,12 @@ public class PaymentRepositoryAdapter implements PaymentRepositoryPort {
         repositoryJpa.save(PaymentMapperOut.createEntity(
                 payment,
                 InstallmentMapperOut.toEntity(payment.getInstallment())));
+    }
+
+    @Override
+    public List<Payment> findByLoanId(Integer loanId) {
+        List<PaymentEntity> entities = repositoryJpa.findByInstallmentEntity_Loan_LoanId(loanId);
+        
+        return PaymentMapperOut.toDomainList(entities);
     }
 }

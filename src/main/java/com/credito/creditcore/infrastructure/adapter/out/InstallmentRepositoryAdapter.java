@@ -15,6 +15,7 @@ import com.credito.creditcore.infrastructure.adapter.out.mapper.LoanMapperOut;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.PersonMapperOut;
 import com.credito.creditcore.infrastructure.entity.CustomerEntity;
 import com.credito.creditcore.infrastructure.entity.InstallmentEntity;
+import com.credito.creditcore.infrastructure.entity.LoanEntity;
 import com.credito.creditcore.infrastructure.entity.PersonEntity;
 import com.credito.creditcore.infrastructure.persistence.InstallmentRepositoryJpa;
 
@@ -34,7 +35,8 @@ public class InstallmentRepositoryAdapter implements InstallmentRepositoryPort {
 
         PersonEntity personaEntity = PersonMapperOut.toEntity(customer.getPerson());
         CustomerEntity customerEntity = CustomerMapperOut.toEntity(customer, personaEntity);
-        var loanEntity = LoanMapperOut.toEntity(loan, customerEntity);
+
+        LoanEntity loanEntity = LoanMapperOut.toEntity(loan, customerEntity);
 
         List<InstallmentEntity> entities = InstallmentMapperOut.toEntityList(installments, loanEntity);
 
@@ -67,7 +69,7 @@ public class InstallmentRepositoryAdapter implements InstallmentRepositoryPort {
 
     @Override
     public Optional<Installment> findByLoanIdAndNumber(Integer loanId, Integer installmentNumber) {
-        return repositoryJpa.findByLoan_Customer_CustomerIdAndInstallmentNumber(loanId, installmentNumber)
+        return repositoryJpa.findByLoan_LoanIdAndInstallmentNumber(loanId, installmentNumber)
                 .map(InstallmentMapperOut::toDomain);
     }
 }

@@ -3,6 +3,7 @@ package com.credito.creditcore.infrastructure.adapter.out.mapper;
 import java.math.BigDecimal;
 
 import com.credito.creditcore.domain.model.Loan;
+import com.credito.creditcore.domain.model.enums.LoanStatus;
 import com.credito.creditcore.infrastructure.entity.CustomerEntity;
 import com.credito.creditcore.infrastructure.entity.LoanEntity;
 
@@ -11,6 +12,7 @@ public class LoanMapperOut {
     public static Loan toDomain(LoanEntity entity) {
         return new Loan(
                 entity.getLoanId(),
+                CustomerMapperOut.toDomain(entity.getCustomer()),
                 entity.getPrincipalAmount(),
                 entity.getInterestRate(),
                 entity.getTermInMonths(),
@@ -47,7 +49,7 @@ public class LoanMapperOut {
     }
 
     public static LoanEntity updateEntity(LoanEntity entity, Loan loan) {
-        entity.setRequestDate(loan.getApprovalDate());
+        entity.setApprovalDate(loan.getApprovalDate());
         entity.setLoanStatus(loan.getLoanStatus());
 
         return entity;
@@ -55,6 +57,12 @@ public class LoanMapperOut {
 
     public static LoanEntity updateTotalPaidEntity(LoanEntity entity, BigDecimal paidAmount) {
         entity.setTotalPaid(entity.getTotalPaid().add(paidAmount));
+
+        return entity;
+    }
+
+    public static LoanEntity updateLoanStatus(LoanEntity entity, LoanStatus loanStatus) {
+        entity.setLoanStatus(loanStatus);
 
         return entity;
     }

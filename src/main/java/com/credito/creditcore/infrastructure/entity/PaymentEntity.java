@@ -27,6 +27,7 @@ public class PaymentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "payment_id")
     private Integer idPago;
 
     @ManyToOne

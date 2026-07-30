@@ -10,5 +10,5 @@ import com.credito.creditcore.infrastructure.entity.InstallmentEntity;
 public interface InstallmentRepositoryJpa extends JpaRepository<InstallmentEntity, Integer>{
     List<InstallmentEntity> findByLoan_Customer_CustomerId(Integer customerId);
 
-    Optional<InstallmentEntity> findByLoan_Customer_CustomerIdAndInstallmentNumber(Integer loanId, Integer number);
-}
+    Optional<InstallmentEntity> findByLoan_LoanIdAndInstallmentNumber(Integer loanId, Integer number);
+}                               

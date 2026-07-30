@@ -16,9 +16,9 @@ public class GetLoanService implements GetLoanUseCase {
     }
 
     @Override
-    public Loan getLoan(Integer customerId) {
-        return loanRepositoryPort.findByCustomerId(customerId)
+    public Loan getLoan(Integer loanId) {
+        return loanRepositoryPort.findByLoanId(loanId)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Loan not found for customer ID: " + customerId));
+                        "Loan not found for loan ID: " + loanId));
     }
 }

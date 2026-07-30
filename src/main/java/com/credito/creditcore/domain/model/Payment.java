@@ -35,6 +35,19 @@ public class Payment {
         this.paymentConcept = paymentConcept;
     }
 
+    public Payment(
+            BigDecimal paidAmount,
+            PaymentMethod paymentMethod, PaymentConcept paymentConcept) {
+
+        if (paidAmount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Amount must be greater than $0.");
+        }
+
+        this.paidAmount = paidAmount;
+        this.paymentMethod = paymentMethod;
+        this.paymentConcept = paymentConcept;
+    }
+
     public static Payment create(
             Installment installment, BigDecimal paidAmount,
             PaymentMethod paymentMethod, PaymentConcept paymentConcept) {

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.Loan;
+import com.credito.creditcore.domain.model.enums.LoanStatus;
 import com.credito.creditcore.domain.port.LoanRepositoryPort;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.CustomerMapperOut;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.LoanMapperOut;
@@ -25,6 +26,11 @@ public class LoanRepositoryAdapter implements LoanRepositoryPort {
 
     public LoanRepositoryAdapter(LoanRepositoryJpa repositoryJpa) {
         this.repositoryJpa = repositoryJpa;
+    }
+
+    public LoanEntity getLoan(Integer loanId){
+        return repositoryJpa.findById(loanId).orElseThrow(
+                () -> new EntityNotFoundException());
     }
 
     @Override
@@ -46,8 +52,7 @@ public class LoanRepositoryAdapter implements LoanRepositoryPort {
 
     @Override
     public void update(Loan loan) {
-        LoanEntity loanEntity = repositoryJpa.findById(loan.getLoanId()).orElseThrow(
-                () -> new EntityNotFoundException());
+        LoanEntity loanEntity = getLoan(loan.getLoanId());
         loanEntity = LoanMapperOut.updateEntity(loanEntity, loan);
 
         repositoryJpa.save(loanEntity);
@@ -62,9 +67,17 @@ public class LoanRepositoryAdapter implements LoanRepositoryPort {
 
     @Override
     public void updateTotalPaid(BigDecimal paidAmount, Integer loanId) {
-        LoanEntity loanEntity = repositoryJpa.findById(loanId).orElseThrow(
-                () -> new EntityNotFoundException());
+        LoanEntity loanEntity = getLoan(loanId);
         loanEntity = LoanMapperOut.updateTotalPaidEntity(loanEntity, paidAmount);
+
+        repositoryJpa.save(loanEntity);
+    }
+
+    @Override
+    public void updateLoanStatus(LoanStatus loanStatus, Integer loanId) {
+        LoanEntity loanEntity = getLoan(loanId);
+
+        loanEntity = LoanMapperOut.updateLoanStatus(loanEntity, loanStatus);
 
         repositoryJpa.save(loanEntity);
     }

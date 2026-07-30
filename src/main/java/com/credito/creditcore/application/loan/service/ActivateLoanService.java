@@ -19,6 +19,8 @@ import com.credito.creditcore.domain.port.CustomerRepositoryPort;
 import com.credito.creditcore.domain.port.InstallmentRepositoryPort;
 import com.credito.creditcore.domain.port.LoanRepositoryPort;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ActivateLoanService implements ActivateLoanUseCase {
 
@@ -38,18 +40,19 @@ public class ActivateLoanService implements ActivateLoanUseCase {
                 this.frenchAmortizationService = frenchAmortizationService;
         }
 
+        @Transactional
         @Override
-        public void activateLoan(Integer personId) {
+        public void activateLoan(Integer personId, Integer loanId) {
 
                 Customer customer = customerRepositoryPort.findByPersonId(personId)
                                 .orElseThrow(
                                                 () -> new IllegalArgumentException(
                                                                 "Customer not found with person ID " + personId));
 
-                Loan loan = loanRepositoryPort.findByCustomerId(customer.getCustomerId())
+                Loan loan = loanRepositoryPort.findByLoanId(loanId)
                                 .orElseThrow(
-                                                () -> new IllegalArgumentException("Loan not found with customer ID: "
-                                                                + customer.getCustomerId()));
+                                                () -> new IllegalArgumentException("Loan not found with loan ID: "
+                                                                + loanId));
 
                 loan.setApprovalDate(LocalDate.now());
                 loan.setLoanStatus(LoanStatus.ACTIVE);

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.credito.creditcore.application.dto.installment.InstallmentResponseDto;
 import com.credito.creditcore.application.dto.installment.PayInstallmentRequestDto;
 import com.credito.creditcore.application.dto.installment.PayLateFeeRequestDto;
 import com.credito.creditcore.application.installment.port.GetInstallmentUseCase;
@@ -40,7 +41,7 @@ public class InstallmentController {
     }
 
     @GetMapping("/{loanId}")
-    public ResponseEntity<List<Installment>> getInstallments(@PathVariable Integer loanId) {
+    public ResponseEntity<List<InstallmentResponseDto>> getInstallments(@PathVariable Integer loanId) {
         return ResponseEntity.ok(getInstallmentsUseCase.getInstallments(loanId));
     }
 
