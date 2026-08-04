@@ -57,6 +57,7 @@ public class ProcessLateFeeService implements ProcessLateFeeUseCase {
             throw new IllegalArgumentException(
                     "Amount must be equal than late fee");
         }
+        
 
         installment.setLateFee(lateFee.subtract(request.amountToPay()));
         installment.setStatus(InstallmentStatus.PAID);

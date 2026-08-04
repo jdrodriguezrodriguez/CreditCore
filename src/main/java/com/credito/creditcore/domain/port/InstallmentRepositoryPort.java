@@ -10,7 +10,7 @@ import com.credito.creditcore.domain.model.Loan;
 public interface InstallmentRepositoryPort {
     void saveInstallments(List<Installment> installments, Loan loan, Customer customer);
     Optional<Installment> findById(Integer idInstallment);
-    List<Installment> findByLoanId(Integer customerId);
+    List<Installment> findByLoanId(Integer loanId);
     void updateInstallment(Installment installment);
     Optional<Installment> findByLoanIdAndNumber(Integer loanId, Integer installmentNumber);
 }

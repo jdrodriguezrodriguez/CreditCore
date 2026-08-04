@@ -1,16 +1,15 @@
 package com.credito.creditcore.application.installment.service;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import com.credito.creditcore.application.dto.installment.InstallmentResponseDto;
 import com.credito.creditcore.application.installment.port.GetInstallmentsUseCase;
 import com.credito.creditcore.domain.model.Installment;
 import com.credito.creditcore.domain.port.InstallmentRepositoryPort;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class GetInstallmentsService implements GetInstallmentsUseCase {
@@ -21,6 +20,7 @@ public class GetInstallmentsService implements GetInstallmentsUseCase {
         this.installmentRepositoryPort = installmentRepositoryPort;
     }
 
+    @Transactional
     @Override
     public List<InstallmentResponseDto> getInstallments(Integer loanId) {
 

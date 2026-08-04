@@ -155,7 +155,7 @@ public class PayInstallmentService implements PayInstallmentUseCase {
         }
 
         private void validateData(Installment installment, PayInstallmentRequestDto request) {
-                if (installment.getInstallmentAmount().compareTo(installment.getPaidAmount()) == 0) {
+                if (installment.getPaidAmount().compareTo(installment.getInstallmentAmount()) >= 0) {
                         throw new IllegalArgumentException(
                                         "The installment has already been paid.");
                 }

@@ -60,9 +60,9 @@ public class InstallmentRepositoryAdapter implements InstallmentRepositoryPort {
     }
 
     @Override
-    public List<Installment> findByLoanId(Integer customerId) {
+    public List<Installment> findByLoanId(Integer loanId) {
 
-        List<InstallmentEntity> entities = repositoryJpa.findByLoan_Customer_CustomerId(customerId);
+        List<InstallmentEntity> entities = repositoryJpa.findByLoan_LoanId(loanId);
 
         return InstallmentMapperOut.toDomainList(entities);
     }
