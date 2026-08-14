@@ -1,13 +1,18 @@
 package com.credito.creditcore.application.installment.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.credito.creditcore.application.dto.installment.PayInstallmentRequestDto;
+import com.credito.creditcore.application.event.InstallmentPaidEvent;
+import com.credito.creditcore.application.event.LoanCompletedEvent;
+import com.credito.creditcore.application.event.PartialInstallmentPaidEvent;
 import com.credito.creditcore.application.installment.port.PayInstallmentUseCase;
 import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.Installment;
@@ -34,17 +39,21 @@ public class PayInstallmentService implements PayInstallmentUseCase {
         private static final Logger logger = Logger.getLogger(PayInstallmentService.class.getName());
         private static final BigDecimal MINIMUM_PARTIAL_PAYMENT = BigDecimal.valueOf(50_000);
 
+        private final ApplicationEventPublisher applicationEventPublisher;
+
         private final LateFeeService lateFeeValidationService;
 
         public PayInstallmentService(
                         InstallmentRepositoryPort installmentRepositoryPort, LoanRepositoryPort loanRepositoryPort,
                         PaymentRepositoryPort paymentRepositoryPort, LateFeeService lateFeeValidationService,
-                        CustomerRepositoryPort customerRepositoryPort) {
+                        CustomerRepositoryPort customerRepositoryPort,
+                        ApplicationEventPublisher applicationEventPublisher) {
                 this.installmentRepositoryPort = installmentRepositoryPort;
                 this.loanRepositoryPort = loanRepositoryPort;
                 this.paymentRepositoryPort = paymentRepositoryPort;
                 this.lateFeeValidationService = lateFeeValidationService;
                 this.customerRepositoryPort = customerRepositoryPort;
+                this.applicationEventPublisher = applicationEventPublisher;
         }
 
         @Override
@@ -116,18 +125,53 @@ public class PayInstallmentService implements PayInstallmentUseCase {
                         }
                 }
 
+                Customer customer = customerRepositoryPort
+                                .findById(installment.getLoan().getCustomer().getCustomerId())
+                                .orElseThrow(() -> new IllegalArgumentException(
+                                                "Customer not found with ID: " + installment.getLoan()
+                                                                .getCustomer().getCustomerId()));
+
                 if (total.compareTo(installment.getInstallmentAmount()) >= 0) {
+
                         installment.setStatus(InstallmentStatus.PAID);
                         logger.info("The installment was paid.");
+
+                        applicationEventPublisher.publishEvent(
+                                        new InstallmentPaidEvent(
+                                                        installment.getInstallmentNumber(),
+                                                        customer.getPerson().getEmail(),
+                                                        installment.getStatus(),
+                                                        installment.getPaidAmount(),
+                                                        request.paymentMethod(),
+                                                        LocalDate.now()));
 
                         if (isLastInstallment(installment)) {
                                 int score = calculateScoreIncrease(installment.getLoan().getLoanId());
                                 updateCustomerCreditScore(installment.getLoan(), score);
                                 updateStatusLoan(installment.getLoan());
+
+                                logger.info("The loan is pay");
+
+                                applicationEventPublisher.publishEvent(
+                                                new LoanCompletedEvent(
+                                                                installment.getLoan().getLoanId(),
+                                                                customer.getPerson().getEmail(),
+                                                                installment.getLoan().getLoanStatus(),
+                                                                installment.getLoan().getPrincipalAmount(),
+                                                                LocalDate.now()));
                         }
 
                 } else {
                         logger.info("The installment was recorded partially.");
+
+                        applicationEventPublisher.publishEvent(
+                                        new PartialInstallmentPaidEvent(
+                                                        installment.getInstallmentNumber(),
+                                                        customer.getPerson().getEmail(),
+                                                        installment.getStatus(),
+                                                        installment.getPaidAmount(),
+                                                        request.paymentMethod(),
+                                                        LocalDate.now()));
                 }
 
                 installment.setPaidAmount(total);
@@ -135,18 +179,53 @@ public class PayInstallmentService implements PayInstallmentUseCase {
         }
 
         private void processNormalPayment(Installment installment, PayInstallmentRequestDto request) {
+
+                Customer customer = customerRepositoryPort
+                                .findById(installment.getLoan().getCustomer().getCustomerId())
+                                .orElseThrow(() -> new IllegalArgumentException(
+                                                "Customer not found with ID: " + installment.getLoan()
+                                                                .getCustomer().getCustomerId()));
+
                 if (request.amountToPay().compareTo(installment.getInstallmentAmount()) < 0) {
                         installment.setStatus(InstallmentStatus.PARTIALLY);
                         logger.info("The installment was recorded partially.");
+
+                        applicationEventPublisher.publishEvent(
+                                        new PartialInstallmentPaidEvent(
+                                                        installment.getInstallmentNumber(),
+                                                        customer.getPerson().getEmail(),
+                                                        installment.getStatus(),
+                                                        request.amountToPay(),
+                                                        request.paymentMethod(),
+                                                        LocalDate.now()));
 
                 } else if (request.amountToPay().compareTo(installment.getInstallmentAmount()) >= 0) {
                         installment.setStatus(InstallmentStatus.PAID);
                         logger.info("The installment was paid.");
 
+                        applicationEventPublisher.publishEvent(
+                                        new InstallmentPaidEvent(
+                                                        installment.getInstallmentNumber(),
+                                                        customer.getPerson().getEmail(),
+                                                        installment.getStatus(),
+                                                        request.amountToPay(),
+                                                        request.paymentMethod(),
+                                                        LocalDate.now()));
+
                         if (isLastInstallment(installment)) {
                                 int score = calculateScoreIncrease(installment.getLoan().getLoanId());
                                 updateCustomerCreditScore(installment.getLoan(), score);
                                 updateStatusLoan(installment.getLoan());
+
+                                logger.info("The loan is pay");
+
+                                applicationEventPublisher.publishEvent(
+                                                new LoanCompletedEvent(
+                                                                installment.getLoan().getLoanId(),
+                                                                customer.getPerson().getEmail(),
+                                                                installment.getLoan().getLoanStatus(),
+                                                                installment.getLoan().getPrincipalAmount(),
+                                                                LocalDate.now()));
                         }
                 }
 
