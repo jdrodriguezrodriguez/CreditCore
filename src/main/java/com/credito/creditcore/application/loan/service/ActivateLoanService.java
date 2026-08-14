@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import com.credito.creditcore.application.event.LoanActivateEvent;
 import com.credito.creditcore.application.loan.port.ActivateLoanUseCase;
 import com.credito.creditcore.application.loan.port.FrenchAmortizationService;
 import com.credito.creditcore.domain.model.Customer;
@@ -24,6 +27,10 @@ import jakarta.transaction.Transactional;
 @Service
 public class ActivateLoanService implements ActivateLoanUseCase {
 
+        private final static Logger logger = Logger.getLogger(ActivateLoanService.class.getName());
+
+        private final ApplicationEventPublisher applicationEventPublisher;
+
         private final LoanRepositoryPort loanRepositoryPort;
         private final CustomerRepositoryPort customerRepositoryPort;
         private final InstallmentRepositoryPort installmentRepositoryPort;
@@ -33,11 +40,13 @@ public class ActivateLoanService implements ActivateLoanUseCase {
         public ActivateLoanService(LoanRepositoryPort loanRepositoryPort,
                         CustomerRepositoryPort customerRepositoryPort,
                         InstallmentRepositoryPort installmentRepositoryPort,
-                        FrenchAmortizationService frenchAmortizationService) {
+                        FrenchAmortizationService frenchAmortizationService,
+                        ApplicationEventPublisher applicationEventPublisher) {
                 this.loanRepositoryPort = loanRepositoryPort;
                 this.customerRepositoryPort = customerRepositoryPort;
                 this.installmentRepositoryPort = installmentRepositoryPort;
                 this.frenchAmortizationService = frenchAmortizationService;
+                this.applicationEventPublisher = applicationEventPublisher;
         }
 
         @Transactional
@@ -53,7 +62,6 @@ public class ActivateLoanService implements ActivateLoanUseCase {
                                 .orElseThrow(
                                                 () -> new IllegalArgumentException("Loan not found with loan ID: "
                                                                 + loanId));
-
                 loan.setApprovalDate(LocalDate.now());
                 loan.setLoanStatus(LoanStatus.ACTIVE);
 
@@ -61,6 +69,12 @@ public class ActivateLoanService implements ActivateLoanUseCase {
 
                 loanRepositoryPort.update(loan);
                 installmentRepositoryPort.saveInstallments(installments, loan, customer);
+
+                logger.info("The loan has been activated.");
+
+                applicationEventPublisher.publishEvent(
+                                new LoanActivateEvent(loan.getLoanId(), customer.getPerson().getEmail(),
+                                                loan.getPrincipalAmount(), loan.getTermInMonths(), LocalDate.now()));
         }
 
         private List<Installment> createInstallments(Loan loan) {
