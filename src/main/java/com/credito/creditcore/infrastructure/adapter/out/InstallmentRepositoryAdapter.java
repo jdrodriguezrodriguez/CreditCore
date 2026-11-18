@@ -1,6 +1,5 @@
 package com.credito.creditcore.infrastructure.adapter.out;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +15,7 @@ import com.credito.creditcore.infrastructure.adapter.out.mapper.LoanMapperOut;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.PersonMapperOut;
 import com.credito.creditcore.infrastructure.entity.CustomerEntity;
 import com.credito.creditcore.infrastructure.entity.InstallmentEntity;
+import com.credito.creditcore.infrastructure.entity.LoanEntity;
 import com.credito.creditcore.infrastructure.entity.PersonEntity;
 import com.credito.creditcore.infrastructure.persistence.InstallmentRepositoryJpa;
 
@@ -35,10 +35,10 @@ public class InstallmentRepositoryAdapter implements InstallmentRepositoryPort {
 
         PersonEntity personaEntity = PersonMapperOut.toEntity(customer.getPerson());
         CustomerEntity customerEntity = CustomerMapperOut.toEntity(customer, personaEntity);
-        var loanEntity = LoanMapperOut.toEntity(loan, customerEntity);
 
-        List<InstallmentEntity> entities =
-                InstallmentMapperOut.toEntityList(installments, loanEntity);
+        LoanEntity loanEntity = LoanMapperOut.toEntity(loan, customerEntity);
+
+        List<InstallmentEntity> entities = InstallmentMapperOut.toEntityList(installments, loanEntity);
 
         repositoryJpa.saveAll(entities);
     }
@@ -50,22 +50,26 @@ public class InstallmentRepositoryAdapter implements InstallmentRepositoryPort {
     }
 
     @Override
-    public void updateInstallment(Integer installmentId, BigDecimal paidAmount) {
+    public void updateInstallment(Installment installment) {
 
-        InstallmentEntity entity = repositoryJpa.findById(installmentId)
+        InstallmentEntity entity = repositoryJpa.findById(installment.getInstallmentId())
                 .orElseThrow(() -> new EntityNotFoundException("Installment not found"));
 
         repositoryJpa.save(
-                InstallmentMapperOut.updatePaidAmount(entity, paidAmount)
-        );
+                InstallmentMapperOut.updatePaidAmount(entity, installment));
     }
 
     @Override
-    public List<Installment> findByLoanId(Integer customerId) {
+    public List<Installment> findByLoanId(Integer loanId) {
 
-        List<InstallmentEntity> entities =
-                repositoryJpa.findByLoan_Customer_CustomerId(customerId);
+        List<InstallmentEntity> entities = repositoryJpa.findByLoan_LoanId(loanId);
 
         return InstallmentMapperOut.toDomainList(entities);
+    }
+
+    @Override
+    public Optional<Installment> findByLoanIdAndNumber(Integer loanId, Integer installmentNumber) {
+        return repositoryJpa.findByLoan_LoanIdAndInstallmentNumber(loanId, installmentNumber)
+                .map(InstallmentMapperOut::toDomain);
     }
 }

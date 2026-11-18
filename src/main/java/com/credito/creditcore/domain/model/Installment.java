@@ -60,6 +60,7 @@ public class Installment {
     }
 
     public Installment(
+            Integer installmentId,
             Integer installmentNumber,
             LocalDate dueDate,
             InstallmentStatus status,
@@ -72,6 +73,7 @@ public class Installment {
             BigDecimal lateFee,
             LocalDate actualPaymentDate) {
 
+        this.installmentId = installmentId;
         this.installmentNumber = installmentNumber;
         this.dueDate = dueDate;
         this.status = status;

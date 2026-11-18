@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import com.credito.creditcore.domain.model.Customer;
 import com.credito.creditcore.domain.model.Person;
+import java.math.BigDecimal;
+
 import com.credito.creditcore.domain.port.CustomerRepositoryPort;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.CustomerMapperOut;
 import com.credito.creditcore.infrastructure.adapter.out.mapper.PersonMapperOut;
@@ -24,6 +26,11 @@ public class CustomerRepositoryAdapter implements CustomerRepositoryPort {
         this.customerRepositoryJpa = customerRepositoryJpa;
     }
 
+    private CustomerEntity getCustomer(Integer customerId) {
+        return customerRepositoryJpa.findById(customerId)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
     @Override
     public void save(Customer customer) {
 
@@ -33,11 +40,17 @@ public class CustomerRepositoryAdapter implements CustomerRepositoryPort {
     }
 
     @Override
-    public void update(Integer idCliente, Customer customer) {
-        CustomerEntity customerEntity = customerRepositoryJpa.findById(idCliente)
-                .orElseThrow(() -> new EntityNotFoundException());
+    public void updateCreditScore(Integer customerId, int score) {
+        CustomerEntity customer = getCustomer(customerId);
 
-        customerRepositoryJpa.save(CustomerMapperOut.updateEntity(customerEntity, customer));
+        customerRepositoryJpa.save(CustomerMapperOut.updateScoreEntity(customer, score));
+    }
+
+    @Override
+    public void updateSalary(Integer customerId, BigDecimal salary) {
+        CustomerEntity customer = getCustomer(customerId);
+
+        customerRepositoryJpa.save(CustomerMapperOut.updateSalaryEntity(customer, salary));
     }
 
     @Override
@@ -55,4 +68,5 @@ public class CustomerRepositoryAdapter implements CustomerRepositoryPort {
             return CustomerMapperOut.toDomain(customerEntity, person);
         });
     }
+
 }

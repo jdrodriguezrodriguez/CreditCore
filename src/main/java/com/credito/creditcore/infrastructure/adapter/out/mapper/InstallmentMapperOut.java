@@ -1,6 +1,5 @@
 package com.credito.creditcore.infrastructure.adapter.out.mapper;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +37,7 @@ public class InstallmentMapperOut {
 
         for (InstallmentEntity installmentEntity : installmentEntities) {
             Installment installment = new Installment(
+                    installmentEntity.getInstallmentId(),
                     installmentEntity.getInstallmentNumber(),
                     installmentEntity.getDueDate(),
                     installmentEntity.getStatus(),
@@ -59,7 +59,7 @@ public class InstallmentMapperOut {
     public static Installment toDomain(InstallmentEntity installmentEntity) {
         return new Installment(
                 installmentEntity.getInstallmentId(),
-                null,
+                LoanMapperOut.toDomain(installmentEntity.getLoan()),
                 installmentEntity.getInstallmentNumber(),
                 installmentEntity.getDueDate(),
                 installmentEntity.getStatus(),
@@ -73,8 +73,13 @@ public class InstallmentMapperOut {
                 installmentEntity.getActualPaymentDate());
     }
 
-    public static InstallmentEntity updatePaidAmount(InstallmentEntity installmentEntity, BigDecimal amount) {
-        installmentEntity.setPaidAmount(amount);
+    public static InstallmentEntity updatePaidAmount(InstallmentEntity installmentEntity, Installment installment) {
+
+        installmentEntity.setLateFee(installment.getLateFee());
+
+        installmentEntity.setStatus(installment.getStatus());
+        installmentEntity.setPaidAmount(installment.getPaidAmount());
+        installmentEntity.setActualPaymentDate(installment.getActualPaymentDate());
 
         return installmentEntity;
     }

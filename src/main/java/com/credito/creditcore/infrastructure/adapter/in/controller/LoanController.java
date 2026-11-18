@@ -37,9 +37,9 @@ public class LoanController {
         this.getLoanUseCase = getLoanUseCase;
     }
 
-    @GetMapping("/{personId}")
-    public ResponseEntity<?> getLoan(@PathVariable int personId) {
-        return ResponseEntity.ok(getLoanUseCase.getLoan(personId));
+    @GetMapping("/{loanId}")
+    public ResponseEntity<?> getLoan(@PathVariable int loanId) {
+        return ResponseEntity.ok(getLoanUseCase.getLoan(loanId));
     }
 
     @PostMapping("/simulate/{personId}")
@@ -53,10 +53,11 @@ public class LoanController {
         createLoanUseCase.createLoan(request, personId);
         return ResponseEntity.ok(Map.of("message", "Loan created successfully"));
     }
-
-    @PutMapping("/activate/{personId}")
-    public ResponseEntity<?> activateLoan( @PathVariable int personId) {
-        activateLoanUseCase.activateLoan(personId);
+    
+    @PutMapping("/{loanId}/activate/{personId}")
+    public ResponseEntity<?> activateLoan( @PathVariable Integer personId,
+        @PathVariable Integer loanId) {
+        activateLoanUseCase.activateLoan(personId, loanId);
         return ResponseEntity.ok(Map.of("Mensaje", "Loan activated successfully"));
     }
 

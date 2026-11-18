@@ -1,5 +1,7 @@
 package com.credito.creditcore.application.customer.service;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Service;
 
 import com.credito.creditcore.application.customer.port.UpdateCustomerUseCase;
@@ -16,11 +18,11 @@ public class UpdateCustomerService implements UpdateCustomerUseCase {
     }
 
     @Override
-    public void updateCustomer(Integer customerId, Customer customer) {
+    public void updateCustomer(Integer customerId, BigDecimal salary) {
         customerRepositoryPort.findById(customerId)
                 .orElseThrow(() -> new IllegalArgumentException("Customer not found with ID " + customerId));
 
-        customerRepositoryPort.update(customerId, customer);
+        customerRepositoryPort.updateSalary(customerId, salary);
     }
 
 }

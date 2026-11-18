@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.credito.creditcore.domain.excepcion.CustomerNotFoundException;
+import com.credito.creditcore.domain.excepcion.LateFeePaymentRequiredException;
 import com.credito.creditcore.domain.excepcion.PersonNotFoundException;
 import com.credito.creditcore.domain.excepcion.UserNotFoundException;
 
@@ -32,7 +33,7 @@ public class GlobalExceptionHandler {
 
         Map<String, String> errors = new HashMap<>();
 
-        errors.put("error", "Customer not found ");
+        errors.put("error", "User not found ");
         errors.put("details", ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
@@ -43,6 +44,16 @@ public class GlobalExceptionHandler {
         Map<String, String> errors = new HashMap<>();
 
         errors.put("error", "Customer not found ");
+        errors.put("details", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Map<String, String>> handleLateFeePayment(LateFeePaymentRequiredException ex){
+        Map<String, String> errors = new HashMap<>();
+
+        errors.put("error", "Must pay the late payment fee ");
         errors.put("details", ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);

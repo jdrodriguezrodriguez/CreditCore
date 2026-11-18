@@ -1,10 +1,10 @@
 package com.credito.creditcore.domain.port;
 
-import java.math.BigDecimal;
+import java.util.List;
 
-import com.credito.creditcore.domain.model.Installment;
-import com.credito.creditcore.domain.model.enums.PaymentMethod;
+import com.credito.creditcore.domain.model.Payment;
 
 public interface PaymentRepositoryPort {
-    void savePayment(Installment installment, PaymentMethod methodPayment, BigDecimal amount);
+    void savePayment(Payment payment);
+    List<Payment> findByLoanId(Integer loanId);
 }
